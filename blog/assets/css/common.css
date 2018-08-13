@@ -7,7 +7,7 @@ html {
   -moz-osx-font-smoothing: grayscale;
   -webkit-font-smoothing: antialiased;
   box-sizing: border-box;
-  background-color: #f7f7f7;
+  background-color: #fff;
 }
 
 *, *:before, *:after {

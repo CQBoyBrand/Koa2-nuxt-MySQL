@@ -1,14 +1,19 @@
 <template>
-  <div class="artdetail_container">
-    <h3 class="artdetail_title">{{artDetail.artTitle}}</h3>
-    <div class="artdetail_post_info">
-      <span>{{artDetail.cdate}}</span><span>post by</span><span>{{artDetail.author}}</span>
-      <span>浏览 {{artDetail.pv}} 次</span>
-    </div>
-    <div class="artdetail_content markdown-body">
-      <div  v-html="markdownRender">
-
+  <div class="artdetail_container clearfix">
+    <div class="right_content">
+      <h3 class="artdetail_title">{{artDetail.artTitle}}</h3>
+      <div class="artdetail_post_info">
+        <span>{{artDetail.cdate}}</span><span>post by</span><span>{{artDetail.author}}</span>
+        <span>浏览 {{artDetail.pv}} 次</span>
       </div>
+      <div class="artdetail_content markdown-body">
+        <div v-html="markdownRender">
+
+        </div>
+      </div>
+    </div>
+    <div class="left_munu">
+      <!--<div class="menus" v-html="markdownRenderToc"></div>-->
     </div>
   </div>
 </template>
@@ -50,7 +55,8 @@
       if (lang && hljs.getLanguage(lang)) {
         try {
           return hljs.highlight(lang, str).value;
-        } catch (__) {}
+        } catch (__) {
+        }
       }
 
       return '';
@@ -83,7 +89,7 @@
     },
     head() {
       return {
-        title:this.$store.state.article.details.artTitle,
+        title: this.$store.state.article.details.artTitle,
       }
     },
     fetch({store, params}) {
@@ -96,11 +102,19 @@
         return this.$store.state.article.details || {};
       },
       markdownRender() {
+        let mdStr = this.$store.state.article.details.md
         let markd = '';
-        if(this.$store.state.article.details){
-          markd = this.$store.state.article.details.md || ''
+        if (this.$store.state.article.details) {
+          markd = mdStr.substr(10) || ''
         }
         return md.render(markd)
+      },
+      markdownRenderToc() {
+        let toc = '';
+        if (this.$store.state.article.details) {
+          toc = this.$store.state.article.details.md.substring(0,10) || ''
+        }
+        return md.render(toc)
       }
     },
     methods: {},
@@ -114,6 +128,19 @@
   .artdetail_container {
     background-color: #fff;
     padding: 20px;
+    .left_munu {
+      float: left;
+      width: 20%;
+      padding-left: 20px;
+      .menus{
+        position: fixed;
+        top: 100px;
+      }
+    }
+    .right_content {
+      float: left;
+      width: 80%;
+    }
     .artdetail_title {
       text-align: center;
       font-size: 20px;
@@ -130,6 +157,11 @@
     }
     .artdetail_content {
       padding-top: 20px;
+      img {
+        margin: auto;
+        text-align: right;
+
+      }
     }
   }
 </style>
