@@ -37,10 +37,8 @@ const ALLOW_ORIGIN = [ // 域名白名单
     'http://localhost:8081',
     'http://localhost:8080'
 ]
-app.use(ctx => {
-    console.log('ctx====',ctx)
-})
-app.use(cors({
+
+app.use(cors(/*{
     origin: ctx => {
         //console.log('ctx==',ctx)
     },
@@ -49,7 +47,7 @@ app.use(cors({
     credentials: true,
     allowMethods: ['GET', 'POST', 'DELETE'],
     allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-}));
+}*/));
 //  路由
 app.use(require('./routers/admin.js').routes())
 app.use(require('./routers/web.js').routes())

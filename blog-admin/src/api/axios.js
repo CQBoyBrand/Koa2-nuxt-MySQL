@@ -13,7 +13,6 @@ const commonParam = {
 // 拦截请求
 axios.interceptors.request.use(
   req => {
-    console.log(req)
       return req
   },
   err => {

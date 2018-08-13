@@ -2,7 +2,8 @@ const articleModel = require('../db/sql/articlesql');
 const userModel = require('../db/sql/usersql');
 const checkNotLogin = require('../middlewears/check.js').checkNotLogin
 const checkLogin = require('../middlewears/check.js').checkLogin
-const qnconfig = require('../middlewears/upload.js')
+const qiniu = require('qiniu')
+
 
 
 // 文章页(判断登陆信息)
@@ -15,9 +16,19 @@ exports.getArticlePage = async ctx => {
 
 // 上传图片鉴权
 exports.uploadTolen = async ctx => {
+    // 创建上传凭证
+    const accessKey = ''
+    const secretKey = ''
+    const mac = new qiniu.auth.digest.Mac(accessKey, secretKey)
+    const options = {
+        scope: 'cqboys',
+        expires: 7200
+    }
+    const putPolicy = new qiniu.rs.PutPolicy(options)
+    const uploadToken = putPolicy.uploadToken(mac)
     ctx.body = {
         code: 200,
-        data: qnconfig.uploadToken
+        data:uploadToken
     }
 }
 //添加文章

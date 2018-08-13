@@ -5,7 +5,7 @@ const config = {
     database: {
         DATABASE: 'blog_test',
         USERNAME: 'root',
-        PASSWORD: '你的数据库密码',
+        PASSWORD: '',
         PORT: '3306',
         HOST: 'localhost'
     }
