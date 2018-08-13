@@ -1,4 +1,6 @@
 import axios from 'axios'
+import router from '../router'
+import {Message} from 'element-ui'
  // API请求地址
 axios.defaults.baseURL = process.env.API_ROOT
 
@@ -13,6 +15,10 @@ const commonParam = {
 // 拦截请求
 axios.interceptors.request.use(
   req => {
+      let token = JSON.parse(sessionStorage.getItem("loginInfo"))
+    if (token) {
+      req.headers.Authorization = `Bearer ${token}`
+    }
       return req
   },
   err => {
@@ -26,6 +32,17 @@ axios.interceptors.response.use(
     return res
   },
   err => {
+   if(err.response.status == 401){
+     sessionStorage.clear()
+     Message({
+       showClose: true,
+       message: '登录信息已过期，请重新登陆',
+       type: 'error'
+     });
+     router.push({
+       name: 'login'
+     })
+   }
     return err
   }
 )

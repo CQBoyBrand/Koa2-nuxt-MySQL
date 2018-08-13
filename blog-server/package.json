@@ -10,8 +10,10 @@
   "author": "Brand",
   "license": "ISC",
   "dependencies": {
+    "jsonwebtoken": "^8.3.0",
     "koa": "^2.5.2",
     "koa-bodyparser": "^4.2.1",
+    "koa-jwt": "^3.3.2",
     "koa-mysql-session": "^0.0.2",
     "koa-router": "^7.4.0",
     "koa-session-minimal": "^3.0.4",

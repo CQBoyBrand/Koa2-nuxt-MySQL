@@ -44,7 +44,7 @@
             this.$post('login',this.ruleForm).then( res => {
               if(res.data.code == 200){
                 this.$message.success(res.data.message)
-                sessionStorage.setItem('loginInfo',JSON.stringify(res.data.userInfo))
+                sessionStorage.setItem('loginInfo',JSON.stringify(res.data.token))
                 setTimeout(() => {
                   this.$router.push('/')
                 },800)

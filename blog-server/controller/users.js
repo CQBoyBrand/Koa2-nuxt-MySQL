@@ -2,6 +2,8 @@ const userModel = require('../db/sql/usersql.js');
 const md5 = require('md5')
 const checkNotLogin = require('../middlewears/check.js').checkNotLogin
 const checkLogin = require('../middlewears/check.js').checkLogin
+const jsonToken = require('jsonwebtoken')
+const secret = ''
 
 // 用户注册
 exports.getSignup = async ctx => {
@@ -53,7 +55,6 @@ exports.postSignup = async ctx => {
 
 exports.getSignin = async ctx => {
     await checkNotLogin(ctx)
-    console.log(ctx)
     await ctx.render('/login', {
         session: ctx.session,
     })
@@ -62,13 +63,14 @@ exports.postSignin = async ctx => {
     let {account, password} = ctx.request.body
     await userModel.findUserData(account)
     await userModel.userLogin(account)
-        .then( async result => {
+        .then(async result => {
             let res = result
             if (res.length && account === res[0]['account'] && md5(password) === res[0]['pass']) {
                 ctx.session = {
                     user: res[0]['account'],
                     id: res[0]['id']
                 }
+
                 ctx.body = {
                     code: 200,
                     message: '登录成功',
@@ -76,8 +78,11 @@ exports.postSignin = async ctx => {
                         account: res[0]['account'],
                         id: res[0]['id'],
                         level: res[0]['level'],
-                        session:ctx.session
-                    }
+                    },
+                    token: jsonToken.sign({
+                        data: {account:res[0]['account'], id: res[0]['id'],level: res[0]['level']},
+                        exp: Math.floor(Date.now() / 1000) + (60 * 60 * 6) //6小时过期
+                    }, secret)
                 }
             } else {
                 ctx.body = {
@@ -91,7 +96,7 @@ exports.postSignin = async ctx => {
 }
 
 // 退出
-exports.getSignOut =  async(ctx, next) => {
+exports.getSignOut = async (ctx, next) => {
     ctx.session = null;
     ctx.body = {
         code: 200,

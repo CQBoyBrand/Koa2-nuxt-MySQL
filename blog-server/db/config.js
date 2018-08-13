@@ -3,8 +3,8 @@ const config = {
     port: 3500,
     // 数据库配置
     database: {
-        DATABASE: 'blog_test',
-        USERNAME: 'root',
+        DATABASE: 'blog',
+        USERNAME: 'brand',
         PASSWORD: '',
         PORT: '3306',
         HOST: 'localhost'

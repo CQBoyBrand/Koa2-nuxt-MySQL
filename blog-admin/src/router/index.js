@@ -59,6 +59,7 @@ export default new Router({
     },
     {
       path: '/login',
+      name:'login',
       component: resolve => require(['@/views/login/login.vue'], resolve)
     },
     {

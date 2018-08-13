@@ -5,11 +5,15 @@ const session = require('koa-session-minimal');
 const MysqlStore = require('koa-mysql-session');
 const config = require('./db/config.js');
 const cors = require('koa2-cors');
+const jwt = require('koa-jwt')
+
+const errorHandle = require('./middlewears/errorHandler')
+
 const app = new Koa()
 
 
 // session存储配置
-const sessionMysqlConfig= {
+const sessionMysqlConfig = {
     user: config.database.USERNAME,
     password: config.database.PASSWORD,
     database: config.database.DATABASE,
@@ -19,35 +23,22 @@ const sessionMysqlConfig= {
 // 配置session中间件
 app.use(session({
     key: 'USER_SID',
-    store: new MysqlStore(sessionMysqlConfig),
-    cookie: {                   // 与 cookie 相关的配置
-        domain: 'localhost',    // 写 cookie 所在的域名
-        path: '/',              // 写 cookie 所在的路径
-        maxAge: 1000 * 300,      // cookie 有效时长
-        httpOnly: true,         // 是否只用于 http 请求中获取
-        overwrite: false        // 是否允许重写
-    }
+    store: new MysqlStore(sessionMysqlConfig)
 }))
 
 app.use(bodyParser({
     formLimit: '1mb'
 }))
 
-const ALLOW_ORIGIN = [ // 域名白名单
-    'http://localhost:8081',
-    'http://localhost:8080'
-]
+app.use(cors());
+const secret = ''
 
-app.use(cors(/*{
-    origin: ctx => {
-        //console.log('ctx==',ctx)
-    },
-    exposeHeaders: ['WWW-Authenticate', 'Server-Authorization'],
-    maxAge: 5,
-    credentials: true,
-    allowMethods: ['GET', 'POST', 'DELETE'],
-    allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
-}*/));
+app.use(errorHandle.errorHandle)
+app.use(jwt({
+    secret,
+}).unless({
+    path: [/\/web/, /\/login/],
+}))
 //  路由
 app.use(require('./routers/admin.js').routes())
 app.use(require('./routers/web.js').routes())
