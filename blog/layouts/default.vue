@@ -30,7 +30,7 @@
     },
     data() {
       return {
-        isShowSide: true,
+        isShowSide: false,
         currentPageName: '',
         scrollTop: '',
         isShowToTop: false

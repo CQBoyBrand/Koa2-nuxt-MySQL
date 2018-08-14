@@ -1,19 +1,23 @@
 <template>
   <div class="artdetail_container clearfix">
-    <div class="right_content">
+    <div class="right_mdcontent">
       <h3 class="artdetail_title">{{artDetail.artTitle}}</h3>
       <div class="artdetail_post_info">
         <span>{{artDetail.cdate}}</span><span>post by</span><span>{{artDetail.author}}</span>
         <span>浏览 {{artDetail.pv}} 次</span>
       </div>
       <div class="artdetail_content markdown-body">
-        <div v-html="markdownRender">
+        <div v-html="markdownRender" ref="htmlContent">
 
         </div>
       </div>
     </div>
     <div class="left_munu">
-      <!--<div class="menus" v-html="markdownRenderToc"></div>-->
+      <div class="menus">
+        目录:
+        <div class="menuNav" ref="menuNav" v-html="markdownToc"></div>
+      </div>
+
     </div>
   </div>
 </template>
@@ -108,11 +112,43 @@
           markd = mdStr || ''
         }
         return md.render(markd)
+      },
+      markdownToc() {
+        let mdStr = this.$store.state.article.details.md
+        let markd = '';
+        if (this.$store.state.article.details) {
+          markd = mdStr || ''
+        }
+        return md.render(markd)
       }
     },
-    methods: {},
+    methods: {
+      navMenu() {
+        let nodes = this.$refs.menuNav.children
+        if (nodes.length) {
+          for (let i = 0; i < nodes.length; i++) {
+            judageH(nodes[i], i, nodes)
+          }
+        }
+        let _this = this
+        this.$refs.menuNav.style.display = 'block'
+        function judageH(node, i, nodes) {
+          let reg = /^H[1-6]{1}$/;
+          if (!reg.exec(node.tagName)) {
+            node.style.display = 'none'
+          } else {
+            node.onclick = function () {
+              let htmlContent = _this.$refs.htmlContent.children[i];
+              let pos = htmlContent.offsetTop
+              document.documentElement.scrollTop = pos - 60
+              document.body.scrollTop = pos - 60
+            }
+          }
+        }
+      }
+    },
     mounted() {
-
+      this.navMenu()
     }
   }
 </script>
@@ -121,19 +157,74 @@
   .artdetail_container {
     background-color: #fff;
     padding: 20px;
+    @media screen and (max-width: 992px) {
+      .left_munu{
+        display: none;
+      }
+      .right_mdcontent {
+        float: left;
+        width:100%;
+      }
+    }
+    @media screen and (min-width: 992px) {
+      .right_mdcontent {
+        float: left;
+        width: 80%;
+      }
+    }
     .left_munu {
       float: left;
       width: 20%;
       padding-left: 20px;
-      .menus{
+      .menus {
         position: fixed;
         top: 100px;
+        max-width: 240px;
+        border-left: 1px solid #ccc;
+        padding-left: 20px;
+        .menuNav{
+          display: none;
+        }
+        h1, h2, h3, h4, h5, h6 {
+          margin: 2px 0;
+          font-weight: 500;
+          font-size: 17px;
+          color: #2185d0;
+          cursor: pointer;
+          line-height: normal;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+          padding: 0 12px;
+          border-bottom: none;
+          &:hover {
+            color: #483D8B;
+            text-decoration-line: underline;
+          }
+        }
+        h2 {
+          padding-left: 27px;
+          font-size: 17px;
+        }
+        h3 {
+          padding-left: 42px;
+          font-size: 17px;
+        }
+        h4 {
+          padding-left: 58px;
+          font-size: 15px;
+        }
+        h5 {
+          padding-left: 72px;
+          font-size: 15px;
+        }
+        h6 {
+          padding-left: 87px;
+          font-size: 15px;
+        }
       }
     }
-    .right_content {
-      float: left;
-      width: 80%;
-    }
+
     .artdetail_title {
       text-align: center;
       font-size: 20px;
