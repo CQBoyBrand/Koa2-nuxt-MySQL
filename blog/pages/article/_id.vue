@@ -105,16 +105,9 @@
         let mdStr = this.$store.state.article.details.md
         let markd = '';
         if (this.$store.state.article.details) {
-          markd = mdStr.substr(10) || ''
+          markd = mdStr || ''
         }
         return md.render(markd)
-      },
-      markdownRenderToc() {
-        let toc = '';
-        if (this.$store.state.article.details) {
-          toc = this.$store.state.article.details.md.substring(0,10) || ''
-        }
-        return md.render(toc)
       }
     },
     methods: {},
