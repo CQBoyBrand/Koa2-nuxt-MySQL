@@ -15,7 +15,7 @@
         </div>
         <div class="publish_info">
           <span>{{item.publishDate}}</span><span>post by</span><span>{{item.author}}</span>
-          <span>浏览 {{item.pv}} 次</span>
+          <span>浏览 {{item.pv}} 次</span> <span>评论 {{item.commentNum}} 条</span>
         </div>
       </div>
 

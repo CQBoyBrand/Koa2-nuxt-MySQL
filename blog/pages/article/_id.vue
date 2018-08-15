@@ -5,7 +5,7 @@
         <h3 class="artdetail_title">{{artDetail.artTitle}}</h3>
         <div class="artdetail_post_info">
           <span>{{artDetail.cdate}}</span><span>post by</span><span>{{artDetail.author}}</span>
-          <span>浏览 {{artDetail.pv}} 次</span>
+          <span>浏览 {{artDetail.pv}} 次</span> <span>评论 {{artDetail.commentNum}} 条</span>
         </div>
         <div class="artdetail_content markdown-body">
           <div v-html="markdownRender" ref="htmlContent">
@@ -253,7 +253,7 @@
         let params = {
           articleId: this.$route.params.id,
           currentPage: 1,
-          limit:6
+          limit:15
         }
         this.$store.dispatch('getCommentList',params)
       },
@@ -262,7 +262,7 @@
         this.$store.dispatch('getCommentList', {
           articleId: this.$route.params.id,
           currentPage: this.$store.state.comment.comment.pagenation.current_page + 1,
-          limit:6,
+          limit:15,
         })
       },
       // 评论
