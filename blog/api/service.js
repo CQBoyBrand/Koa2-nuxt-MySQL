@@ -34,3 +34,12 @@ export  function getArtByTagId(params) {
 export  function getHotArt(params) {
   return post('/getHotArt',params).then( res => res.data)
 }
+
+// 添加评论
+export function addNewComment(params) {
+  return post('/addNewComment',params).then( res => res.data)
+}
+// 获取评论列表
+export function getCommentList(params) {
+  return post('/getCommentList',params).then( res => res.data)
+}

@@ -55,7 +55,7 @@ export const actions = {
         pagenation: res.pagenation
       })
     }else {
-      commit('article/GET_TAGARTLIST_SUCCESS')
+      commit('article/GET_TAGARTLIST_FAIL')
     }
   },
 
@@ -129,6 +129,29 @@ export const actions = {
       let list = res.tagList
       commit('tag/GET_TAG_SUCCESS', {
         list
+      })
+    }
+  },
+  // 添加评论
+  async addNewComment({commit},params){
+    const res = await service.addNewComment(params).catch(err => {
+      console.log(err)
+    })
+    return res
+  },
+  // 获取评论列表
+  async getCommentList({commit,state},params){
+    commit('comment/FETCH_COMMENT')
+    const res = await service.getCommentList(params).catch(err => {
+      console.log(err)
+    })
+    if (res && res.code == 200) {
+      let list
+      if (res.pagenation.current_page === 1) list = res.commentList
+      else list = [...state.comment.comment.list, ...res.commentList]
+      commit('comment/GET_COMMENT_SUCCESS', {
+        list,
+        pagenation: res.pagenation
       })
     }
   }
