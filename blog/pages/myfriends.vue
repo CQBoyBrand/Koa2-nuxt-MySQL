@@ -1,5 +1,13 @@
 <template>
   <div class="myfriends_container clearfix">
+    <div class="frieds_tips">
+      友链添加说明：
+      <p>1、网站健康(内容和能正常访问)</p>
+      <p>2、友链互加</p>
+      <p>3、友链格式(你需要提供)：网站logo（不提供我就随便弄啦）、网站名字、网站介绍(简短！！)、网址</p>
+      <p>4、违反前两个条件的话博主可能会单方面删除哦~~~</p>
+      <p>5、添加方式：随便找一篇文章下留言，或者给我发邮件，看到了我就会尽快加上</p>
+    </div>
     <div v-if="linkList.length == 0" style="text-align: center;">暂无数据</div>
     <div v-else class="left_item" v-for="(item, index) in linkList" :key="index">
       <div class="clearfix">
@@ -43,6 +51,14 @@
 
 <style lang="less">
 .myfriends_container{
+  .frieds_tips{
+    font-size: 13px;
+    color: #666;
+    padding: 5px;
+    p{
+      padding: 5px 0;
+    }
+  }
   .left_item,.right_item{
     background-color: #fff;
     padding: 15px;
