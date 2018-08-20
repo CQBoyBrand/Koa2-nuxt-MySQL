@@ -8,7 +8,7 @@ exports.addArticle = ( value ) => {
 
 // 查询文章列表
 exports.getArticleList = ( value ) => {
-    let _sql = "select A.id, A.author, A.title,A.abstract,A.status,A.type, FROM_UNIXTIME(A.publishDate/1000,'%Y-%m-%d  %H:%i'), GROUP_CONCAT(T.tagName) as tagName from article as A left join tag as T on find_in_set(T.id,A.tagId) group by A.id ORDER BY A.publishDate desc limit ?,?;"
+    let _sql = "select A.id, A.author, A.title,A.abstract,A.status,A.type, FROM_UNIXTIME(A.publishDate/1000,'%Y-%m-%d  %H:%i') as publishDate, GROUP_CONCAT(T.tagName) as tagName from article as A left join tag as T on find_in_set(T.id,A.tagId) group by A.id ORDER BY A.publishDate desc limit ?,?;"
     //let _sql = "select author,title,abstract,status,type,tagId,publishDate from article limit ?,?;"
     return query( _sql, value )
 }
