@@ -1,8 +1,10 @@
 import axios from 'axios'
  // API请求地址
 //axios.defaults.baseURL = process.env.API_ROOT
+const IS_DEV = process.env.NODE_ENV !== 'production'
+axios.defaults.baseURL = IS_DEV ? 'http://localhost:3500/web' : 'http://api.brandhuang.com/web/'
 //axios.defaults.baseURL = 'http://api.brandhuang.com/web'
-axios.defaults.baseURL = 'http://localhost:3500/web'
+//axios.defaults.baseURL = 'http://localhost:3500/web'
 
 // 请求超时
 //axios.defaults.timeout = 5000

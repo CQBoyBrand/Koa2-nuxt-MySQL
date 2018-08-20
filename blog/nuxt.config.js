@@ -49,7 +49,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['~/plugins/elementUI', 'axios', '~/plugins/baidu-Analytics'],
+    vendor: ['~/plugins/elementUI', 'axios'],
     /*
     ** Run ESLint on save
     */
