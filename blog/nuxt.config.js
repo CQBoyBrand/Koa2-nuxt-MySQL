@@ -6,6 +6,7 @@ module.exports = {
     title: "hello, friends! 欢迎访问我的个人主页",
     titleTemplate: '%s - 重庆崽儿brand个人主页',
     meta: [
+      {hid: 'google-site-verification', name: 'google-site-verification', content: 'wgv4IBDBiQSNfAp7YBzgc5UukUyB1hLAF8X3DhI3wyY'},
       {charset: 'utf-8'},
       {name: 'viewport', content: 'initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'},
       {hid: 'main', name: 'description', content: '重庆崽儿brand的博个人博客，重庆崽儿brand的生活记录,重庆崽儿brand的前端学习'},
