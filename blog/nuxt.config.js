@@ -6,7 +6,11 @@ module.exports = {
     title: "hello, friends! 欢迎访问我的个人主页",
     titleTemplate: '%s - 重庆崽儿brand个人主页',
     meta: [
-      {hid: 'google-site-verification', name: 'google-site-verification', content: 'wgv4IBDBiQSNfAp7YBzgc5UukUyB1hLAF8X3DhI3wyY'},
+      {
+        hid: 'google-site-verification',
+        name: 'google-site-verification',
+        content: 'wgv4IBDBiQSNfAp7YBzgc5UukUyB1hLAF8X3DhI3wyY'
+      },
       {charset: 'utf-8'},
       {name: 'viewport', content: 'initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'},
       {hid: 'main', name: 'description', content: '重庆崽儿brand的博个人博客，重庆崽儿brand的生活记录,重庆崽儿brand的前端学习'},
@@ -26,7 +30,11 @@ module.exports = {
   ** Customize the progress bar color
   */
   loading: {color: '#3B8070'},
-  plugins: ['~/plugins/elementUI', {src: '~/plugins/baidu-Analytics', ssr: false}],
+  plugins: [
+    '~/plugins/elementUI',
+    {src: '~/plugins/baidu-Analytics', ssr: false},
+    {src: '~/plugins/baidu-seo-push', ssr: false}
+    ],
   css: [
     '~assets/css/common.css',
     '~assets/css/markdown.css',
@@ -41,7 +49,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['~/plugins/elementUI', 'axios', '~/plugins/baidu-Analytics'],
+    vendor: ['~/plugins/elementUI', 'axios', '~/plugins/baidu-Analytics','~/plugins/baidu-seo-push'],
     /*
     ** Run ESLint on save
     */
