@@ -33,7 +33,7 @@ module.exports = {
   plugins: [
     '~/plugins/elementUI',
     {src: '~/plugins/baidu-Analytics', ssr: false},
-    {src: '~/plugins/baidu-seo-push', ssr: false}
+    {src: '~/plugins/baidu-seo-push.js', ssr: false}
     ],
   css: [
     '~assets/css/common.css',
@@ -49,7 +49,7 @@ module.exports = {
   ** Build configuration
   */
   build: {
-    vendor: ['~/plugins/elementUI', 'axios', '~/plugins/baidu-Analytics','~/plugins/baidu-seo-push'],
+    vendor: ['~/plugins/elementUI', 'axios', '~/plugins/baidu-Analytics'],
     /*
     ** Run ESLint on save
     */
