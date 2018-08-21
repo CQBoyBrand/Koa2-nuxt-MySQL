@@ -50,6 +50,7 @@ module.exports = {
   */
   build: {
     vendor: ['~/plugins/elementUI', 'axios'],
+    extractCSS: { allChunks: true },
     /*
     ** Run ESLint on save
     */
