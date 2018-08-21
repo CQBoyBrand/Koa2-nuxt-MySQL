@@ -76,7 +76,7 @@
         font-weight: bold;
         .line {
           display: inline-block;
-          width: 40%;
+          width: 25%;
           border-top: 1px solid #ccc;
         }
         .txt {

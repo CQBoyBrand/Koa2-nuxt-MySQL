@@ -4,7 +4,7 @@ module.exports = {
   */
   head: {
     title: "hello, friends! 欢迎访问我的个人主页",
-    titleTemplate: '%s - 重庆崽儿brand个人主页',
+    titleTemplate: '%s - 重庆崽儿brand的个人主页',
     meta: [
       {
         hid: 'google-site-verification',
