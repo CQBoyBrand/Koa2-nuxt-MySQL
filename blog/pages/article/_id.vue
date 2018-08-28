@@ -244,7 +244,6 @@
         let el = document.getElementById('tohere')
         el.scrollIntoView()
         this.$refs.textInput.focus()
-        console.log(val)
         this.toUserInfo = val.toNickName
         this.artComment.toNickName =  val.toNickName
         this.artComment.toEmail =  val.toEmail
