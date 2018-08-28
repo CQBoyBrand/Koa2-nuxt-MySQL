@@ -13,7 +13,7 @@ module.exports = {
       },
       {charset: 'utf-8'},
       {name: 'viewport', content: 'initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'},
-      {hid: 'main', name: 'description', content: '重庆崽儿brand的博个人博客，重庆崽儿brand的生活记录,重庆崽儿brand的前端学习'},
+      {hid: 'main', name: 'description', content: '重庆崽儿brand的个人博客，重庆崽儿brand的生活记录,重庆崽儿brand的前端学习'},
       {hid: 'main-author', name: 'author', content: '重庆崽儿brand'},
       {
         hid: 'main-keywords',

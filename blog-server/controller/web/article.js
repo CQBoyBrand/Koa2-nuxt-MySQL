@@ -74,6 +74,8 @@ exports.getArtDetail = async ctx => {
            let num = PV + 1;
            result[0].pv = num ;
            await articleModel.updateArtPV([num,id]).then( () => {
+               let artUrl ='http://www.brandhuang.com/article/'+ id
+               result[0].artUrl = artUrl
                ctx.body = {
                    code: 200,
                    artDetail: result[0],

@@ -8,6 +8,9 @@
           <span>浏览 {{artDetail.pv}} 次</span> <span>评论 {{artDetail.commentNum}} 条</span>
         </div>
         <div class="artdetail_content markdown-body">
+          <p style="font-size: 12px;background-color: #f6f8fa;text-indent: 2em;border-left: 2px solid #ccc;line-height: 28px;">
+            本文地址：<a :href="artDetail.artUrl">{{artDetail.artUrl}}</a>
+          </p>
           <div v-html="markdownRender" ref="htmlContent">
 
           </div>
@@ -347,7 +350,9 @@
   .artdetail_container {
     background-color: #fff;
     padding: 20px;
-
+    li{
+      list-style: decimal;
+    }
     @media screen and (max-width: 992px) {
       .left_munu {
         display: none;
