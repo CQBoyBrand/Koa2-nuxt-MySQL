@@ -18,7 +18,7 @@ module.exports = {
       {
         hid: 'main-keywords',
         name: 'keywords',
-        content: '重庆崽儿brand的博个人博客，vue，nuxt，blog，重庆崽儿，brand，重庆崽儿brand,首页,JavaScript，js，css，html，web前端,前端开发'
+        content: '重庆崽儿brand的个人博客，vue，nuxt，blog，重庆崽儿，brand，重庆崽儿brand,首页,JavaScript，js，css，html，web前端,前端开发'
       },
     ],
     link: [

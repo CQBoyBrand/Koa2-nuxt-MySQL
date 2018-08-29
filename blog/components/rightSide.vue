@@ -6,7 +6,7 @@
       </div>
       <div class="hot_list">
         <nuxt-link v-for="(artItem, index) in hotArt" :key="artItem.id" tag="p" :to="`/article/${artItem.id}`"
-                   title="artItem.artTitle"><span
+                   :title="artItem.artTitle"><span
           style="font-style: italic;padding-right: 5px;">{{index + 1}}</span>、{{artItem.artTitle}}
         </nuxt-link>
       </div>

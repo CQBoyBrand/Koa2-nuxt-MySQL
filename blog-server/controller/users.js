@@ -3,7 +3,7 @@ const md5 = require('md5')
 const checkNotLogin = require('../middlewears/check.js').checkNotLogin
 const checkLogin = require('../middlewears/check.js').checkLogin
 const jsonToken = require('jsonwebtoken')
-const secret = ''
+const secret = 'CQBoysBrand@blog'
 
 // 用户注册
 exports.getSignup = async ctx => {
