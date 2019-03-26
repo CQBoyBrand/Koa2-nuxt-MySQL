@@ -1,24 +1,14 @@
 export const state = () => ({
 
   // 评论列表
-  comment: {
-    list: [],
-    pagenation: {}
-  },
+  list: {},
 
-  fetch: false,
+
 })
 
 export const mutations = {
-  FETCH_COMMENT(state) {
-    state.fetch = true
-  },
-  GET_COMMENT_FAIL(state) {
-    state.comment = {list: []}
-    state.fetch = false
-  },
-
+  // 获取评论列表
   GET_COMMENT_SUCCESS(state, data) {
-    state.comment = data
-  }
+    state.list = data
+  },
 }

@@ -1,44 +1,23 @@
 <template>
-  <div class="about_container">
-    <div class="about_module">
-      <div class="about_title">
-        <span class="line"></span>
-        <span class="txt">ABOUT ME</span>
-        <span class="line"></span>
+  <div class="about">
+    <div class="about-me">关于我</div>
+    <div class="clearfix about-me-detail">
+      <div class="about-me-left">
+        <img src="https://s.gravatar.com/avatar/d8065bea49aa2877ce13686772727711?s=80" alt="重庆崽儿Brand">
+        <h5>重庆崽儿Brand</h5>
       </div>
-      <div class="about_content about_me">
-        <p>重庆崽儿Brand</p>
-        <p>一个92年boy，瘦宅</p>
-        <p>16年大学毕业，一直从事前端开发，对代码有那么一点点小洁癖、有点强迫症又缺乏那么一点点美感（美感学习培养中...）的前端代码搬运工。</p>
-        <p>平时没事喜欢逛逛 <a href="https://github.com/" target="_blank">GitHub</a>、<a href="https://juejin.im" target="_blank">掘金</a>、<a href="https://www.zhihu.com/" target="_blank">知乎</a>，最近开始，在没事的时候练练字(自己写的字太丑了，哈哈)，打算学学拍照(目前器材就是手机)</p>
-      </div>
+      <ul class="about-me-right">
+         <li>90后瘦宅，喜欢美剧、爬山、徒步、篮球、乒乓球、羽毛球等球类</li>
+         <li>工作主要使用的是Vue.js，平时自己偶尔折腾下Node.js</li>
+         <li>轻微强迫症，对代码有一点点洁癖</li>
+         <li>喜欢看足球，C罗粉</li>
+         <li>在学拍照，但是还没有认真去拍过。。。</li>
+      </ul>
     </div>
-    <div class="about_module">
-      <div class="about_title">
-        <span class="line"></span>
-        <span class="txt">ABOUT MY BLOG</span>
-        <span class="line"></span>
-      </div>
-      <div class="about_content about_blog">
-        <p>博客前端页面使用到的技术：Nuxt.js + axios + ElementUI</p>
-        <p>后端采用：Koa2 + Mysql</p>
-        <p>服务器：阿里云入门级服务器，购买可点这里<a href="https://promotion.aliyun.com/ntms/yunparter/invite.html?userCode=r2v7kr9u" target="_blank">阿里云领券</a></p>
-        <p>本博客主要是时自己的练手项目，自己想学的一些东西只要工作中没有什么机会用到的，都会拿这个博客来练手。自己感觉代码这个东西，还是用项目来联手学的比较快。</p>
-        <p>本博客还有一个功能就是用来记录一些自己在工作中遇到的一些坑和一些自己感觉比较重要的点，也放一些自己的学习、工作、生活的杂七杂八的东西。</p>
-      </div>
-    </div>
-    <div class="about_module">
-      <div class="about_title">
-        <span class="line"></span>
-        <span class="txt">CONTACT ME</span>
-        <span class="line"></span>
-      </div>
-      <div class="about_content about_contact">
-        <p>邮箱：<a href="mailto:brandhuang@qq.com" target="_blank">brandhuang@qq.com</a></p>
-        <p>Github：<a href="https://github.com/CQBoyBrand" target="_blank">GitHub</a></p>
-        <p>掘金：<a href="https://juejin.im/user/58bbac26ac502e006b02ce97" target="_blank">掘金</a></p>
-      </div>
-    </div>
+    <div class="about-myfriends">朋友们</div>
+    <ul class="friends-list-wrap clearfix">
+      <li v-for="(item,index) in linkList"><a :href="item.siteUrl" target="_blank">{{item.siteName}}</a></li>
+    </ul>
   </div>
 </template>
 
@@ -47,59 +26,106 @@
     name: 'about',
     head() {
       return {
-        title: '关于我-重庆崽儿Brand-前端代码搬运工',
+        title: '关于我',
+      }
+    },
+    computed:{
+      linkList(){
+        return this.$store.state.link.list
       }
     },
     data() {
-      return {}
+      return {
+        
+      }
     },
-    watch: {},
-    methods: {},
+    methods: {
+      
+    },
     mounted() {
+      
     }
   }
 </script>
 
-<style lang="less">
-  .about_container {
-    background-color: #fff;
-    max-width: 900px;
-    min-width: 320px;
+<style lang="scss">
+.about{
+  background-color: #fff;
+  padding: 15px 0;
+  box-sizing: border-box;
+  .about-me,.about-myfriends{
+    text-align: center;
+    font-style: italic;
+    font-size: 18px;
+    color: #333;
+  }
+  .about-me-detail{
+    max-width: 800px;
     margin: 0 auto;
-    .about_module {
-      margin-bottom: 20px;
-      .about_title {
-        height: 60px;
-        line-height: 60px;
-        text-align: center;
-        font-size: 16px;
-        font-weight: bold;
-        .line {
-          display: inline-block;
-          width: 25%;
-          border-top: 1px solid #ccc;
-        }
-        .txt {
-          color: #686868;
-          padding:0 8px;
-          vertical-align: middle;
-        }
+    padding: 15px;
+    .about-me-left{
+      img{
+        display: block;
+        width: 80px;
+        height: 80px;
+        margin: 0 auto;
       }
-      .about_content {
-        padding-left: 30px;
-        box-sizing: border-box;
-        &.about_contact, &.about_blog,&.about_me{
-          p{
-            padding: 10px 0;
-          }
-          a{
-            color: #3a8ee6;
-            text-decoration: underline;
-            font-weight: bold;
-          }
-        }
+      h5{
+        padding: 8px 0 0;
       }
-
+    }
+    .about-me-right{
+      font-size: 13px;
+      li{
+        list-style: none;
+      }
     }
   }
+  .friends-list-wrap{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+    li{
+      float: left;
+      background-color: #eee;
+      list-style: none;
+      border-radius: 4px;
+      margin-right: 7px;
+      a{
+        display: inline-block;
+        width: 100%;
+        height: 100%;
+        line-height: 38px;
+        padding: 0px 10px;
+      }
+    }
+  }
+  @media screen and (min-width: 769px) {
+    .about-me-left,.about-me-right{
+      float: left;
+    }
+    .about-me-left{
+      width: 100px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .about-me-right{
+      max-width: 600px;
+      margin-left: 20px;
+      li{
+        padding-bottom: 15px;
+      }
+    }
+  }
+  @media screen and (max-width: 768px) {
+    .about-me-left{
+      width: 100%;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .about-me-right{
+      padding-bottom: 15px;
+    }
+  }
+}
 </style>

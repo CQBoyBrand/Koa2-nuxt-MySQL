@@ -1,45 +1,55 @@
 import {post, get} from "./axios";
 
-// 获取文章列表
-export  function getArts(params) {
-  return post('/getArticleListByType',params).then( res => res.data)
+// 获取首页文章列表
+export  function getArtAll(params) {
+  return post('/getArticleListAll',params).then( res => res.data)
 }
-// 获取文章列表
+// 获取文章详情
 export  function getArtDetail(params) {
-  return post('/getArtDetail',params).then( res => res.data)
-}
-// 获取文章归档
-export  function getArtByDate(params) {
-  return post('/getArticleListByDate',params).then( res => res.data)
-}
-
-// 获取收藏列表
-
-export function getCollection(params) {
-  return post('/getCollectionList',params).then( res => res.data)
-}
-// 获取友链
-export  function getLink(params) {
-  return post('/getFriendsList').then( res => res.data)
-}
-// 获取标签列表
-export  function getTag(params) {
-  return post('/getTagList').then( res => res.data)
-}
-// 更加标签id查文章列表
-export  function getArtByTagId(params) {
-  return post('/getArtListByTagId',params).then( res => res.data)
+  return post('/getArticleDetail',params).then( res => res.data)
 }
 // 获取热门文章
-export  function getHotArt(params) {
-  return post('/getHotArt',params).then( res => res.data)
+export  function getArticleHot(params) {
+  return post('/getArticleHot',params).then( res => res.data)
+}
+// 获取标签
+export  function getFontTagList(params) {
+  return post('/getFontTagList',params).then( res => res.data)
+}
+// 获取分类
+export  function getFontCategoryList(params) {
+  return post('/getFontCategoryList',params).then( res => res.data)
+}
+// 按标签获取文章
+export  function getArticleListByTag(params) {
+  return post('/getArticleListByTag',params).then( res => res.data)
+}
+// 按分类获取文章
+export  function getArtByCategory(params) {
+  return post('/getArtByCategory',params).then( res => res.data)
 }
 
-// 添加评论
-export function addNewComment(params) {
-  return post('/addNewComment',params).then( res => res.data)
+// 按搜索获取文章
+export  function getArtByTitle(params) {
+  return post('/getArtByTitle',params).then( res => res.data)
 }
-// 获取评论列表
-export function getCommentList(params) {
-  return post('/getCommentList',params).then( res => res.data)
+// 按搜归档文章
+export  function getArchive(params) {
+  return post('/getArchive',params).then( res => res.data)
+}
+// 添加评论
+export  function addComment(params) {
+  return post('/addComment',params).then( res => res.data)
+}
+// 添加回复
+export  function addReplyComment(params) {
+  return post('/addReplyComment',params).then( res => res.data)
+}
+// 获取评论
+export  function getComment(params) {
+  return post('/getComment',params).then( res => res.data)
+}
+// 获取评论
+export  function getlinkList(params) {
+  return post('/getlinkList',params).then( res => res.data)
 }

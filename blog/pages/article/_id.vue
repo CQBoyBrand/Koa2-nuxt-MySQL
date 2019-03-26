@@ -1,111 +1,149 @@
 <template>
-  <div class="artdetail_container ">
-    <div class="detail_body clearfix">
-      <div class="right_mdcontent">
-        <h3 class="artdetail_title">{{artDetail.artTitle}}</h3>
-        <div class="artdetail_post_info">
-          <span>{{artDetail.cdate}}</span><span>post by</span><span>{{artDetail.author}}</span>
-          <span>浏览 {{artDetail.pv}} 次</span> <span>评论 {{artDetail.commentNum}} 条</span>
-        </div>
-        <div class="artdetail_content markdown-body">
-          <p style="font-size: 12px;background-color: #f6f8fa;text-indent: 2em;border-left: 2px solid #ccc;line-height: 28px;">
-            本文地址：<a :href="artDetail.artUrl">{{artDetail.artUrl}}</a>
-          </p>
-          <div v-html="markdownRender" ref="htmlContent">
+  <div class="article_id clearfix">
+    <div class="left-content">
+      <h2 class="article-title">{{articleDetail.artTitle}}</h2>
+      <p class="article-info"><span>发布于：{{articleDetail.cdate}}</span><span>{{articleDetail.pv}} 次浏览</span><span>{{articleDetail.discuss}} 条评论</span>
+      </p>
+      <div class="article-content markdown-body">
+        <div v-html="markdownRender">
 
-          </div>
-          <!--留言区-->
-          <div class="art_comment" id="tohere">
-            <div class="comment_title">我要吐槽(目前 {{totalComent}} 条吐槽)</div>
-            <div class="comment_tips">
-              <p style="font-size: 16px;color: #000;font-weight: bold;">提示：</p>
-              <p>昵称必填，用于展示在评论中</p>
-              <p>邮箱必填，不会公开展示，方便及时收到回复</p>
-              <p>网址选填，方便看到的人去访问,请完整填写,例如(http://www.brandhuang.com)</p>
-            </div>
-            <div class="comment_form" >
-              <el-form :model="artComment" ref="artComment">
-                <input type="hidden" v-model="artComment.toEmail" />
-                <input type="hidden" v-model="artComment.toNickName" />
-                <span v-if="toUserInfo != ''" class="reply_to clearfix">回复：{{toUserInfo}} <i class="el-icon-error" style="float: right;margin-top: 3px;cursor: pointer;" @click="toUserInfoFn"></i></span>
+        </div>
+      </div>
+      <div class="article-type">
+        <p>文章归类于：
+          <nuxt-link :to="`/category/${articleDetail.category}`">{{articleDetail.category}}</nuxt-link>
+        </p>
+        <p class="art_tag">文章标签：
+          <nuxt-link :to="`/tag/${item}`" v-for="(item,index) in tagList" :key="index">{{item}}</nuxt-link>
+        </p>
+      </div>
+
+      <!--评论-->
+      <div class="comment-container">
+        <div class="comment-title" id="tohere">
+          共<span>{{articleDetail.discuss}}</span>条评论
+        </div>
+        <div class="comment_tips">
+          <p style="font-size: 16px;color: #000;font-weight: bold;">提示：</p>
+          <p>昵称必填，用于展示在评论中</p>
+          <p>邮箱必填，不会公开展示，方便及时收到回复</p>
+          <p>网址选填，方便看到的人去访问,请完整填写,例如(http://www.brandhuang.com)</p>
+        </div>
+        <div class="comment_form">
+          <el-form :model="artComment" ref="artComment">
+            <input type="hidden" v-model="artComment.toemail" v-if="toReply !=''"/>
+            <input type="hidden" v-model="artComment.tonickname" v-if="toReply !=''"/>
+            <span v-if="toReply != ''" class="reply_to clearfix">回复：{{toReply}} <i class="el-icon-error"
+                                                                                   style="float: right;margin-top: 3px;cursor: pointer;"
+                                                                                   @click="cleanToReply"></i></span>
+            <el-form-item
+              label="内容(必填)："
+              :rules="[{ required: true, message: '请输入评论内容', trigger: 'blur' }]"
+              prop="content">
+              <el-input
+                type="textarea"
+                ref="textInput"
+                :autosize="{ minRows: 4, maxRows: 8}"
+                placeholder="请输入内容"
+                v-model="artComment.content"></el-input>
+            </el-form-item>
+            <el-row :gutter="10">
+              <el-col :sm="12" :md="8">
                 <el-form-item
-                  label="内容(必填)："
-                  :rules="[{ required: true, message: '请输入评论内容', trigger: 'blur' }]"
-                  prop="content">
-                  <el-input
-                    type="textarea"
-                    ref="textInput"
-                    :autosize="{ minRows: 4, maxRows: 8}"
-                    placeholder="请输入内容"
-                    v-model="artComment.content"></el-input>
+                  prop="nickname"
+                  label="昵称(必填)："
+                  :rules="[{ required: true, message: '请输入昵称', trigger: 'blur' }]"
+                >
+                  <el-input v-model="artComment.nickname"></el-input>
                 </el-form-item>
-                <el-row :gutter="10">
-                  <el-col :sm="12" :md="8">
-                    <el-form-item
-                      prop="nickName"
-                      label="昵称(必填)："
-                      :rules="[{ required: true, message: '请输入昵称', trigger: 'blur' }]"
-                    >
-                      <el-input v-model="artComment.nickName"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :sm="12" :md="8">
-                    <el-form-item
-                      prop="email"
-                      label="邮箱(必填)："
-                      :rules="[
+              </el-col>
+              <el-col :sm="12" :md="8">
+                <el-form-item
+                  prop="email"
+                  label="邮箱(必填)："
+                  :rules="[
       { required: true, message: '请输入邮箱地址', trigger: 'blur' },
       { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
     ]"
-                    >
-                      <el-input v-model="artComment.email"></el-input>
-                    </el-form-item>
-                  </el-col>
-                  <el-col :sm="12" :md="8">
-                    <el-form-item
-                      prop="webUrl"
-                      label="网址(选填)：">
-                      <el-input v-model="artComment.webUrl"></el-input>
-                    </el-form-item>
-                  </el-col>
-                </el-row>
-
-                <el-form-item>
-                  <el-button  id="commentSuccess" class="sbm_btn" type="primary" :loading="committing" @click="postArtComment('artComment')">提交</el-button>
+                >
+                  <el-input v-model="artComment.email"></el-input>
                 </el-form-item>
-              </el-form>
-            </div>
-            <div class="comment_list_wrap" >
-              <div class="comment_list"  v-for="(item,index) in commentList" :key="index" style="margin-bottom: 15px;">
-                <div class="c_title"><a :href="item.webUrl">{{item.nickName}}</a> 吐槽道： <span class="c_time"><i class="el-icon-time"></i>{{item.commentdate}}</span></div>
-                <div class="c_content">
-                  <div class="comment_list" v-if="item.toNickName != ''" style="padding: 0 20px;">
-                      <div class="c_title">回复:<a :href="item.toWebUrl">@{{item.toNickName}}</a></div>
-                      <div class="c_content">{{item.oldContent}}</div>
-                  </div>
-                  {{item.content}}
-                </div>
-                <div class="c_reply"><span class="c_reply_btn"  @click="toReply({toEmail:item.email,toNickName:item.nickName,oldContent:item.content,toWebUrl:item.webUrl})">回复</span></div>
+              </el-col>
+              <el-col :sm="12" :md="8">
+                <el-form-item
+                  prop="webUrl"
+                  :rules="[
+                  {required:false,validator: validateUrl, trigger: ['blur','change'] }
+                  ]"
+                  label="网址(选填)：">
+                  <el-input v-model="artComment.webUrl"></el-input>
+                </el-form-item>
+              </el-col>
+            </el-row>
+
+            <el-form-item>
+              <el-button id="commentSuccess" class="sbm_btn" type="primary" :loading="committing"
+                         @click="postArtComment('artComment')">提交
+              </el-button>
+            </el-form-item>
+          </el-form>
+        </div>
+        <div v-if="commentsList.result.length > 0" class="comment-list-wrap">
+          <div class="comment-list" v-for="(item,index) in commentsList.result" :key="index">
+            <div class="clearfix">
+
+              <a :href="item.from_uweb" target="_blank" class="clearfix comment-user" v-if="item.from_uweb !=null && item.from_uweb.length > 0">
+                <img :src="item.from_uavatar" alt="item.from_uname"><span>{{item.from_uname}}</span>
+              </a>
+              <div v-else class="clearfix comment-user nocursor">
+                <img :src="item.from_uavatar" alt="item.from_uname"><span>{{item.from_uname}}</span>
               </div>
+              <div class="comment-time">{{item.cdate}}</div>
             </div>
-            <div class="load_more" v-if="commentList.length > 0">
-              <el-button v-if="haveMoreComment" round :loading="!loadingMore" @click="loadMore">加载更多</el-button>
-              <div v-else style="color: #999;">以上就是全部吐槽了~</div>
+            <div class="comment-content">
+              <div class="comment-list replyContent-bg" v-if="item.oldContent != null">
+                <div class="clearfix">
+                  <a :href="item.to_uweb" target="_blank" class="clearfix comment-user" v-if="item.to_uweb != null && item.to_uweb.length > 0">
+                    <img :src="item.to_uavatar" alt="item.from_uname"><span>{{item.to_uname}}</span>
+                  </a>
+                  <div v-else class="clearfix comment-user nocursor">
+                    <img :src="item.to_uavatar" alt="item.from_uname"><span>{{item.to_uname}}</span>
+                  </div>
+                  <div class="comment-time">{{item.oldCdate}}</div>
+                </div>
+                <div class="comment-content">
+                  {{item.oldContent}}
+                </div>
+              </div>
+              {{item.content}}
+            </div>
+            <div class="clearfix">
+              <span class="replyBtn" @click="replyComment(item)">回复</span>
             </div>
           </div>
+          <el-pagination
+            style="text-align: center;"
+            @current-change="getMoreArt"
+            :current-page="commentsList.currentPage"
+            :page-size="commentsList.limit"
+            layout="prev, pager, next"
+            :total="commentsList.total">
+          </el-pagination>
+        </div>
+        <div v-else class="no-comment">
+          沙发还没有人抢哦～～
         </div>
       </div>
-      <div class="left_munu">
-        <div class="menus">
-          目录:
-          <div class="menuNav" ref="menuNav" v-html="markdownToc"></div>
-        </div>
-      </div>
+    </div>
+    <div class="side-content">
+      <sidebar></sidebar>
     </div>
   </div>
 </template>
 
 <script>
+  import sidebar from '@/components/sidebar'
+
   var hljs = require('highlight.js')
   var toc = require('markdown-it-toc')
   // 表情
@@ -126,11 +164,8 @@
   var mark = require('markdown-it-mark')
   // taskLists
   var taskLists = require('markdown-it-task-lists')
-  //
-  var container = require('markdown-it-container')
-  var katex = require('markdown-it-katex-external');
   var miip = require('markdown-it-images-preview');
-  var markdown_config = {
+  let markdown_config = {
     html: true,        // Enable HTML tags in source
     xhtmlOut: true,        // Use '/' to close single tags (<br />).
     breaks: true,        // Convert '\n' in paragraphs into <br>
@@ -155,147 +190,153 @@
     .use(taskLists)
     .use(sup)
     .use(sub)
-    .use(container)
-    .use(container, 'hljs-left') /* align left */
-    .use(container, 'hljs-center')/* align center */
-    .use(container, 'hljs-right')/* align right */
     .use(deflist)
     .use(abbr)
     .use(footnote)
     .use(insert)
     .use(mark)
-    .use(container)
     .use(miip)
     .use(toc)
-
   export default {
-    name: 'detail',
-    data() {
-      return {
-        committing: false,
-        toUserInfo:'',
-        artComment: {
-          articleId: this.$route.params.id,
-          email: '',
-          webUrl: '',
-          nickName: '', //昵称
-          content: '',
-          oldContent: '',
-          toEmail:'',
-          toNickName:'',
-          toWebUrl:''
-        }
-      }
+    watchQuery: ['page'],
+    name: 'id',
+    components: {
+      sidebar
     },
     head() {
       return {
-        title: this.$store.state.article.details.artTitle,
+        title: this.$store.state.article.detail.artTitle,
+        meta: [
+          {hid: 'index', name: 'description', content: this.$store.state.article.detail.abstract}
+        ]
       }
     },
-    fetch({store, params}) {
-      return store.dispatch('getArtDetail', {
-        id: params.id
-      })
+    async fetch({store, params, query}) {
+      await store.dispatch('getArtDetail', {id: params.id});
+      await store.dispatch('getComment', {id: params.id, currentPage: query.page});
+    },
+    data() {
+      let validateUrl = (rule, value, callback) => {
+        let isUrl = /((https|http|ftp|rtsp|mms){0,1}(:\/\/){0,1})www\.(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/i.test(value);
+
+        if(value.length > 0 && isUrl == false){
+          this.urlIsCorrect = false
+          callback(new Error('请输入正确的网址'))
+        }else {
+          callback()
+          this.urlIsCorrect = true
+        }
+      };
+      return {
+        commentType:'comment',
+        committing: false,
+        urlIsCorrect: true, // 输入网址后校验正确性
+        toReply: '', // 要回复的用户
+        artComment: {
+          artId: this.$store.state.article.detail.id,
+          email: '',
+          nickname: '',
+          content: '',
+          webUrl: '',
+        },
+        validateUrl:validateUrl,
+        replyForm: {
+          artId: this.$store.state.article.detail.id,
+          email: '',
+          nickname: '',
+          content: '',
+          webUrl: '',
+          oldContent: '',
+          touemail: '',
+          touweb: '',
+          touname: '',
+        }
+      }
     },
     computed: {
-      artDetail() {
-        return this.$store.state.article.details || {};
+      articleDetail() {
+        return this.$store.state.article.detail
       },
-      commentList() {
-        return this.$store.state.comment.comment.list;
+      commentsList() {
+        return this.$store.state.comment.list
       },
-      haveMoreComment(){
-        return this.$store.state.comment.comment.pagenation.current_page != this.$store.state.comment.comment.pagenation.totalPage && this.$store.state.comment.comment.pagenation.totalPage !=0
-      },
-      totalComent(){
-        return this.$store.state.comment.comment.pagenation.totalNum
-      },
-      loadingMore() {
-        return this.$store.state.comment.fetch
+      tagList() {
+        let tag = this.$store.state.article.detail.tag
+        return tag.split(',')
       },
       markdownRender() {
-        let mdStr = this.$store.state.article.details.md
+        let mdStr = this.$store.state.article.detail.content
         let markd = '';
-        if (this.$store.state.article.details) {
+        if (this.$store.state.article.detail) {
           markd = mdStr || ''
         }
         return md.render(markd)
       },
-      markdownToc() {
-        let mdStr = this.$store.state.article.details.md
-        let markd = '';
-        if (this.$store.state.article.details) {
-          markd = mdStr || ''
-        }
-        return md.render(markd)
-      }
     },
     methods: {
-      // 清空回复对方姓名
-      toUserInfoFn(){
-        this.toUserInfo = ''
-        this.artComment.toNickName =  ''
-        this.artComment.toEmail =  ''
-        this.artComment.oldContent =  ''
-        this.artComment.toWebUrl =  ''
-      },
-      // 回复 评论
-      toReply(val){
-        let el = document.getElementById('tohere')
-        el.scrollIntoView()
-        this.$refs.textInput.focus()
-        this.toUserInfo = val.toNickName
-        this.artComment.toNickName =  val.toNickName
-        this.artComment.toEmail =  val.toEmail
-        this.artComment.oldContent =  val.oldContent
-        this.artComment.toWebUrl =  val.toWebUrl
-      },
-      // 获取评论列表
-      getCommentList(){
-        let params = {
-          articleId: this.$route.params.id,
-          currentPage: 1,
-          limit:15
-        }
-        this.$store.dispatch('getCommentList',params)
-      },
-      // 加载更多
-      loadMore() {
-        this.$store.dispatch('getCommentList', {
-          articleId: this.$route.params.id,
-          currentPage: this.$store.state.comment.comment.pagenation.current_page + 1,
-          limit:15,
+      //翻页
+      getMoreArt(val) {
+
+        this.$store.dispatch('getComment', {id: this.$route.params.id, currentPage: val});
+        this.$nextTick(() => {
+          let el = document.getElementById('commentSuccess')
+          el.scrollIntoView()
         })
       },
-      // 评论
+      cleanToReply() {
+        this.toReply = ''
+        this.commentType = 'comment'
+      },
+      //发布评论
       postArtComment(formName) {
-        let comentUser = {
-          nickName: this.artComment.nickName,
+        let useInfo = {
           email: this.artComment.email,
+          nickname: this.artComment.nickname,
           webUrl: this.artComment.webUrl,
         }
-        localStorage.setItem('CQBoyBrandBlog',JSON.stringify(comentUser))
-        this.committing = true
+        localStorage.setItem("commentUserInfo", JSON.stringify(useInfo))
         this.$refs[formName].validate((valid) => {
-          if (valid) {
-            this.$store.dispatch('addNewComment',this.artComment).then( res => {
-              if(res.code == 200) {
-                this.$message.success(res.message)
-                this.artComment.content = ''
-                this.toUserInfoFn();
-                this.getCommentList()
-                let el = document.getElementById('commentSuccess')
-                el.scrollIntoView()
-                setTimeout(() => {
+          if (valid && this.urlIsCorrect) {
+            this.committing = true
+            if(this.commentType == 'comment'){
+              this.$store.dispatch('addComment', this.artComment).then(res => {
+                if (res.code == 1) {
+                  this.$message.success(res.message)
+                  this.artComment.content = ''
+                  this.$store.dispatch('getComment', {id: this.$route.params.id});
+                  let el = document.getElementById('commentSuccess')
+                  el.scrollIntoView()
+                  setTimeout(() => {
+                    this.committing = false
+                  }, 500)
+                } else {
+                  this.$message.error(res.message)
                   this.committing = false
-                }, 500)
-              }else {
-                this.$message.error(res.message)
-                this.committing = false
-              }
-            })
+                }
+              })
+            }else {
+              this.replyForm.content =this.artComment.content
+
+              this.$store.dispatch('addReplyComment', this.replyForm).then(res => {
+                if (res.code == 1) {
+                  this.$message.success(res.message)
+                  this.artComment.content = ''
+                  this.toReply = ''
+                  this.commentType = 'comment'
+                  this.$store.dispatch('getComment', {id: this.$route.params.id});
+                  let el = document.getElementById('commentSuccess')
+                  el.scrollIntoView()
+                  setTimeout(() => {
+                    this.committing = false
+                  }, 500)
+                } else {
+                  this.$message.error(res.message)
+                  this.committing = false
+                }
+              })
+            }
+
           } else {
-            console.log('error submit!!');
             setTimeout(() => {
               this.committing = false;
             }, 500);
@@ -303,203 +344,191 @@
           }
         });
       },
-      navMenu() {
-        let nodes = this.$refs.menuNav.children
-        if (nodes.length) {
-          for (let i = 0; i < nodes.length; i++) {
-            judageH(nodes[i], i, nodes)
-          }
-        }
-        let _this = this
-        this.$refs.menuNav.style.display = 'block'
-
-        function judageH(node, i, nodes) {
-          let reg = /^H[1-6]{1}$/;
-          if (!reg.exec(node.tagName)) {
-            node.style.display = 'none'
-          } else {
-            node.onclick = function () {
-              let htmlContent = _this.$refs.htmlContent.children[i];
-              let pos = htmlContent.offsetTop
-              document.documentElement.scrollTop = pos - 60
-              document.body.scrollTop = pos - 60
-            }
-          }
+      // 回复评论
+      replyComment(item) {
+        this.commentType = 'reply'
+        this.toReply = item.from_uname
+        let el = document.getElementById('tohere')
+        el.scrollIntoView()
+        this.$refs.textInput.focus()
+        this.replyForm = {
+          artId: this.$store.state.article.detail.id,
+          email: this.artComment.email ,
+          nickname: this.artComment.nickname ,
+          content: '',
+          webUrl: this.artComment.webUrl,
+          oldContent: item.content,
+          oldCdate: item.timestamp,
+          touemail: item.from_uemail,
+          touweb: item.from_uweb,
+          touname: item.from_uname,
+          touavatar: item.from_uavatar,
         }
       }
     },
     mounted() {
-      this.navMenu();
-      this.getCommentList()
-      let comentUser = JSON.parse(localStorage.getItem('CQBoyBrandBlog'));
-      if(comentUser){
-        this.artComment.nickName = comentUser.nickName
-        this.artComment.email = comentUser.email
-        this.artComment.webUrl = comentUser.webUrl
+      if (localStorage.getItem('commentUserInfo')) {
+        this.artComment.email = JSON.parse(localStorage.getItem('commentUserInfo')).email || ''
+        this.artComment.nickname = JSON.parse(localStorage.getItem('commentUserInfo')).nickname || ''
+        this.artComment.webUrl = JSON.parse(localStorage.getItem('commentUserInfo')).webUrl || ''
       }
 
     }
   }
 </script>
 
-<style lang="less">
-  .el-message{
-    top: 65px!important;
+<style lang="scss">
+  .el-message {
+    top: 65px !important;
   }
-  .artdetail_container {
-    background-color: #fff;
-    padding: 20px;
-    li{
-      list-style: decimal;
-    }
-    @media screen and (max-width: 992px) {
-      .left_munu {
-        display: none;
-      }
 
-      .right_mdcontent {
-        float: left;
-        width: 100%;
-      }
-    }
-    @media screen and (min-width: 992px) {
-      .right_mdcontent {
-        float: left;
-        width: 80%;
-      }
-    }
-    .left_munu {
-      float: left;
-      width: 20%;
-      padding-left: 20px;
-      .menus {
-        position: fixed;
-        top: 100px;
-        max-width: 240px;
-        border-left: 1px solid #ccc;
-        padding-left: 20px;
-        .menuNav {
-          display: none;
-        }
-        h1, h2, h3, h4, h5, h6 {
-          margin: 2px 0;
-          font-weight: 500;
-          font-size: 17px;
-          color: #2185d0;
-          cursor: pointer;
-          line-height: normal;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          white-space: nowrap;
-          padding: 0 12px;
-          border-bottom: none;
-          &:hover {
-            color: #483D8B;
-            text-decoration-line: underline;
-          }
-        }
-        h2 {
-          padding-left: 27px;
-          font-size: 17px;
-        }
-        h3 {
-          padding-left: 42px;
-          font-size: 17px;
-        }
-        h4 {
-          padding-left: 58px;
-          font-size: 15px;
-        }
-        h5 {
-          padding-left: 72px;
-          font-size: 15px;
-        }
-        h6 {
-          padding-left: 87px;
-          font-size: 15px;
-        }
-      }
-    }
-
-    .artdetail_title {
+  .article_id {
+    .article-title {
       text-align: center;
       font-size: 20px;
-      line-height: 40px;
+      color: #666;
+      margin: 16px 0;
     }
-    .artdetail_post_info {
-      padding: 10px 6px;
+
+    .article-info {
       text-align: center;
-      font-size: 13px;
-      border-bottom: 2px solid #ccc;
-      & > span {
-        margin-right: 10px;
-      }
-    }
-    .artdetail_content {
-      padding-top: 20px;
-      img {
-        margin: auto;
-        text-align: right;
+      font-size: 12px;
+      color: #999;
+      padding-bottom: 15px;
 
+      span {
+        padding: 0 6px;
       }
     }
 
-    .art_comment {
+    .article-content {
+      font-size: 14px;
+    }
+
+    .article-type {
+      border-top: 2px solid #ccc;
       margin-top: 30px;
-      padding-top: 30px;
-      border-top: 2px solid #000;
-      .comment_title {
-        text-align: center;
-        font-weight: bold;
-        font-size: 20px;
+      padding: 15px 0;
+      font-size: 14px;
+
+      p {
+        padding-bottom: 5px;
       }
+
+      a {
+        color: #409EFF;
+        text-decoration: underline;
+        font-weight: bold;
+      }
+    }
+
+    .art_tag {
+      a {
+        padding: 0 6px;
+      }
+    }
+
+
+    .comment-container {
+      .comment-title {
+        font-size: 13px;
+        font-weight: bold;
+        border-bottom: 1px solid #eee;
+        padding-bottom: 10px;
+
+        span {
+          color: darkorange;
+          padding: 0 6px;
+        }
+      }
+
       .comment_tips {
         font-size: 12px;
         color: #999;
+
         p {
           margin-bottom: 0;
         }
       }
+
       .comment_form {
         padding-top: 10px;
-        .reply_to{
+
+        .reply_to {
           display: block;
           border: 1px solid #ddd;
           padding: 5px 10px;
           border-radius: 5px;
         }
       }
-      .comment_list_wrap{
-        padding-top: 30px;
-        .comment_list{
-          border: 1px solid #eee;
-          padding: 10px 20px;
-          box-sizing: border-box;
-          text-indent: 0;
-          .c_time{
-            padding-left: 20px;
-            font-size: 13px;
-            i{
-              margin-right: 3px;
-            }
+
+      .no-comment {
+        text-align: center;
+        color: #333;
+        font-size: 14px;
+      }
+
+      .comment-list-wrap{
+        padding-top: 15px;
+        border-top: 1px solid #eee;
+      }
+      .comment-list {
+        border-bottom: 1px dashed #eee;
+        padding-bottom: 10px;
+        margin-bottom: 10px;
+
+        .comment-user {
+          display: block;
+          float: left;
+
+          img {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 10px;
+            float: left;
+            margin-right: 10px;
           }
-          .c_content{
-            text-indent: 2em;
-            padding: 10px 0;
+
+          span {
+            display: inline-block;
+            max-width: 100px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
-          .c_reply{
-            text-align: right;
-            .c_reply_btn{
-              color: #3a8ee6;
-              cursor: pointer;
-            }
-          }
+
+          line-height: 20px;
+          font-size: 14px;
+        }
+
+        .comment-time {
+          float: right;
+          font-size: 12px;
+          color: #333;
+        }
+
+        .comment-content {
+          text-indent: 2em;
+          font-size: 14px;
+          color: #333;
+          line-height: 20px;
+          padding: 8px 0;
+        }
+
+        .replyBtn {
+          float: right;
+          font-size: 13px;
+          cursor: pointer;
         }
       }
-      .load_more {
-        text-align: center;
-        background-color: #fff;
-        padding-bottom: 15px;
+    }
+    .replyContent-bg{
+      background-color: #eee;
+      padding: 10px;
+      box-sizing: border-box;
+      .comment-user,.comment-time{
+        text-indent: 0;
       }
     }
   }

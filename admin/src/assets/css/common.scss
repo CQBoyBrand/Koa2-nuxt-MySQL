@@ -1,0 +1,22 @@
+@import "normalize.scss";
+html,body{
+  height: 100%;
+  width: 100%;
+}
+.el-menu-item, .el-submenu__title {
+  color: #fff;
+  font-weight: bold;
+}
+.el-menu-item:focus{
+  background-color: #333744;
+}
+.current-title{
+  font-weight: bold;
+  font-size: 16px;
+  line-height: 30px;
+  margin-bottom: 10px;
+  border-left: 2px solid #333744;
+  text-indent: 8px;
+  box-sizing: border-box;
+  color: #333744;
+}

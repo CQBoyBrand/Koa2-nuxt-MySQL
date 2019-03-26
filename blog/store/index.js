@@ -1,158 +1,153 @@
 import service from '../api'
 
+const LIMIT = 9;
+const CURRENT_PAGE = 1;
 export const actions = {
   nuxtServerInit(store, {params, route, req}) {
     const initAppData = [
-      store.dispatch('getTag'),
-      store.dispatch('getHotArt'),
-      store.dispatch('getLink'),
+      store.dispatch('getArticleHot'),
+      store.dispatch('getFontTagList'),
+      store.dispatch('getFontCategoryList'),
+      store.dispatch('getlinkList'),
     ]
 
     return Promise.all(initAppData)
   },
-  // 获取文章
-  async getArtList({commit, state}, params) {
-    commit('article/FETCH_ART')
-    const res = await service.getArts(params).catch(err => {
+  // 获取文章列表
+  async getAllArtList({commit, state}, params) {
+    let postParam = {
+      currentPage: params.currentPage || CURRENT_PAGE,
+      limit: LIMIT
+    }
+    const res = await service.getArtAll(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 200) {
-      let list
-      if (res.pagenation.current_page === 1) list = res.articleList
-      else list = [...state.article.art.list, ...res.articleList]
-      commit('article/GET_ART_SUCCESS', {
-        list,
-        pagenation: res.pagenation
-      })
+    if (res && res.code == 1) {
+      commit('article/GET_ART_SUCCESS', res.result)
     }
   },
-
-  // 获取热门文章
-  async getHotArt({commit, state}) {
-    const res = await service.getHotArt().catch(err => {
+  // 按标签获取文章列表
+  async getArtListByTag({commit, state}, params) {
+    let postParam = {
+      tagname:params.tagname,
+      currentPage: params.currentPage || CURRENT_PAGE,
+      limit: LIMIT
+    }
+    const res = await service.getArticleListByTag(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 200) {
-      let list = res.hotArt
-      commit('article/GET_HOTART_SUCCESS', {
-        list
-      })
+    if (res && res.code == 1) {
+      commit('article/GET_ART_BY_TAG_SUCCESS', res.result)
     }
   },
-
-  // 通过标签获取文章
-  async getArtListByTagId({commit, state}, params) {
-    commit('article/FETCH_TAGARTLIST')
-    const res = await service.getArtByTagId(params).catch(err => {
+  // 按标分类取文章列表
+  async getArtByCategory({commit, state}, params) {
+    let postParam = {
+      categoryname:params.categoryname,
+      currentPage: params.currentPage || CURRENT_PAGE,
+      limit: LIMIT
+    }
+    const res = await service.getArtByCategory(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 200) {
-      let list
-      if (res.pagenation.current_page === 1) list = res.articleList
-      else list = [...state.article.tagArtList.list, ...res.articleList]
-      commit('article/GET_TAGARTLIST_SUCCESS', {
-        list,
-        pagenation: res.pagenation
-      })
-    }else {
-      commit('article/GET_TAGARTLIST_FAIL')
+    if (res && res.code == 1) {
+      commit('article/GET_ART_BY_CATEGORY_SUCCESS', res.result)
     }
   },
-
+  // 按标搜索取文章列表
+  async getArtByKeyword({commit, state}, params) {
+    let postParam = {
+      artTitle:params.keywords,
+      currentPage: params.currentPage || CURRENT_PAGE,
+      limit: LIMIT
+    }
+    const res = await service.getArtByTitle(postParam).catch(err => {
+      console.log(err)
+    })
+    if (res && res.code == 1) {
+      commit('article/GET_ART_BY_KEYWORDS_SUCCESS', res.result)
+    }
+  },
   // 获取文章详情
-  async getArtDetail({commit, state},params) {
+  async getArtDetail({commit, state}, params) {
     const res = await service.getArtDetail(params).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 200) {
-      let list = res.artDetail
-      commit('article/GET_DETAIL_SUCCESS', list)
-    }else {
-      commit('article/GET_DETAIL_FAIL')
+    if (res && res.code == 1) {
+      commit('article/GET_ART_DETAIL_SUCCESS', res.result)
     }
   },
-
-  // 获取文章归档
-  async getArchiveList({commit, state}, params) {
-    commit('article/FETCH_ARCHIVE')
-    const res = await service.getArtByDate(params).catch(err => {
+  // 获取文章详情
+  async getArticleHot({commit, state}, params) {
+    const res = await service.getArticleHot().catch(err => {
       console.log(err)
     })
-    if (res.code == 200) {
-      let list
-      if (res.pagenation.current_page === 1) {
-        list = res.archive
-      } else {
-        list = [...state.article.archive.list, ...res.archive]
-      }
-      commit('article/GET_ARCHIVE_SUCCESS', {
-        list,
-        pagenation: res.pagenation
-      })
-    }
-  },
-
-  // 获取收藏
-  async getCollection({commit, state}, params) {
-    commit('collections/FETCH_COLLECTION')
-    const res = await service.getCollection(params).catch(err => {
-      console.log(err)
-    })
-    if (res.code == 200) {
-      let list
-      if (res.pagenation.current_page === 1) list = res.collectionList
-      else list = [...state.collections.collectionList.list, ...res.collectionList]
-      commit('collections/GET_COLLECTION_SUCCESS', {
-        list,
-        pagenation: res.pagenation
-      })
-    }
-  },
-  // 获取友链
-  async getLink({commit, state}) {
-    const res = await service.getLink().catch(err => {
-      console.log(err)
-    })
-    if (res && res.code == 200) {
-      let list = res.friendsList
-      commit('friends/GET_LINK_SUCCESS', {
-        list
-      })
+    if (res && res.code == 1) {
+      commit('article/GET_ART_HOT_SUCCESS', res.result)
     }
   },
   // 获取标签
-  async getTag({commit, state}) {
-    const res = await service.getTag().catch(err => {
+  async getFontTagList({commit, state}, params) {
+    const res = await service.getFontTagList().catch(err => {
       console.log(err)
     })
-    if (res && res.code == 200) {
-      let list = res.tagList
-      commit('tag/GET_TAG_SUCCESS', {
-        list
-      })
+    if (res && res.code == 1) {
+      commit('tag/GET_TAG_SUCCESS', res.result)
+    }
+  },
+  // 获取友链
+  async getlinkList({commit, state}, params) {
+    const res = await service.getlinkList().catch(err => {
+      console.log(err)
+    })
+    if (res && res.code == 1) {
+      commit('link/GET_LINK_SUCCESS', res.result)
+    }
+  },
+  // 根据标签获取文章
+  async getFontCategoryList({commit, state}, params) {
+    const res = await service.getFontCategoryList().catch(err => {
+      console.log(err)
+    })
+    if (res && res.code == 1) {
+      commit('category/GET_CATEGORY_SUCCESS', res.result)
+    }
+  },
+  // 文章归档
+  async getArchive({commit, state}, params) {
+    const res = await service.getArchive().catch(err => {
+      console.log(err)
+    })
+    if (res && res.code == 1) {
+      commit('article/GET_ART_ARCHIVE_SUCCESS', res.result)
+    }
+  },
+  // 获取评论
+  async getComment({commit, state}, params) {
+    let postParam = {
+      artId:params.id,
+      currentPage: params.currentPage || CURRENT_PAGE,
+      limit: LIMIT
+    }
+    const res = await service.getComment(postParam).catch(err => {
+      console.log(err)
+    })
+    if (res && res.code == 1) {
+      commit('comment/GET_COMMENT_SUCCESS', res.result)
     }
   },
   // 添加评论
-  async addNewComment({commit},params){
-    const res = await service.addNewComment(params).catch(err => {
+  async addComment({commit, state}, params) {
+    const res = await service.addComment(params).catch(err => {
       console.log(err)
     })
     return res
   },
-  // 获取评论列表
-  async getCommentList({commit,state},params){
-    commit('comment/FETCH_COMMENT')
-    const res = await service.getCommentList(params).catch(err => {
+  // 添加回复
+  async addReplyComment({commit, state}, params) {
+    const res = await service.addReplyComment(params).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 200) {
-      let list
-      if (res.pagenation.current_page === 1) list = res.commentList
-      else list = [...state.comment.comment.list, ...res.commentList]
-      commit('comment/GET_COMMENT_SUCCESS', {
-        list,
-        pagenation: res.pagenation
-      })
-    }
-  }
+    return res
+  },
 }

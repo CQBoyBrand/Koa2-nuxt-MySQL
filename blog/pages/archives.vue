@@ -1,148 +1,207 @@
 <template>
-  <div class="archives_container">
-    <div v-if="archiveList.length ==0" style="text-align: center;">暂无数据</div>
-    <div class="track-rcol" v-else>
-      <div class="track-list">
-        <ul class="artList">
-          <li  v-for="listItem in archiveList" :key="listItem.id">
-            <i class="node-icon"></i>
-            <p class="time">{{listItem.cdate}}</p>
-            <nuxt-link tag="p" :to="`/article/${listItem.id}`" class="txt">{{listItem.title}}</nuxt-link>
-          </li>
-        </ul>
+  <div class="archives clearfix">
+    <div class="left-content">
+      <div class="archive-title">
+        <p class="archive-desc">那些年，那些人，那些事</p>
+        <p class="archive-tips">这里共有<span>{{artObj.total}}</span>条线索</p>
       </div>
-      <p v-if="haveMore" @click="loadMore" class="last">加载更多</p>
-      <p v-else class="last_nomore">没有更多了~</p>
+      <div class="time-list-wrap clearfix" v-if="artObj.total > 0">
+        <!--<ul class="date-list">-->
+          <!--<li :class="actived == index ? 'selected' : ''" v-for="(item,index) in returnDateArr(artObj.result)" :key="index" @click="changeActived(index)"><a :href="`#${item}`">{{item}}</a></li>-->
+        <!--</ul>-->
+        <div class="art-list">
+          <div v-for="(item,index) in returnDateArr(artObj.result)" :key="index">
+            <a :id="`#${item}`" class="times">{{item}}</a>
+            <ul class="art-list-detail">
+              <li class="clearfix" v-for="(list,listIndex) in returnArtList(artObj.result,item)" :key="listIndex">
+                <span>{{list.cdate}}</span><nuxt-link :to="`/article/${list.id}`">{{list.artTitle}}</nuxt-link>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div v-else class="no-data">
+          咦，这里的线索不见了～
+      </div>
     </div>
-
+    <div class="side-content">
+      <sidebar></sidebar>
+    </div>
   </div>
 </template>
 
 <script>
+  import sidebar from '../components/sidebar'
 
   export default {
     name: 'archives',
+    components: {
+      sidebar
+    },
     head() {
       return {
-        title: '归档'
+        title: '归档',
       }
     },
     data() {
-      return {}
+      return {
+        actived: 0
+      }
     },
-    fetch({store}) {
-      return store.dispatch('getArchiveList', {
-        currentPage: 1,
-        limit: 9,
-      })
+    async fetch ({ store}) {
+      await store.dispatch('getArchive');
     },
-    computed: {
-      archiveList() {
-        return this.$store.state.article.archive.list
-      },
-      haveMore() {
-        return this.$store.state.article.archive.pagenation.current_page != this.$store.state.article.archive.pagenation.totalPage
+    computed:{
+      artObj(){
+        return this.$store.state.article.archive
       }
     },
     methods: {
-      loadMore() {
-        this.$store.dispatch('getArchiveList', {
-          currentPage: this.$store.state.article.archive.pagenation.current_page + 1,
-          limit:9,
-        })
+      changeActived(index){
+        this.actived = index
+      },
+      returnDateArr(obj){
+        let dateArr =[]
+        for (let dates in obj){
+          dateArr.push(dates)
+        }
+        return dateArr
+      },
+      returnArtList(obj,date){
+        return obj[date]
       }
     },
     mounted() {
+
     }
   }
 </script>
 
-<style lang="less">
-  .archives_container {
-    background-color: #fff;
-    padding: 20px 15px;
-    .track-rcol {
-      width: 100%;
-      border: 1px solid #eee;
+<style lang="scss">
+  .archives {
+    .no-data{
+      text-align: center;
+      font-size: 13px;
+      line-height: 60px;
     }
-    .artList{
-      padding-top: 20px;
-    }
-    .year {
-      font-size: 24px;
-      font-weight: bold;
-      display: inline-block;
-      padding-left: 15px;
-      font-style: italic;
-    }
-    .track-list {
-      margin: 0 20px;
-      padding-left: 5px;
-      position: relative;
+    .archive-title {
+      text-align: center;
+      border-bottom: 1px solid #eee;
+      padding-bottom: 15px;
+
+      .archive-desc {
+      }
+
+      .archive-tips {
+        padding-top: 8px;
+        font-size: 12px;
+        color: #999;
+
+        span {
+          padding: 0 8px;
+          color: #409EFF;
+          font-style: italic;
+        }
+      }
     }
 
-    .track-list li {
-      position: relative;
-      padding: 18px 0 18px 25px;
-      border-left: 1px solid #d9d9d9;
-      color: #999;
-    }
+    .time-list-wrap {
+      /*.date-list {*/
+        /*padding-top: 30px;*/
 
-    .artList .node-icon {
-      position: absolute;
-      left: -6px;
-      top: 50%;
-      width: 11px;
-      height: 11px;
-      background-color: #7f828b;
-      border-radius: 50%;
-    }
-    .year .node-icon {
-      position: absolute;
-      right: -6px;
-      top: 50%;
-      width: 11px;
-      height: 11px;
-      background-color: #7f828b;
-      border-radius: 50%;
-    }
+        /*li {*/
+          /*list-style: none;*/
+          /*line-height: 30px;*/
+          /*border: 1px solid #eee;*/
+          /*margin-bottom: 6px;*/
+          /*text-align: center;*/
 
-    .track-list li .time {
-      margin-right: 20px;
-      position: relative;
-      top: 4px;
-      vertical-align: middle;
-      display: inline-block;
-    }
+          /*&.selected {*/
+            /*background-color: #409EFF;*/
 
-    .track-list li .txt {
-      position: relative;
-      top: 4px;
-      vertical-align: middle;
-      display: inline-block;
-      cursor: pointer;
-    }
-    .txt:hover{
-      text-decoration: underline;
-    }
+            /*a {*/
+              /*color: #fff;*/
+            /*}*/
+          /*}*/
 
-    .track-list li.first .time {
-      margin-right: 20px;
-    }
+          /*a {*/
+            /*display: inline-block;*/
+            /*width: 100%;*/
+            /*height: 100%;*/
+          /*}*/
+        /*}*/
+      /*}*/
 
-    .track-list li.first .txt {
-      max-width: 600px;
-    }
-    .last,.last_nomore {
-      color: #000;
-      font-size: 14px;
-      display: inline-block;
-      padding-left: 38px;
-      cursor: pointer;
-      padding-bottom: 10px;
-    }
-    .last:hover{
-      text-decoration: underline;
+      .art-list {
+        padding-left: 40px;
+        font-size: 13px;
+        /*max-height: 800px;*/
+        /*overflow: auto;*/
+
+        .times {
+          display: block;
+          width: 100px;
+          margin: 0 auto;
+          font-size: 16px;
+          padding: 10px 0;
+          font-weight: bold;
+          font-style: italic;
+        }
+
+        .art-list-detail {
+          li {
+            line-height: 30px;
+            list-style: none;
+            span {
+              padding-right: 10px;
+              display: inline-block;
+              width: 86px;
+              float: left;
+            }
+
+            a {
+              text-decoration: underline;
+              font-style: oblique;
+              float: left;
+            }
+          }
+        }
+
+        a:target {
+          padding-top: 70px;
+          margin-top: -60px;
+        }
+      }
+
+      @media screen and (min-width: 769px) {
+        /*.date-list {*/
+          /*float: left;*/
+          /*width: 150px;*/
+          /*text-align: center;*/
+        /*}*/
+        .art-list {
+          /*float: left;*/
+          width: 700px;
+          margin: 0 auto;
+          a{
+            max-width: 500px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+          }
+        }
+      }
+      @media screen and (max-width: 768px) {
+        /*.date-list {*/
+          /*display: none;*/
+        /*}*/
+        .art-list-detail{
+          a{
+            display: inline-block;
+            width: calc(100% - 96px);
+          }
+        }
+      }
     }
   }
 </style>
