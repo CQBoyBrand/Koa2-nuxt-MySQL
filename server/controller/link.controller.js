@@ -44,7 +44,6 @@ const LinkController = {
   // 获取友链列表
   getlinkList: async ctx => {
     await Link.getlinkList().then( res => {
-      console.log('link=',res)
         handleSuccess({ctx, result: res, message: '获取友链成功'})
     }).catch( err => {
       handleError({ctx, message: '获取友链失败', err})
