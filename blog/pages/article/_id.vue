@@ -217,7 +217,8 @@
     },
     data() {
       let validateUrl = (rule, value, callback) => {
-        let isUrl = /((https|http|ftp|rtsp|mms){0,1}(:\/\/){0,1})www\.(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/i.test(value);
+        // let isUrl = /((https|http|ftp|rtsp|mms){0,1}(:\/\/){0,1})www\.(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/i.test(value);
+        let isUrl = /^([hH][tT]{2}[pP]:\/\/|[hH][tT]{2}[pP][sS]:\/\/)(([A-Za-z0-9-~]+)\.)+([A-Za-z0-9-~\/])+$/i.test(value);
 
         if(value.length > 0 && isUrl == false){
           this.urlIsCorrect = false
