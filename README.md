@@ -7,7 +7,10 @@ Koa2+nuxt+MySQL重构博客
  #### admin文件夹下是博客的后端管理部分----用来管理文章的(vue+elementUI+axios,vue-cli3)
  #### server文件夹下是博客的服务端部分---用来操作数据库和提供接口的(koa2+mysql+jwt)
 
-
+ ### 下载:
+ ```markdown
+git clone https://github.com/CQBoyBrand/Koa2-nuxt-MySQL.git
+```
  ### 使用：
  分别进入相应文件夹下
  
