@@ -17,7 +17,9 @@ module.exports = {
       {name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'},
       {hid: 'description', name: 'description', content: '重庆崽儿brand的个人博客，重庆崽儿brand的生活记录,重庆崽儿brand的前端学习'},
       {hid: 'keywords', name: 'keywords', content: '重庆崽儿brand的个人博客，vue，nuxt，blog，重庆崽儿，brand，重庆崽儿brand,首页,JavaScript，js，css，html，web前端,前端开发'},
-      {hid: 'author', name: 'author', content: '重庆崽儿brand'}
+      {hid: 'author', name: 'author', content: '重庆崽儿brand'},
+      {hid: 'renderer', name: 'renderer', content: 'webkit|ie-comp|ie-stand'},
+      {hid: 'http-equiv', 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1'},
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},

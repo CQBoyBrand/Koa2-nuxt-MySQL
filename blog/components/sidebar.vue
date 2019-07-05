@@ -18,7 +18,8 @@
     <div class="module-css">
       <div class="module-title clearfix"><svgicon class="" name="tag" style="width: 21px;margin-top: 2px;"></svgicon>标签</div>
       <div class="module-item-wrap tag">
-        <nuxt-link :to="`/tag/${item.tagname}`" v-for="(item, index) in tagList" :key="index">{{item.tagname}} [{{item.total}}]</nuxt-link>
+        <nuxt-link :to="`/tag/${item.tagname}`" v-for="(item, index) in tagList" :key="index">#{{item.tagname}}
+          [{{item.total}}]</nuxt-link>
       </div>
     </div>
   </div>

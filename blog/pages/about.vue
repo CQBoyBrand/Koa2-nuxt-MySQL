@@ -18,6 +18,16 @@
     <ul class="friends-list-wrap clearfix">
       <li v-for="(item,index) in linkList"><a :href="item.siteUrl" target="_blank">{{item.siteName}}</a></li>
     </ul>
+    <div class="contact-me">联系我</div>
+    <div class="contact-box">
+      <div class="contact-method clearfix">
+        <div class="contact-label">邮箱：</div><div class="contact-detail"><a href="mailto:brandhuang@qq.com">brandhuang@qq.com</a></div>
+      </div>
+      <div class="contact-method clearfix">
+        <div class="contact-label">Github：</div><div class="contact-detail"><a href="https://github.com/CQBoyBrand" target="_blank">
+        使劲戳我</a></div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -53,10 +63,11 @@
   background-color: #fff;
   padding: 15px 0;
   box-sizing: border-box;
-  .about-me,.about-myfriends{
+  .about-me,.about-myfriends,.contact-me{
     text-align: center;
     font-style: italic;
     font-size: 18px;
+    line-height: 60px;
     color: #333;
   }
   .about-me-detail{
@@ -81,6 +92,25 @@
       }
     }
   }
+  .contact-box{
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 15px;
+    .contact-method{
+      line-height: 40px;
+      .contact-label{
+        float: left;
+        width: 80px;
+      }
+      .contact-detail{
+        float: left;
+        a{
+          color: #409EFF;
+          cursor: pointer;
+        }
+      }
+    }
+  }
   .friends-list-wrap{
     max-width: 800px;
     margin: 0 auto;
@@ -90,6 +120,7 @@
       background-color: #eee;
       list-style: none;
       border-radius: 4px;
+      margin-bottom: 7px;
       margin-right: 7px;
       a{
         display: inline-block;

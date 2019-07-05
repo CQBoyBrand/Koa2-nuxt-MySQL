@@ -2,7 +2,7 @@
   <div class="tagname clearfix">
     <div class="left-content">
       <div class="artList-by-type">
-        <p class="type-title">与<span>{{this.$route.params.tagname}}</span>相关的文章</p>
+        <p class="type-title">与<span>#{{this.$route.params.tagname}}</span>相关的文章</p>
         <p class="type-total">共找到<span>{{articleList.total}}</span>篇</p>
       </div>
       <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>

@@ -1,7 +1,8 @@
 <template>
   <div class="pageBottom">
     <p>Powered By Nuxt.js，Designed By Brand</p>
-    <p>Copyright© 2017-{{currentYear}} 重庆崽儿Brand</p>
+    <p class="copyright">Copyright© 2017-{{currentYear}} <a href="https://github.com/CQBoyBrand" target="_blank">
+      重庆崽儿Brand</a></p>
     <p><a href="http://www.miitbeian.gov.cn" target="_blank">渝ICP备17014610号</a></p>
   </div>
 </template>
@@ -35,6 +36,11 @@
   right: 0;
   a{
     color: #409EFF;
+  }
+  .copyright{
+    a{
+      font-style: italic;
+    }
   }
 }
 </style>

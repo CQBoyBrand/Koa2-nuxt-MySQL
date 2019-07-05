@@ -14,7 +14,7 @@
           <nuxt-link :to="`/category/${articleDetail.category}`">{{articleDetail.category}}</nuxt-link>
         </p>
         <p class="art_tag">文章标签：
-          <nuxt-link :to="`/tag/${item}`" v-for="(item,index) in tagList" :key="index">{{item}}</nuxt-link>
+          <nuxt-link :to="`/tag/${item}`" v-for="(item,index) in tagList" :key="index">#{{item}}</nuxt-link>
         </p>
       </div>
 
@@ -144,27 +144,27 @@
 <script>
   import sidebar from '@/components/sidebar'
 
-  var hljs = require('highlight.js')
-  var toc = require('markdown-it-toc')
+  let hljs = require('highlight.js')
+  let toc = require('markdown-it-toc')
   // 表情
-  var emoji = require('markdown-it-emoji');
+  let emoji = require('markdown-it-emoji');
   // 下标
-  var sub = require('markdown-it-sub')
+  let sub = require('markdown-it-sub')
   // 上标
-  var sup = require('markdown-it-sup')
+  let sup = require('markdown-it-sup')
   // <dl/>
-  var deflist = require('markdown-it-deflist')
+  let deflist = require('markdown-it-deflist')
   // <abbr/>
-  var abbr = require('markdown-it-abbr')
+  let abbr = require('markdown-it-abbr')
   // footnote
-  var footnote = require('markdown-it-footnote')
+  let footnote = require('markdown-it-footnote')
   // insert 带有下划线 样式 ++ ++
-  var insert = require('markdown-it-ins')
+  let insert = require('markdown-it-ins')
   // mark
-  var mark = require('markdown-it-mark')
+  let mark = require('markdown-it-mark')
   // taskLists
-  var taskLists = require('markdown-it-task-lists')
-  var miip = require('markdown-it-images-preview');
+  let taskLists = require('markdown-it-task-lists')
+  let miip = require('markdown-it-images-preview');
   let markdown_config = {
     html: true,        // Enable HTML tags in source
     xhtmlOut: true,        // Use '/' to close single tags (<br />).
