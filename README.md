@@ -6,8 +6,11 @@ Koa2+nuxt+MySQL重构博客
  #### blog文件夹下是博客的前端部分（nuxt+elementui+axios）
  #### admin文件夹下是博客的后端管理部分----用来管理文章的(vue+elementUI+axios,vue-cli3)
  #### server文件夹下是博客的服务端部分---用来操作数据库和提供接口的(koa2+mysql+jwt)
+ #### blog.sql是我目前博客的数据库结构
  
  blog和 server使用 [htmlparser2](https://github.com/fb55/htmlparser2) 库对文章评论和搜索做防御XSS攻击处理
+ 
+ 修改数据库、表和字段的字符集，由utf8改为utf8mb4,来支持存储emoji表情
 
  ### 下载:
  ```markdown
