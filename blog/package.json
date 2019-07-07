@@ -22,6 +22,7 @@
     "element-ui": "^2.4.11",
     "github-markdown-css": "^3.0.1",
     "highlight.js": "^9.15.6",
+    "htmlparser2": "^3.10.1",
     "koa": "^2.6.2",
     "markdown-it": "^8.4.2",
     "nuxt": "^2.4.0"

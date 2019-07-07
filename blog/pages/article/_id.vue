@@ -40,12 +40,27 @@
               label="内容(必填)："
               :rules="[{ required: true, message: '请输入评论内容', trigger: 'blur' }]"
               prop="content">
-              <el-input
-                type="textarea"
-                ref="textInput"
-                :autosize="{ minRows: 4, maxRows: 8}"
-                placeholder="请输入内容"
-                v-model="artComment.content"></el-input>
+              <div class="comment-edit-container">
+                <div class="commentEdit" ref="commentEdit"
+                     id="commentTextDiv"
+                     placeholder="说点什么呗，支持markdown语法哦..."
+                     contenteditable="true"
+                     @focus="commentChange($event)"></div>
+                <ul class="comment-tool-bar clearfix">
+                  <li><svgicon class="" name="emoji" style="width: 21px;margin-right: 6px;"
+                               @click="showEmojiFn"></svgicon></li>
+                  <li v-if="false"><svgicon class="" name="link" style="width: 21px;margin-right: 6px;"
+                               @click="insertContent('link')"></svgicon></li>
+                  <li  v-if="false"><svgicon class="" name="code" style="width: 21px;margin-right: 6px;"
+                               @click="insertContent('code')"></svgicon></li>
+                  <li v-if="false"><svgicon class="" name="image" style="width: 21px;margin-right: 6px;"
+                               @click="insertContent('image')"></svgicon></li>
+                </ul>
+                <ul class="emoji-container" v-show="showEmoji">
+                  <li v-for="item in emojiData" v-html="commentsRender(item)" :key="item"
+                      @click="renderEmoji($event,item)"></li>
+                </ul>
+              </div>
             </el-form-item>
             <el-row :gutter="10">
               <el-col :sm="12" :md="8">
@@ -100,7 +115,7 @@
               </div>
               <div class="comment-time">{{item.cdate}}</div>
             </div>
-            <div class="comment-content">
+            <div class="comment-content  markdown-body">
               <div class="comment-list replyContent-bg" v-if="item.oldContent != null">
                 <div class="clearfix">
                   <a :href="item.to_uweb" target="_blank" class="clearfix comment-user" v-if="item.to_uweb != null && item.to_uweb.length > 0">
@@ -111,11 +126,11 @@
                   </div>
                   <div class="comment-time">{{item.oldCdate}}</div>
                 </div>
-                <div class="comment-content">
-                  {{item.oldContent}}
+                <div class="comment-content markdown-body">
+                  <div v-html="commentsRender(item.oldContent)"></div>
                 </div>
               </div>
-              {{item.content}}
+              <div v-html="commentsRender(item.content)"></div>
             </div>
             <div class="clearfix">
               <span class="replyBtn" @click="replyComment(item)">回复</span>
@@ -143,6 +158,7 @@
 
 <script>
   import sidebar from '@/components/sidebar'
+  import htmlparser from 'htmlparser2'
 
   let hljs = require('highlight.js')
   let toc = require('markdown-it-toc')
@@ -240,6 +256,7 @@
           content: '',
           webUrl: '',
         },
+        artCommentHTML:'',
         validateUrl:validateUrl,
         replyForm: {
           artId: this.$store.state.article.detail.id,
@@ -251,7 +268,34 @@
           touemail: '',
           touweb: '',
           touname: '',
-        }
+        },
+        emojiData:[
+          ':stuck_out_tongue_winking_eye:',
+          ':smirk:',
+          ':flushed:',
+          ':cold_sweat:',
+          ':sleeping:',
+          ':sunglasses:',
+          ':question:',
+          ':thumbsup:',
+          ':muscle:',
+          ':clap:',
+          ':new_moon_with_face:',
+          ':ox:',
+          ':beer:',
+          ':see_no_evil:',
+          ':hear_no_evil:',
+          ':speak_no_evil:',
+          ':v:',
+          ':kissing_heart:',
+          ':sob:',
+          ':unamused:',
+          ':horse:',
+          ':pill:',
+          ':confused:',
+          ':broken_heart:',
+        ],
+        showEmoji:false
       }
     },
     computed: {
@@ -275,6 +319,10 @@
       },
     },
     methods: {
+
+      commentsRender(str){
+        return md.render(str)
+      },
       //翻页
       getMoreArt(val) {
 
@@ -298,12 +346,34 @@
         localStorage.setItem("commentUserInfo", JSON.stringify(useInfo))
         this.$refs[formName].validate((valid) => {
           if (valid && this.urlIsCorrect) {
+            let _that = this
+            let result = ''
+            let parser = new htmlparser.Parser({
+              onopentag: function(name, attribs){
+                if(name === "script" || name === 'style' || name === "img" || name === 'frame' || name ==='iframe'){
+                  // alert('小朋友不乖哟，不要乱输入！')
+                }
+              },
+              ontext: function(text){
+                result +=text
+              },
+              onclosetag: function(tagname){
+                if(tagname === "script" || tagname === "style" || tagname === "frame" || tagname === "iframe"){
+
+                }
+              }
+            }, {decodeEntities: true})
+            parser.write(this.artComment.content)
+            parser.end()
+            this.artComment.content = result
+            if(!this.artComment.content || !this.artComment.content.replace(/\s/g, '')) return alert('内容就这样了？？！')
             this.committing = true
             if(this.commentType == 'comment'){
               this.$store.dispatch('addComment', this.artComment).then(res => {
                 if (res.code == 1) {
                   this.$message.success(res.message)
                   this.artComment.content = ''
+                  this.$refs.commentEdit.innerHTML = ''
                   this.$store.dispatch('getComment', {id: this.$route.params.id});
                   let el = document.getElementById('commentSuccess')
                   el.scrollIntoView()
@@ -322,6 +392,7 @@
                 if (res.code == 1) {
                   this.$message.success(res.message)
                   this.artComment.content = ''
+                  this.$refs.commentEdit.innerHTML = ''
                   this.toReply = ''
                   this.commentType = 'comment'
                   this.$store.dispatch('getComment', {id: this.$route.params.id});
@@ -351,7 +422,7 @@
         this.toReply = item.from_uname
         let el = document.getElementById('tohere')
         el.scrollIntoView()
-        this.$refs.textInput.focus()
+        this.$refs.commentEdit.focus()
         this.replyForm = {
           artId: this.$store.state.article.detail.id,
           email: this.artComment.email ,
@@ -365,13 +436,88 @@
           touname: item.from_uname,
           touavatar: item.from_uavatar,
         }
-      }
+      },
+      commentChange(){
+        const html = this.$refs.commentEdit.innerHTML
+        const text = this.$refs.commentEdit.innerText
+        if (!Object.is(html, this.artComment.content)) {
+          // this.artCommentHTML = html
+        }
+        if (!Object.is(text, this.artComment.content)) {
+          this.artComment.content = text
+        }
+
+      },
+      // updateCommentContent({ start = '', end = '' }) {
+      //   if (!start && !end) return false
+      //   // 如果选中了内容，则把选中的内容替换，否则在光标位置插入新内容
+      //   const selectedText = (window.getSelection || document.getSelection)().toString()
+      //   const currentText = this.$refs.commentEdit.innerText
+      //   if (!!selectedText) {
+      //     const newText = currentText.replace(selectedText, start + selectedText + end)
+      //     this.$refs.commentEdit.innerText = newText
+      //   } else {
+      //     this.$refs.commentEdit.innerText = this.$refs.commentEdit.innerText += (start + end)
+      //     this.$refs.commentEdit.scrollTop = this.$refs.commentEdit.scrollHeight
+      //   }
+      //
+      //   this.keepInLast()
+      //   this.commentChange()
+      // },
+      // insertContent(type) {
+      //   const contents = {
+      //     image: {
+      //       start: `![`,
+      //       end: `]()`
+      //     },
+      //     link: {
+      //       start: `[`,
+      //       end: `]()`
+      //     },
+      //     code: {
+      //       start: '\n```javascript\n',
+      //       end: '\n```'
+      //     }
+      //   }
+      //   this.updateCommentContent(contents[type])
+      // },
+      showEmojiFn(e){
+        e.stopPropagation()
+        this.showEmoji = !this.showEmoji
+      },
+      renderEmoji(e,data){
+        e.stopPropagation()
+        let str = md.render(data).replace(/p/g,'span')
+        this.$refs.commentEdit.innerHTML += str
+        this.showEmoji = false
+        this.keepInLast()
+        this.commentChange()
+      },
+      keepInLast() {
+        var obj = document.getElementById('commentTextDiv')
+        if (window.getSelection) {//ie11 10 9 ff safari
+          obj.focus(); //解决ff不获取焦点无法定位问题
+          var range = window.getSelection();//创建range
+          range.selectAllChildren(obj);//range 选择obj下所有子内容
+          range.collapseToEnd();//光标移至最后
+        } else if (document.selection) {//ie10 9 8 7 6 5
+          var range = document.selection.createRange();//创建选择对象
+          //var range = document.body.createTextRange();
+          range.moveToElementText(obj);//range定位到obj
+          range.collapse(false);//光标移至最后
+          range.select();
+        }
+      },
     },
     mounted() {
+      let _that = this
       if (localStorage.getItem('commentUserInfo')) {
         this.artComment.email = JSON.parse(localStorage.getItem('commentUserInfo')).email || ''
         this.artComment.nickname = JSON.parse(localStorage.getItem('commentUserInfo')).nickname || ''
         this.artComment.webUrl = JSON.parse(localStorage.getItem('commentUserInfo')).webUrl || ''
+      }
+      document.onclick = function () {
+        _that.showEmoji = false
       }
 
     }
@@ -454,6 +600,56 @@
 
       .comment_form {
         padding-top: 10px;
+        .el-input__inner{
+          background-color: #f6f8fa;
+          color: #333;
+        }
+        .comment-edit-container{
+          border: 1px solid #eee;
+          margin-top: 40px;
+          overflow: hidden;
+          padding: 15px 15px 0;
+          border-radius: 6px;
+          position: relative;
+          background-color: #f6f8fa;
+          .commentEdit{
+            height: 160px;
+            line-height: 20px;
+            width: 100%;
+            overflow-y: scroll;
+            outline: none;
+            &:empty:before{
+              content: attr(placeholder);
+            }
+          }
+          .comment-tool-bar{
+            height: 40px;
+            overflow: hidden;
+            li{
+              height: 40px;
+              list-style: none;
+              float: left;
+              cursor: pointer;
+
+            }
+          }
+          .emoji-container{
+            position: absolute;
+            bottom: 40px;
+            left: 0;
+            background-color: #fff;
+            border: 1px solid #eee;
+            border-radius: 5px;
+            width: 250px;
+            li{
+              list-style: none;
+              float: left;
+              cursor: pointer;
+              font-size: 16px;
+              margin: 0 10px;
+            }
+          }
+        }
 
         .reply_to {
           display: block;
@@ -511,10 +707,13 @@
 
         .comment-content {
           text-indent: 2em;
-          font-size: 14px;
+          font-size: 0px;
           color: #333;
           line-height: 20px;
           padding: 8px 0;
+          &> div{
+            font-size: 13px;
+          }
         }
 
         .replyBtn {

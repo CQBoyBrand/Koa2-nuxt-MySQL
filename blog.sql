@@ -1,3 +1,18 @@
+/*
+ Navicat Premium Data Transfer
+
+ Source Server         : blog-112.74.191.84
+ Source Server Type    : MySQL
+ Source Server Version : 50560
+ Source Host           : 112.74.191.84:3306
+ Source Schema         : blog
+
+ Target Server Type    : MySQL
+ Target Server Version : 50560
+ File Encoding         : 65001
+
+ Date: 07/07/2019 08:49:58
+*/
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
@@ -40,20 +55,20 @@ DROP TABLE IF EXISTS `comment`;
 CREATE TABLE `comment` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `artId` bigint(13) NOT NULL,
-  `content` text NOT NULL,
-  `from_uname` text NOT NULL,
-  `from_uemail` text NOT NULL,
-  `from_uavatar` text NOT NULL,
-  `to_uname` text,
-  `to_uavatar` text,
-  `to_uemail` text,
+  `content` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `from_uname` text CHARACTER SET utf8 NOT NULL,
+  `from_uemail` text CHARACTER SET utf8 NOT NULL,
+  `from_uavatar` text CHARACTER SET utf8 NOT NULL,
+  `to_uname` text CHARACTER SET utf8,
+  `to_uavatar` text CHARACTER SET utf8,
+  `to_uemail` text CHARACTER SET utf8,
   `cdate` bigint(13) NOT NULL,
-  `from_uweb` text,
-  `to_uweb` text,
-  `oldContent` text,
+  `from_uweb` text CHARACTER SET utf8,
+  `to_uweb` text CHARACTER SET utf8,
+  `oldContent` text COLLATE utf8mb4_unicode_ci,
   `oldCdate` bigint(13) DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=89 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- ----------------------------
 -- Table structure for link
@@ -79,7 +94,7 @@ CREATE TABLE `tag` (
   `cdate` bigint(13) NOT NULL,
   `status` int(1) NOT NULL DEFAULT '1',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=22 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 -- Table structure for user
@@ -93,6 +108,6 @@ CREATE TABLE `user` (
   `avatar` text,
   `signature` text,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8;
 
 SET FOREIGN_KEY_CHECKS = 1;

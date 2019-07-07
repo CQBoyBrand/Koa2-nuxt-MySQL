@@ -6,7 +6,8 @@ var pool = mysql.createPool({
     user: config.MYSQL.USERNAME,
     password: config.MYSQL.PASSWORD,
     database: config.MYSQL.DATABASE,
-    port: config.MYSQL.PORT
+    port: config.MYSQL.PORT,
+    charset : 'utf8mb4'
 });
 
 let query = (sql, values) => {

@@ -215,6 +215,7 @@
         this.submitData('artForm')
       },
       submitData(formName) {
+        console.log(this.artForm)
         this.$refs[formName].validate((valid) => {
           if (valid) {
             this.artForm.tag = this.artForm.tag.join(',')
