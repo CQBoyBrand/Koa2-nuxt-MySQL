@@ -14,10 +14,6 @@
          <li>在学拍照，但是还没有认真去拍过。。。</li>
       </ul>
     </div>
-    <div class="about-myfriends">朋友们</div>
-    <ul class="friends-list-wrap clearfix">
-      <li v-for="(item,index) in linkList"><a :href="item.siteUrl" target="_blank">{{item.siteName}}</a></li>
-    </ul>
     <div class="contact-me">联系我</div>
     <div class="contact-box">
       <div class="contact-method clearfix">

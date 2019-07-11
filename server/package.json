@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon index ",
+    "dev": "nodemon index --DB_NAME=blog_local --DB_USERNAME=root --DB_PASSWORD=Brand@2018 --DB_PORT=3306 --DB_HOST=localhost --qn_accessKey=''  --auth_key='' --pwd_salt=my_pwd --auth_default_username='' --auth_default_password='' --baidu_site=www.brandhuang.com --baidu_token='' --qn_secretKey='' --qn_bucket=''  ",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",

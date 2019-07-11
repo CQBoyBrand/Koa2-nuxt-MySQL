@@ -16,6 +16,9 @@
         <p class="art_tag">文章标签：
           <nuxt-link :to="`/tag/${item}`" v-for="(item,index) in tagList" :key="index">#{{item}}</nuxt-link>
         </p>
+        <p class="art_tag">版权声明：
+          <a href="https://creativecommons.org/licenses/by-nc/3.0/cn/deed.zh" target="_blank"> 自由转载-署名-非商用</a>
+        </p>
       </div>
 
       <!--评论-->
@@ -45,6 +48,7 @@
                      id="commentTextDiv"
                      placeholder="说点什么呗，支持markdown语法哦..."
                      contenteditable="true"
+                     @blur="commentChange($event)"
                      @focus="commentChange($event)"></div>
                 <ul class="comment-tool-bar clearfix">
                   <li><svgicon class="" name="emoji" style="width: 21px;margin-right: 6px;"
@@ -350,7 +354,8 @@
             let result = ''
             let parser = new htmlparser.Parser({
               onopentag: function(name, attribs){
-                if(name === "script" || name === 'style' || name === "img" || name === 'frame' || name ==='iframe'){
+                console.log('name=',name)
+                if(name === "script" || name === 'style' || name === "img" || name === 'frame' || name ==='iframe' ){
                   // alert('小朋友不乖哟，不要乱输入！')
                 }
               },
@@ -446,41 +451,8 @@
         if (!Object.is(text, this.artComment.content)) {
           this.artComment.content = text
         }
-
+        console.log(this.artComment.content)
       },
-      // updateCommentContent({ start = '', end = '' }) {
-      //   if (!start && !end) return false
-      //   // 如果选中了内容，则把选中的内容替换，否则在光标位置插入新内容
-      //   const selectedText = (window.getSelection || document.getSelection)().toString()
-      //   const currentText = this.$refs.commentEdit.innerText
-      //   if (!!selectedText) {
-      //     const newText = currentText.replace(selectedText, start + selectedText + end)
-      //     this.$refs.commentEdit.innerText = newText
-      //   } else {
-      //     this.$refs.commentEdit.innerText = this.$refs.commentEdit.innerText += (start + end)
-      //     this.$refs.commentEdit.scrollTop = this.$refs.commentEdit.scrollHeight
-      //   }
-      //
-      //   this.keepInLast()
-      //   this.commentChange()
-      // },
-      // insertContent(type) {
-      //   const contents = {
-      //     image: {
-      //       start: `![`,
-      //       end: `]()`
-      //     },
-      //     link: {
-      //       start: `[`,
-      //       end: `]()`
-      //     },
-      //     code: {
-      //       start: '\n```javascript\n',
-      //       end: '\n```'
-      //     }
-      //   }
-      //   this.updateCommentContent(contents[type])
-      // },
       showEmojiFn(e){
         e.stopPropagation()
         this.showEmoji = !this.showEmoji
@@ -550,12 +522,19 @@
 
     .article-content {
       font-size: 14px;
+      line-height: 34px;
+      pre{
+        max-height: 400px;
+      }
     }
 
     .article-type {
-      border-top: 2px solid #ccc;
+      /*border-top: 2px solid #ccc;*/
+      border-left: 2px solid #ccc;
+      background-color: #f6f8fa;
       margin-top: 30px;
-      padding: 15px 0;
+      margin-bottom: 15px;
+      padding: 15px 0 15px 15px;
       font-size: 14px;
 
       p {
@@ -591,6 +570,8 @@
 
       .comment_tips {
         font-size: 12px;
+        line-height: 24px;
+        padding-top: 15px;
         color: #999;
 
         p {

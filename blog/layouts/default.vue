@@ -24,7 +24,7 @@
     height: auto;
     min-height: 100%;
     position: relative;
-    padding-bottom: 71px;
+    padding-bottom: 95px;
     box-sizing: border-box;
   }
 
