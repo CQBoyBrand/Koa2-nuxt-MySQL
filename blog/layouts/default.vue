@@ -16,28 +16,6 @@
     components: {
       AppHeader,AppMain,AppFooter
     },
-    data(){
-      return {
-        docTitle: ''
-      }
-    },
-    watch:{
-      $route( to , from ){
-       this.docTitle = document.title
-      }
-    },
-    mounted(){
-      let _this = this
-      this.docTitle = document.title
-      document.addEventListener('visibilitychange', function() {
-        var isHidden = document.hidden;
-        if (isHidden) {
-          document.title = '咦，你怎么跑了！';
-        } else {
-          document.title = _this.docTitle
-        }
-      });
-    }
   }
 </script>
 <style lang="scss">
