@@ -1,33 +1,25 @@
 <template>
-  <div class="archives clearfix">
-    <div class="left-content">
-      <div class="archive-title">
-        <p class="archive-desc">那些年，那些人，那些事</p>
-        <p class="archive-tips">这里共有<span>{{artObj.total}}</span>条线索</p>
-      </div>
-      <div class="time-list-wrap clearfix" v-if="artObj.total > 0">
-        <!--<ul class="date-list">-->
-          <!--<li :class="actived == index ? 'selected' : ''" v-for="(item,index) in returnDateArr(artObj.result)" :key="index" @click="changeActived(index)"><a :href="`#${item}`">{{item}}</a></li>-->
-        <!--</ul>-->
-        <div class="art-list">
-          <div v-for="(item,index) in returnDateArr(artObj.result)" :key="index">
-            <a :id="`#${item}`" class="times">{{item}}</a>
-            <ul class="art-list-detail">
-              <li class="clearfix" v-for="(list,listIndex) in returnArtList(artObj.result,item)" :key="listIndex">
-                <span>{{list.cdate}}</span><nuxt-link :to="`/article/${list.id}`">{{list.artTitle}}</nuxt-link>
-              </li>
-            </ul>
-          </div>
+  <article class="archives">
+    <div class="archive-title">
+      <p class="archive-desc">那些年，那些人，那些事</p>
+      <p class="archive-tips">这里共有<span>{{artObj.total}}</span>条线索</p>
+    </div>
+    <section class="time-list-wrap clearfix" v-if="artObj.total > 0">
+      <div class="art-list">
+        <div v-for="(item,index) in returnDateArr(artObj.result)" :key="index">
+          <a :id="`#${item}`" class="times">{{item}}</a>
+          <ul class="art-list-detail">
+            <li class="clearfix" v-for="(list,listIndex) in returnArtList(artObj.result,item)" :key="listIndex">
+              <span>{{list.cdate}}</span><nuxt-link :to="`/article/${list.id}`">{{list.artTitle}}</nuxt-link>
+            </li>
+          </ul>
         </div>
       </div>
-      <div v-else class="no-data">
-          咦，这里的线索不见了～
-      </div>
-    </div>
-    <div class="side-content">
-      <sidebar></sidebar>
-    </div>
-  </div>
+    </section>
+    <section v-else class="no-data">
+      咦，这里的线索不见了～
+    </section>
+  </article>
 </template>
 
 <script>
@@ -79,6 +71,7 @@
 
 <style lang="scss">
   .archives {
+    background-color: #fff;
     .no-data{
       text-align: center;
       font-size: 13px;
@@ -87,19 +80,20 @@
     .archive-title {
       text-align: center;
       border-bottom: 1px solid #eee;
-      padding-bottom: 15px;
+      padding: 15px 0;
 
       .archive-desc {
       }
 
       .archive-tips {
         padding-top: 8px;
-        font-size: 12px;
+        font-size: 16px;
         color: #999;
 
         span {
           padding: 0 8px;
-          color: #409EFF;
+          color: orange;
+          font-weight: bold;
           font-style: italic;
         }
       }

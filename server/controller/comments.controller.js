@@ -100,8 +100,6 @@ const CommentControllers = {
 // 添加评论
   addComment: async ctx => {
     let {artId, content, nickname, email, webUrl} = ctx.request.body
-
-
     let cdate = new Date().getTime()
     let from_uavatar = setAvatar()
     function setAvatar() {
@@ -114,30 +112,31 @@ const CommentControllers = {
       let newDiscuss = commentNum[0].total + 1
       await Comment.addComment([XSSPrevent(artId), XSSPrevent(content), XSSPrevent(nickname), XSSPrevent(email), XSSPrevent(from_uavatar), XSSPrevent(webUrl), XSSPrevent(cdate)]).then(async res => {
         if (res.affectedRows > 0) {
-          await Comment.updateCommentNumByArtId([XSSPrevent(newDiscuss), XSSPrevent(artId)]).then( updateNum => {
-            if (updateNum.affectedRows > 0) {
-              handleSuccess({ctx, result: '添加评论成功', message: '添加评论成功'})
-              var toURL = ctx.request.header.referer
+          if(artId.length >1) {
+            await Comment.updateCommentNumByArtId([XSSPrevent(newDiscuss), XSSPrevent(artId)]).then( updateNum => {
+              if (updateNum.affectedRows > 0) {
+                handleSuccess({ctx, result: '添加评论成功', message: '添加评论成功'})
+                var toURL = ctx.request.header.referer
 
-              let renderComent = md.render(XSSPrevent(content))
-              let times = timestampToTime(cdate)
-              //有评论回复时邮件提醒
-              var transporter = nodemailer.createTransport({
-                host: 'smtp.qq.com',
-                secure: true,
-                port:'465',
-                auth: {
-                  user: config.EMAIL.account,
-                  pass: config.EMAIL.password //授权码,通过QQ获取
-                }
-              });
-              var mailOptionsToAuthor = {
-                from: '重庆崽儿Brand <hellobugworld@qq.com>', // 发送者
-                to: 'brandhuang@qq.com', // 接受者,可以同时发送多个,以逗号隔开
-                subject: '你的博客有新的评论了', // 标题
-                text: `来自  ${nickname} 的评论：${renderComent}`, // 文本
-                // html: `<div> 来自${nickname} 的评论：${renderComent}</div><br><a href="${toURL}" target="_blank">[ 点击查看 ]</a>`
-                html: `<div style="border: 1px solid #eee;border-radius: 5px;width: 500px;font-size: 13px;color: #666">
+                let renderComent = md.render(XSSPrevent(content))
+                let times = timestampToTime(cdate)
+                //有评论回复时邮件提醒
+                var transporter = nodemailer.createTransport({
+                  host: 'smtp.qq.com',
+                  secure: true,
+                  port:'465',
+                  auth: {
+                    user: config.EMAIL.account,
+                    pass: config.EMAIL.password //授权码,通过QQ获取
+                  }
+                });
+                var mailOptionsToAuthor = {
+                  from: '重庆崽儿Brand <hellobugworld@qq.com>', // 发送者
+                  to: 'brandhuang@qq.com', // 接受者,可以同时发送多个,以逗号隔开
+                  subject: '你的博客有新的评论了', // 标题
+                  text: `来自  ${nickname} 的评论：${renderComent}`, // 文本
+                  // html: `<div> 来自${nickname} 的评论：${renderComent}</div><br><a href="${toURL}" target="_blank">[ 点击查看 ]</a>`
+                  html: `<div style="border: 1px solid #eee;border-radius: 5px;width: 500px;font-size: 13px;color: #666">
                           <div style="text-align: center;padding: 10px 0;background-color: #1b1f23;color: #fff;">你的博客文章有了新的评论
                           </div>
                           <div style="padding: 20px;">
@@ -166,22 +165,85 @@ const CommentControllers = {
                           </div>
 
                       </div>`
-              };
-              transporter.sendMail(mailOptionsToAuthor, function (err, info) {
-                if (err) {
-                  console.log('发送邮件出错了')
-                  return;
-                }
-                console.log('发送成功');
-              });
-            }
-          }).catch( err => {
-            handleError({ctx, message: '更新文章评论数出错', err})
-          })
+                };
+                transporter.sendMail(mailOptionsToAuthor, function (err, info) {
+                  if (err) {
+                    console.log('发送邮件出错了')
+                    return;
+                  }
+                  console.log('发送成功');
+                });
+              }else {
+                handleError({ctx, message: '添加评论失败', err})
+              }
+            }).catch( err => {
+              handleError({ctx, message: '更新文章评论数出错', err})
+            })
+          }else {
+            handleSuccess({ctx, result: '留言成功', message: '留言成功'})
+            var toURL = ctx.request.header.referer
+
+            let renderComent = md.render(XSSPrevent(content))
+            let times = timestampToTime(cdate)
+            //有评论回复时邮件提醒
+            var transporter = nodemailer.createTransport({
+              host: 'smtp.qq.com',
+              secure: true,
+              port:'465',
+              auth: {
+                user: config.EMAIL.account,
+                pass: config.EMAIL.password //授权码,通过QQ获取
+              }
+            });
+            var mailOptionsToAuthor = {
+              from: '重庆崽儿Brand <hellobugworld@qq.com>', // 发送者
+              to: 'brandhuang@qq.com', // 接受者,可以同时发送多个,以逗号隔开
+              subject: '你的博客有新的留言了', // 标题
+              text: `来自  ${nickname} 的留言：${renderComent}`, // 文本
+              // html: `<div> 来自${nickname} 的评论：${renderComent}</div><br><a href="${toURL}" target="_blank">[ 点击查看 ]</a>`
+              html: `<div style="border: 1px solid #eee;border-radius: 5px;width: 500px;font-size: 13px;color: #666">
+                          <div style="text-align: center;padding: 10px 0;background-color: #1b1f23;color: #fff;">你的博客有了新的留言
+                          </div>
+                          <div style="padding: 20px;">
+                              <div style="overflow: hidden;">
+                                  <div style="float: left;height: 40px;line-height: 40px;color: #666;font-size: 12px;">
+                                      <img src="${from_uavatar}" style="width: 40px;height:
+                                   40px;border-radius: 50%;float: left;" alt="">
+                                      <span style="display: inline-block;width: 100px;white-space: nowrap;overflow: hidden;text-overflow:
+                                  ellipsis;padding-left: 10px">${nickname}
+                                  </span>
+                                  </div><div style="float: right;line-height: 40px;font-size: 12px;color: #666;">${times}</div>
+                              </div>
+                                <style>
+                                    .comment img{
+                                        width: 100%;
+                                    }
+                                </style>
+                              <div class="comment" style="padding: 15px;box-sizing: border-box;margin-bottom: 10px;background-color: #eee;margin-top: 15px;">
+                                  ${renderComent}
+                              </div>
+                              <div>
+                                  <a href="${toURL}" target="_blank" style="padding: 8px;border-radius: 3px;background-color: #eee;color: #666;text-decoration:
+                          none;cursor: pointer;display: inline-block;">
+                                      去回复</a
+                              </div>
+                          </div>
+
+                      </div>`
+            };
+            transporter.sendMail(mailOptionsToAuthor, function (err, info) {
+              if (err) {
+                console.log('发送邮件出错了')
+                return;
+              }
+              console.log('发送成功');
+            });
+          }
+
 
         }
       }).catch(err => {
-        handleError({ctx, message: '添加评论成功', err})
+        handleError({ctx, message: '添加评论失败', err})
       })
     }).catch( commentErr => {
       handleError({ctx, message: '', err})
@@ -203,6 +265,7 @@ const CommentControllers = {
       let newDiscuss = commentNum[0].total + 1
       await Comment.addReplyComment([XSSPrevent(artId), XSSPrevent(content), XSSPrevent(nickname), XSSPrevent(email), XSSPrevent(from_uavatar), XSSPrevent(webUrl),XSSPrevent(oldContent),XSSPrevent(touname),XSSPrevent(touemail),XSSPrevent(touavatar), XSSPrevent(touweb),XSSPrevent(cdate),XSSPrevent(oldCdate)]).then(async res => {
         if (res.affectedRows > 0) {
+          if(artId.length > 1){
           await Comment.updateCommentNumByArtId([newDiscuss, artId]).then( updateNum => {
             if (updateNum.affectedRows > 0) {
               handleSuccess({ctx, result: '添加评论成功', message: '添加评论成功'})
@@ -323,7 +386,119 @@ const CommentControllers = {
           }).catch( err => {
             handleError({ctx, message: '更新文章评论数出错', err})
           })
-
+          }else {
+            handleSuccess({ctx, result: '留言成功', message: '留言成功'})
+              var toURL = ctx.request.header.referer
+              let renderComent = md.render(XSSPrevent(content))
+              let times = timestampToTime(cdate)
+              //有评论回复时邮件提醒
+              var transporter = nodemailer.createTransport({
+                  host: 'smtp.qq.com',
+                  secure: true,
+                  port:'465',
+                  auth: {
+                      user: config.EMAIL.account,
+                      pass: config.EMAIL.password //授权码,通过QQ获取
+                  }
+              });
+              var mailOptionsToAuthor = {
+                  from: '重庆崽儿Brand <hellobugworld@qq.com>', // 发送者
+                  to: 'brandhuang@qq.com', // 接受者,可以同时发送多个,以逗号隔开
+                  subject: '你的博客有新的评论了', // 标题
+                  text: `来自  ${nickname} 的评论：${renderComent}`, // 文本
+                  html: `<div style="border: 1px solid #eee;border-radius: 5px;width: 500px;font-size: 13px;color: #666">
+                          <div style="text-align: center;padding: 10px 0;background-color: #1b1f23;color: #fff;">你的博客文章评论有了新的回复
+                          </div>
+                          <div style="padding: 20px;">
+                              <div style="overflow: hidden;">
+                                  <div style="float: left;height: 40px;line-height: 40px;color: #666;font-size: 12px;">
+                                      <img src="${from_uavatar}" style="width: 40px;height:
+                                   40px;border-radius: 50%;float: left;" alt="">
+                                      <span style="display: inline-block;width: 100px;white-space: nowrap;overflow: hidden;text-overflow:
+                                  ellipsis;padding-left: 10px">${nickname}
+                                  </span>
+                                  </div><div style="float: right;line-height: 40px;font-size: 12px;color: #666;">${times}</div>
+                              </div>
+                              <style>
+                                    .comment img{
+                                        width: 100%;
+                                    }
+                                </style>
+                              <div class="comment" style="padding: 15px;box-sizing: border-box;margin-bottom: 10px;background-color: #eee;margin-top: 15px;">
+                                  ${renderComent}
+                              </div>
+                              <div>
+                                  <a href="${toURL}" target="_blank" style="padding: 8px;border-radius: 3px;background-color: #eee;color: #666;text-decoration:
+                          none;cursor: pointer;display: inline-block;">
+                                      去回复</a
+                              </div>
+                          </div>
+                      
+                      </div>`
+              };
+              var mailOptionsToCommentor = {
+                  from: '重庆崽儿Brand<hellobugworld@qq.com>', // 发送者
+                  to: `${touemail}`, // 接受者,可以同时发送多个,以逗号隔开
+                  subject: '你好,你在重庆崽儿Brand的博客有新的评论回复,点击查看吧', // 标题
+                  text: `来自 ${nickname} 的评论回复：${renderComent}`, // 文本
+                  // html: `<p> 来自${nickname} 的评论回复：${renderComent}</p><br><a href="${toURL}" target="_blank">[ 点击查看 ]</a>`
+                  html: `<div style="border: 1px solid #eee;border-radius: 5px;width: 500px;font-size: 13px;color: #666">
+                          <div style="text-align: center;padding: 10px 0;background-color: #1b1f23;color: #fff;">你在<a target="_blank" href="http://www.brandhuang.com"
+                                                                                                          style="padding: 0 6px;color: #409EFF;text-decoration:
+                          none;cursor: pointer;">
+                              重庆崽儿Brand</a>博客的评论有了新的回复
+                          </div>
+                          <div style="padding: 20px;">
+                              <div style="overflow: hidden;">
+                                  <div style="float: left;height: 40px;line-height: 40px;color: #666;font-size: 12px;">
+                                      <img src="${from_uavatar}" style="width: 40px;height:
+                                   40px;border-radius: 50%;float: left;" alt="">
+                                      <span style="display: inline-block;width: 100px;white-space: nowrap;overflow: hidden;text-overflow:
+                                  ellipsis;padding-left: 10px">${nickname}
+                                  </span>
+                                  </div><div style="float: right;line-height: 40px;font-size: 12px;color: #666;">${times}</div>
+                              </div>
+                              <style>
+                                    .comment img{
+                                        width: 100%;
+                                    }
+                                </style>
+                              <div class="comment" style="padding: 15px;box-sizing: border-box;margin-bottom: 10px;background-color: #eee;margin-top: 15px;">
+                                  ${renderComent}
+                              </div>
+                              <div>
+                                  <a href="${toURL}" target="_blank" style="padding: 8px;border-radius: 3px;background-color: #eee;color: #666;text-decoration:
+                          none;cursor: pointer;display: inline-block;">
+                                      去回复</a>
+                                  <div style="padding: 15px 0 10px 0;color: #999;font-size: 12px;">感谢你对 <a target="_blank" href="http://www.brandhuang.com"
+                                                                                                           style="color: #409EFF;text-decoration:
+                          none;cursor: pointer;">重庆崽儿Brand
+                                  </a>的关注，如有疑问，请前往博客留言，我会尽快回复。
+                                  </div>
+                                  <div style="padding: 10px 0 0 0;color: #999;font-size: 12px;">(此邮件由系统自动发送，请勿直接回复！)</div>
+                              </div>
+                          </div>
+                      
+                      </div>`
+              };
+              if(touemail == null || touemail == ""){
+                  transporter.sendMail(mailOptionsToAuthor, function (err, info) {
+                      if (err) {
+                          console.log('发送邮件出错了')
+                          return;
+                      }
+                      console.log('发送成功');
+                  });
+              }else {
+                  transporter.sendMail(mailOptionsToCommentor, function (err, info) {
+                      if (err) {
+                          console.log('发送邮件出错了')
+                          return;
+                      }
+                      console.log('发送成功');
+                  });
+              }
+          }
         }
       }).catch(err => {
         handleError({ctx, message: '添加评论成功', err})

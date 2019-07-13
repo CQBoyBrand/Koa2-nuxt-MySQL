@@ -1,16 +1,11 @@
 <template>
-  <div class="keywords clearfix">
-    <div class="left-content">
-      <div class="artList-by-type">
-        <p class="type-title">与<span>{{$route.query.keywords}}</span>相关的文章</p>
-        <p class="type-total">共找到<span>{{articleList.total}}</span>篇</p>
-      </div>
-      <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
-    </div>
-    <div class="side-content">
-      <sidebar></sidebar>
-    </div>
-  </div>
+  <article class="keywords">
+    <section class="artList-by-type">
+      <p class="type-title">搜索<span>{{$route.query.keywords}}</span>相关的文章</p>
+      <p class="type-total">共找到<span>{{articleList.total}}</span>篇</p>
+    </section>
+    <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
+  </article>
 </template>
 
 <script>
@@ -21,6 +16,11 @@
     name: 'keywords',
     components:{
       list,sidebar
+    },
+    head() {
+      return {
+        title: this.$route.query.keywords,
+      }
     },
     data() {
       return {
@@ -46,5 +46,32 @@
 </script>
 
 <style  lang="scss">
-
+.keywords{
+  display: flex;
+  flex-direction: column;
+  .artList-by-type{
+    background-color: #fff;
+    padding: 15px;
+    margin-bottom: 15px;
+    text-align: center;
+    font-size: 16px;
+    .type-title{
+      padding-bottom: 10px;
+      span{
+        color: orange;
+        font-weight: bold;
+        border-radius: 4px;
+        padding: 5px;
+        margin: 0 5px;
+      }
+    }
+    .type-total{
+      span{
+        margin: 0 5px;
+        color: orange;
+        font-weight: bold;
+      }
+    }
+  }
+}
 </style>

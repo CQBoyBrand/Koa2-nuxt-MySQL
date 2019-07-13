@@ -1,7 +1,7 @@
 <template>
-  <div class="nav_container">
-    <div class="nav_wrap clearfix" v-if="!isMobile">
-      <h2 class="logo"><a href="/">重庆崽儿Brand</a></h2>
+  <header class="app-header">
+    <nav class="nav_wrap clearfix" v-if="!isMobile">
+      <h2 class="logo"><a href="/" title="重庆崽儿Brand">重庆崽儿Brand</a></h2>
       <ul class="nav_box transition-box" v-show="isShow">
         <nuxt-link to="/" tag="li">首页</nuxt-link>
         <nuxt-link to="/archives" tag="li">归档</nuxt-link>
@@ -19,8 +19,8 @@
           </form>
         </li>
       </ul>
-    </div>
-    <div class="nav_wrap clearfix" v-else>
+    </nav>
+    <nav class="nav_wrap clearfix" v-else>
       <h1 class="logo">重庆崽儿Brand</h1>
       <div class="menu_icon">
         <i @click="showMenu($event)" class="el-icon-menu"></i>
@@ -47,8 +47,8 @@
           </li>
         </ul>
       </el-collapse-transition>
-    </div>
-  </div>
+    </nav>
+  </header>
 </template>
 
 <script>
@@ -177,7 +177,7 @@
 </script>
 
 <style lang="scss">
-  .nav_container {
+  .app-header {
     background-color: #fff;
     height: 60px;
     width: 100%;
@@ -185,6 +185,7 @@
     position: fixed;
     top: 0;
     z-index: 9999;
+    min-width: 320px;
     box-shadow: 0 0px 1px #eee;
 
     .nuxt-link-exact-active {

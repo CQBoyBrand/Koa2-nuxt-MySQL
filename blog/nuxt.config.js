@@ -5,7 +5,7 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: 'hello, friends! 欢迎访问我的个人主页 - 重庆崽儿Brand',
+    title: '欢迎访问我的个人主页 - 重庆崽儿Brand',
     titleTemplate: '%s - 重庆崽儿brand的个人主页',
     meta: [
       {charset: 'utf-8'},
@@ -15,15 +15,15 @@ module.exports = {
         content: 'wgv4IBDBiQSNfAp7YBzgc5UukUyB1hLAF8X3DhI3wyY'
       },
       {name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'},
-      {hid: 'description', name: 'description', content: '重庆崽儿brand的个人博客，重庆崽儿brand的生活记录,重庆崽儿brand的前端学习'},
-      {hid: 'keywords', name: 'keywords', content: '重庆崽儿brand的个人博客，vue，nuxt，blog，重庆崽儿，brand，重庆崽儿brand,首页,JavaScript，js，css，html，web前端,前端开发'},
+      {hid: 'description', name: 'description', content: '重庆崽儿brand的个人博客，重庆崽儿brand的生活记录，重庆崽儿brand的前端学习'},
+      {hid: 'keywords', name: 'keywords', content: '重庆崽儿brand，vue，nuxt，blog，首页，JavaScript，js，css，html，web前端，前端开发'},
       {hid: 'author', name: 'author', content: '重庆崽儿brand'},
       {hid: 'renderer', name: 'renderer', content: 'webkit|ie-comp|ie-stand'},
       {hid: 'http-equiv', 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1'},
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
-      {rel: 'stylesheet', href: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'}
+      // {rel: 'stylesheet', href: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'}
     ],
   },
 
@@ -43,6 +43,7 @@ module.exports = {
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/css/style.scss',
     '@/assets/css/github-markdown.css',
+    '@/assets/css/darcula.min.css',
   ],
 
   /*

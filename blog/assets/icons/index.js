@@ -1,8 +1,11 @@
 /* eslint-disable */
+require('./category-list')
 require('./category')
 require('./code')
+require('./comment')
 require('./emoji')
 require('./hot')
 require('./image')
 require('./link')
 require('./tag')
+require('./view')

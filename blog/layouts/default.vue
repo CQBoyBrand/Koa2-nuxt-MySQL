@@ -1,31 +1,65 @@
 <template>
   <div class="layout_css">
-    <navBar></navBar>
+    <AppHeader></AppHeader>
     <transition>
-      <maincontent></maincontent>
+      <AppMain></AppMain>
     </transition>
 
-    <pageBottom></pageBottom>
+    <AppFooter></AppFooter>
   </div>
 </template>
 <script>
-  import navBar from '../components/navbar.vue'
-  import maincontent from '../components/maincontent.vue'
-  import pageBottom from '../components/pageBottom.vue'
+  import AppHeader from '../components/appHeader.vue'
+  import AppMain from '../components/appMain.vue'
+  import AppFooter from '../components/appFooter.vue'
   export default {
     components: {
-      navBar,maincontent,pageBottom
+      AppHeader,AppMain,AppFooter
     },
+    data(){
+      return {
+        docTitle: ''
+      }
+    },
+    watch:{
+      $route( to , from ){
+       this.docTitle = document.title
+      }
+    },
+    mounted(){
+      let _this = this
+      this.docTitle = document.title
+      document.addEventListener('visibilitychange', function() {
+        var isHidden = document.hidden;
+        if (isHidden) {
+          document.title = '咦，你怎么跑了！';
+        } else {
+          document.title = _this.docTitle
+        }
+      });
+    }
   }
 </script>
-<style>
+<style lang="scss">
   .layout_css{
-    padding-top: 60px;
+    display: flex;
+    flex-direction: column;
     height: auto;
     min-height: 100%;
-    position: relative;
-    padding-bottom: 95px;
-    box-sizing: border-box;
+    padding-top: 60px;
+    width: 100%;
+    @media screen and (max-width: 920px) {
+      min-width: 320px;
+    }
+    .app-header{
+      height: 60px;
+    }
+    .app-main{
+      flex: 1;
+    }
+    .app-footer{
+      height: 94px;
+    }
   }
 
 

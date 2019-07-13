@@ -1,12 +1,5 @@
 <template>
-  <div class="index clearfix">
-    <div class="left-content">
-      <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
-    </div>
-    <div class="side-content">
-      <sidebar></sidebar>
-    </div>
-  </div>
+  <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
 </template>
 
 <script>
