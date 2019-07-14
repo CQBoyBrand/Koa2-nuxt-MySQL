@@ -19,7 +19,7 @@
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
     "cross-env": "^5.2.0",
-    "element-ui": "^2.4.11",
+    "element-ui": "^2.10.1",
     "github-markdown-css": "^3.0.1",
     "highlight.js": "^9.15.6",
     "htmlparser2": "^3.10.1",

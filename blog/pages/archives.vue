@@ -1,16 +1,18 @@
 <template>
   <article class="archives">
-    <div class="archive-title">
+    <section class="archive-title">
       <p class="archive-desc">那些年，那些人，那些事</p>
       <p class="archive-tips">这里共有<span>{{artObj.total}}</span>条线索</p>
-    </div>
+    </section>
     <section class="time-list-wrap clearfix" v-if="artObj.total > 0">
       <div class="art-list">
         <div v-for="(item,index) in returnDateArr(artObj.result)" :key="index">
-          <a :id="`#${item}`" class="times">{{item}}</a>
+          <a :id="`#${item}`" class="times"><el-divider content-position="left">YEAR-{{item}}</el-divider></a>
           <ul class="art-list-detail">
-            <li class="clearfix" v-for="(list,listIndex) in returnArtList(artObj.result,item)" :key="listIndex">
-              <span>{{list.cdate}}</span><nuxt-link :to="`/article/${list.id}`">{{list.artTitle}}</nuxt-link>
+            <li class="art-detail-item" v-for="(list,listIndex) in returnArtList(artObj.result,item)" :key="listIndex">
+              <span class="date">{{list.cdate}}</span><nuxt-link :to="`/article/${list.id}`"
+                                                                :title="list.artTitle">{{list
+              .artTitle}}</nuxt-link><span class="views"><svgicon class="" name="view"></svgicon>{{list.pv}}</span>
             </li>
           </ul>
         </div>
@@ -57,7 +59,7 @@
         for (let dates in obj){
           dateArr.push(dates)
         }
-        return dateArr
+        return dateArr.reverse()
       },
       returnArtList(obj,date){
         return obj[date]
@@ -79,7 +81,6 @@
     }
     .archive-title {
       text-align: center;
-      border-bottom: 1px solid #eee;
       padding: 15px 0;
 
       .archive-desc {
@@ -100,63 +101,52 @@
     }
 
     .time-list-wrap {
-      /*.date-list {*/
-        /*padding-top: 30px;*/
-
-        /*li {*/
-          /*list-style: none;*/
-          /*line-height: 30px;*/
-          /*border: 1px solid #eee;*/
-          /*margin-bottom: 6px;*/
-          /*text-align: center;*/
-
-          /*&.selected {*/
-            /*background-color: #409EFF;*/
-
-            /*a {*/
-              /*color: #fff;*/
-            /*}*/
-          /*}*/
-
-          /*a {*/
-            /*display: inline-block;*/
-            /*width: 100%;*/
-            /*height: 100%;*/
-          /*}*/
-        /*}*/
-      /*}*/
-
       .art-list {
-        padding-left: 40px;
+        padding:0 15px;
         font-size: 13px;
-        /*max-height: 800px;*/
-        /*overflow: auto;*/
-
         .times {
           display: block;
-          width: 100px;
-          margin: 0 auto;
-          font-size: 16px;
           padding: 10px 0;
-          font-weight: bold;
-          font-style: italic;
+          .el-divider__text{
+            font-size: 20px;
+            font-weight: bold;
+          }
         }
 
         .art-list-detail {
-          li {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          .art-detail-item {
             line-height: 30px;
             list-style: none;
-            span {
+            display: flex;
+            align-items: center;
+            .date {
               padding-right: 10px;
               display: inline-block;
               width: 86px;
-              float: left;
+            }
+            .views{
+              margin-left: auto;
+              display: flex;
+              align-items: center;
+              .svg-icon{
+                width: 16px;
+                height: 16px;
+                margin-right: 3px;
+              }
             }
 
             a {
+              flex: 1;
               text-decoration: underline;
-              font-style: oblique;
-              float: left;
+              transition:all 0.5s;
+              &:hover{
+                color: #409eff;
+                font-weight: bold;
+                padding-left: 5px;
+              }
             }
           }
         }
@@ -168,14 +158,7 @@
       }
 
       @media screen and (min-width: 769px) {
-        /*.date-list {*/
-          /*float: left;*/
-          /*width: 150px;*/
-          /*text-align: center;*/
-        /*}*/
         .art-list {
-          /*float: left;*/
-          width: 700px;
           margin: 0 auto;
           a{
             max-width: 500px;
@@ -186,9 +169,6 @@
         }
       }
       @media screen and (max-width: 768px) {
-        /*.date-list {*/
-          /*display: none;*/
-        /*}*/
         .art-list-detail{
           a{
             display: inline-block;

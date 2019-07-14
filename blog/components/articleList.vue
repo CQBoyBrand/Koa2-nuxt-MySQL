@@ -87,9 +87,11 @@
         white-space: nowrap;
         overflow: hidden;
         text-overflow: ellipsis;
-
+        transition: padding-left 0.5s;
         &:hover {
           text-decoration: underline;
+          color: #409eff;
+          padding-left: 6px;
         }
 
         .article-type {
@@ -113,9 +115,14 @@
           height: 100px;
           border: 1px solid #eee;
           margin-right: 15px;
+          overflow: hidden;
           img{
             width: 100%;
             height: 100%;
+            transition: all 0.6s;
+            &:hover{
+              transform: scale(1.4);
+            }
           }
         }
         .article-content-wrap{
@@ -126,7 +133,6 @@
           .article-abstract{
             flex: 1;
             line-height: 24px;
-            text-indent: 2em;
             min-height: 60px;
           }
           .article-statistics{

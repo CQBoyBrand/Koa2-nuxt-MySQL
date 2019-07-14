@@ -1,6 +1,6 @@
 <template>
   <div class="about">
-    <div class="about-me">关于我</div>
+    <div class="about-me"><el-divider>关于我</el-divider></div>
     <div class="clearfix about-me-detail">
       <div class="about-me-left">
         <img src="https://s.gravatar.com/avatar/d8065bea49aa2877ce13686772727711?s=80" alt="重庆崽儿Brand">
@@ -12,9 +12,10 @@
          <li>轻微强迫症，对代码有一点点洁癖</li>
          <li>喜欢看足球，C罗粉</li>
          <li>在学拍照，但是还没有认真去拍过。。。</li>
+         <li>未完待续</li>
       </ul>
     </div>
-    <div class="contact-me">联系我</div>
+    <div class="contact-me"><el-divider>联系我</el-divider></div>
     <div class="contact-box">
       <div class="contact-method clearfix">
         <div class="contact-label">邮箱：</div><div class="contact-detail"><a href="mailto:brandhuang@qq.com">brandhuang@qq.com</a></div>
@@ -61,7 +62,6 @@
   box-sizing: border-box;
   .about-me,.about-myfriends,.contact-me{
     text-align: center;
-    font-style: italic;
     font-size: 18px;
     line-height: 60px;
     color: #333;

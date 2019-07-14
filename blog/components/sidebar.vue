@@ -103,7 +103,14 @@
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
+          transition: padding-left 0.5s;
+          &:hover{
+            padding-left: 5px;
+            color: #409eff;
+            font-weight: bold;
+          }
         }
+
       }
     }
 

@@ -14,19 +14,20 @@ const ArchiveController = {
       let data = res
       if(data.length >0){
         function getDateArr(arr) {
-          var new_arr = {};
+          let year_obj = {};
+          let month_obj = {}
           for (var i = 0, len = arr.length; i < len; i++) {
-            var Month_index = arr[i].cdate.lastIndexOf('-');
-            var cdate = arr[i].cdate.substr(0, Month_index);
-            if (!new_arr[cdate]) {
-              new_arr[cdate] = [];
-              new_arr[cdate].push(arr[i])
+            let Year_index = arr[i].cdate.indexOf('-');
+            let year_date = arr[i].cdate.substr(0, Year_index);
+            if (!year_obj[year_date]) {
+              year_obj[year_date] = [];
+              year_obj[year_date].push(arr[i])
             } else {
-              new_arr[cdate].push(arr[i])
+              year_obj[year_date].push(arr[i])
             }
 
           }
-          return new_arr
+          return year_obj
         }
         let dataObj = {
           total: Number(data.length),
