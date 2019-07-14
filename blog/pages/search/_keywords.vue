@@ -12,7 +12,7 @@
   import list from '../../components/articleList'
   import sidebar from '@/components/sidebar'
   export default {
-    watchQuery: ['keywords'],
+    watchQuery: true,
     name: 'keywords',
     components:{
       list,sidebar
@@ -36,7 +36,7 @@
     },
     methods: {
       getCurrentPage(data){
-
+        console.log('data=',data)
       }
     },
     mounted() {

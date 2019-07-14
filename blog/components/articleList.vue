@@ -47,11 +47,20 @@
     },
     methods: {
       getMoreArt(val) {
+        let queryParams ={}
+        if(this.$route.query.keywords){
+          queryParams =  {
+            page: val,
+            keywords:this.$route.query.keywords
+          }
+        }else {
+          queryParams =  {
+            page: val,
+          }
+        }
         this.$router.push({
           path: this.$route.path,
-          query: {
-            page: val
-          }
+          query: queryParams
         })
 
       }

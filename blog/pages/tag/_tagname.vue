@@ -12,6 +12,7 @@
   import list from '../../components/articleList'
   import sidebar from '@/components/sidebar'
   export default {
+    watchQuery: true,
     name: 'tagname',
     components:{
       list,sidebar
