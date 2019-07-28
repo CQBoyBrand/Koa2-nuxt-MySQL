@@ -112,8 +112,9 @@ const CommentControllers = {
       let newDiscuss = commentNum[0].total + 1
       await Comment.addComment([XSSPrevent(artId), XSSPrevent(content), XSSPrevent(nickname), XSSPrevent(email), XSSPrevent(from_uavatar), XSSPrevent(webUrl), XSSPrevent(cdate)]).then(async res => {
         if (res.affectedRows > 0) {
-          if(artId.length >1) {
-            await Comment.updateCommentNumByArtId([XSSPrevent(newDiscuss), XSSPrevent(artId)]).then( updateNum => {
+          if(artId.toString().length >1) {
+            await Comment.updateCommentNumByArtId([newDiscuss, XSSPrevent(artId)]).then( updateNum => {
+
               if (updateNum.affectedRows > 0) {
                 handleSuccess({ctx, result: '添加评论成功', message: '添加评论成功'})
                 var toURL = ctx.request.header.referer
@@ -265,7 +266,7 @@ const CommentControllers = {
       let newDiscuss = commentNum[0].total + 1
       await Comment.addReplyComment([XSSPrevent(artId), XSSPrevent(content), XSSPrevent(nickname), XSSPrevent(email), XSSPrevent(from_uavatar), XSSPrevent(webUrl),XSSPrevent(oldContent),XSSPrevent(touname),XSSPrevent(touemail),XSSPrevent(touavatar), XSSPrevent(touweb),XSSPrevent(cdate),XSSPrevent(oldCdate)]).then(async res => {
         if (res.affectedRows > 0) {
-          if(artId.length > 1){
+          if(artId.toString().length > 1){
           await Comment.updateCommentNumByArtId([newDiscuss, artId]).then( updateNum => {
             if (updateNum.affectedRows > 0) {
               handleSuccess({ctx, result: '添加评论成功', message: '添加评论成功'})
