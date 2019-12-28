@@ -27,8 +27,16 @@
     </div>
     <div class="about-site"><el-divider>关于本站</el-divider></div>
     <div class="site-box">
-      <div class="site-descript">本站当初建立，主要是自己为了使用新学的技术，因为当初在工作中一直使用的原生和 JQuery 开发，新的框架在工作中一直没有使用的机会，于是只能自己来练手了。慢慢的，这个博客已经上线2年了，现在它不仅仅是我练手的站点了，也是我自己用来记录学习，工作和一切自己想记录的东西的地方。欢迎访问
-        <a href="http://www.brandhuang.com">我的博客</a>。</div>
+      <div class="site-descript">
+        本站当初建立，主要是自己为了使用新学的技术，因为当初在工作中一直使用的原生和 JQuery 开发，新的框架在工作中一直没有使用的机会，于是只能自己来练手了。慢慢的，这个博客已经上线2年了，现在它不仅仅是我练手的站点了，也是我自己用来记录学习，工作和一切自己想记录的东西的地方。欢迎访问
+        <a href="http://www.brandhuang.com">我的博客</a>。
+        <div>
+          博客界面有些丑，但是暂时不打算改了，等 Vue3 出来了再弄弄。如果你有一些简约看着又不错的博客界面，可以给我留言或者邮件，我参考参考。
+        </div>
+        <div style="text-align: center;">
+          <img src="http://static.brandhuang.com/Hi-brand-dongtu.gif" alt="">
+        </div>
+      </div>
       <div>
         本站所用技术栈：
       </div>
