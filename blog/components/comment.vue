@@ -68,7 +68,7 @@
                 label="邮箱(必填)："
                 :rules="[
       { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur'] }
     ]"
               >
                 <el-input v-model="artComment.email"></el-input>
@@ -78,7 +78,7 @@
               <el-form-item
                 prop="webUrl"
                 :rules="[
-                  {required:false,validator: validateUrl, trigger: ['blur','change'] }
+                  {required:false,validator: validateUrl, trigger: ['blur'] }
                   ]"
                 label="网址(选填)：">
                 <el-input v-model="artComment.webUrl"></el-input>
@@ -221,6 +221,9 @@
           ':pill:',
           ':confused:',
           ':broken_heart:',
+          ':joy:',
+          ':pensive:',
+          ':sweat_smile:',
         ],
         showEmoji: false
       }
@@ -296,6 +299,10 @@
                 }
               })
             } else {
+              this.replyForm.artId = this.commentId.id
+              this.replyForm.email = this.artComment.email
+              this.replyForm.nickname = this.artComment.nickname
+              this.replyForm.webUrl = this.artComment.webUrl
               this.replyForm.content = this.artComment.content
               this.$store.dispatch('addReplyComment', this.replyForm).then(res => {
                 if (res.code == 1) {
@@ -332,19 +339,13 @@
         let el = document.getElementById('tohere')
         el.scrollIntoView()
         this.$refs.commentEdit.focus()
-        this.replyForm = {
-          artId: this.commentId.id,
-          email: this.artComment.email,
-          nickname: this.artComment.nickname,
-          content: '',
-          webUrl: this.artComment.webUrl,
-          oldContent: item.content,
-          oldCdate: item.timestamp,
-          touemail: item.from_uemail,
-          touweb: item.from_uweb,
-          touname: item.from_uname,
-          touavatar: item.from_uavatar,
-        }
+        this.replyForm.content = ''
+        this.replyForm.oldContent = item.content
+        this.replyForm.oldCdate = item.timestamp
+        this.replyForm.touemail = item.from_uemail
+        this.replyForm.touweb = item.from_uweb
+        this.replyForm.touname = item.from_uname
+        this.replyForm.touavatar = item.from_uavatar
       },
       commentChange() {
         const html = this.$refs.commentEdit.innerHTML
@@ -440,7 +441,7 @@
           position: relative;
           background-color: #f6f8fa;
           .commentEdit{
-            height: 160px;
+            height: 180px;
             line-height: 20px;
             width: 100%;
             overflow-y: scroll;
@@ -468,6 +469,8 @@
             border: 1px solid #eee;
             border-radius: 5px;
             width: 250px;
+            height: 160px;
+            overflow-y: auto;
             li{
               list-style: none;
               float: left;

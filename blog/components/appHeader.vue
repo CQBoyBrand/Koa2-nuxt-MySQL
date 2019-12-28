@@ -7,7 +7,7 @@
         <nuxt-link to="/archives" tag="li">归档</nuxt-link>
         <nuxt-link to="/friends" tag="li">友链</nuxt-link>
         <nuxt-link to="/message" tag="li" v-if="false">留言</nuxt-link>
-        <nuxt-link to="/about" tag="li">关于我</nuxt-link>
+        <nuxt-link to="/about" tag="li">关于</nuxt-link>
         <li>
           <form autocomplete="off" @submit.prevent="searchHandle">
             <el-input

@@ -22,7 +22,22 @@
       </div>
       <div class="contact-method clearfix">
         <div class="contact-label">Github：</div><div class="contact-detail"><a href="https://github.com/CQBoyBrand" target="_blank">
-        使劲戳我</a></div>
+        重庆崽儿Brand</a></div>
+      </div>
+    </div>
+    <div class="about-site"><el-divider>关于本站</el-divider></div>
+    <div class="site-box">
+      <div class="site-descript">本站当初建立，主要是自己为了使用新学的技术，因为当初在工作中一直使用的原生和 JQuery 开发，新的框架在工作中一直没有使用的机会，于是只能自己来练手了。慢慢的，这个博客已经上线2年了，现在它不仅仅是我练手的站点了，也是我自己用来记录学习，工作和一切自己想记录的东西的地方。欢迎访问
+        <a href="http://www.brandhuang.com">我的博客</a>。</div>
+      <div>
+        本站所用技术栈：
+      </div>
+      <div class="site-tech">
+        <div>前端：Nuxt.js</div>
+        <div>后端：Vue.js + ElementUI</div>
+        <div>服务端：Koa2</div>
+        <div>数据库：Mysql</div>
+        <div>本站源码：<a href="https://github.com/CQBoyBrand/Koa2-nuxt-MySQL" target="_blank">Koa2-nuxt-MySQL</a></div>
       </div>
     </div>
   </div>
@@ -33,7 +48,7 @@
     name: 'about',
     head() {
       return {
-        title: '关于我',
+        title: '关于',
       }
     },
     computed:{
@@ -43,14 +58,14 @@
     },
     data() {
       return {
-        
+
       }
     },
     methods: {
-      
+
     },
     mounted() {
-      
+
     }
   }
 </script>
@@ -60,7 +75,9 @@
   background-color: #fff;
   padding: 15px 0;
   box-sizing: border-box;
-  .about-me,.about-myfriends,.contact-me{
+  .about-me,
+  .contact-me,
+  .about-site{
     text-align: center;
     font-size: 18px;
     line-height: 60px;
@@ -92,8 +109,9 @@
     max-width: 800px;
     margin: 0 auto;
     padding: 15px;
+    font-size: 13px;
     .contact-method{
-      line-height: 40px;
+      line-height: 30px;
       .contact-label{
         float: left;
         width: 80px;
@@ -125,6 +143,23 @@
         line-height: 38px;
         padding: 0px 10px;
       }
+    }
+  }
+  .site-box{
+    padding: 15px;
+    font-size: 13px;
+    line-height: 24px;
+    box-sizing: border-box;
+    a{
+      color: #409EFF;
+    }
+    .site-descript{
+      text-indent: 2em;
+      padding-bottom: 15px;
+    }
+    .site-tech{
+      padding: 8px 0 8px 2em;
+      box-sizing: border-box;
     }
   }
   @media screen and (min-width: 769px) {
