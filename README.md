@@ -1,39 +1,44 @@
-# Koa2-nuxt-MySQL
-Koa2+nuxt+MySQL重构博客
+# Blog System
 
+### 项目目录介绍
+1. **blog** ：该文件夹存放前端代码（即用户访问的页面代码）
+2. **admin** ：该文件夹存放管理后台代码（即博主用来编辑发布博客文章内容）
+3. **server** ： 该文件夹用来提供 API 服务（即为 blog 和 admin 提供接口，以及进行与数据库的交互）
+4. **nginxConfig** : 该文件夹是通过域名访问服务器的一些简单配置（请自行修改，更深了解请自行 Google）
+5. **blog.sql** ：该文件是本博客使用的数据裤文件（方便想使用本项目的人能轻运行起来，数据库采用的 MySQL，请自行安装）
 
-### 这里面一共是三个项目
- #### blog文件夹下是博客的前端部分（nuxt+elementui+axios）
- #### admin文件夹下是博客的后端管理部分----用来管理文章的(vue+elementUI+axios,vue-cli3)
- #### server文件夹下是博客的服务端部分---用来操作数据库和提供接口的(koa2+mysql+jwt)
- #### blog.sql是我目前博客的数据库结构
- 
- blog和 server使用 [htmlparser2](https://github.com/fb55/htmlparser2) 库对文章评论和搜索做防御XSS攻击处理
- 
- 修改数据库、表和字段的字符集，由utf8改为utf8mb4,来支持存储emoji表情
+**世界不毁灭，折腾不停止！**
+> 本分支将继续折腾我的个人博客，计划如下
+
+- [ ] **blog**：等 Vue3 出来后打算采用 `TypeScript` 重构（什么时候 Vue3 出来什么时候开始）
+- [ ] **admin**：计划用 React 重构（先等 server 端重构完）
+- [ ] **server**：计划近期用 `nest.js` 进行重构（纯粹是想学习用用 `TypeScript`）
+
+##### 2020 年 1 月 5 日
+ 开始着手折腾～～
+
 
  ### 下载:
  ```markdown
-git clone https://github.com/CQBoyBrand/Koa2-nuxt-MySQL.git
+本分支还未完成，还无法运行～～
 ```
  ### 使用：
  分别进入相应文件夹下
  
- ### 然后安装依赖
+ ### 安装依赖
  ```bash
- cnpm install
+ npm install
 
  ```
  ### 运行
   ```bash
-  cnpm run dev
-
+  npm run dev
   ```
  ### 打包
  ```bash
 //blog
-        cnpm run build
-        打包部署需要上传
+        npm run build
+        // 打包部署需要上传以下文件
         .nuxt
         server
         pakage.json
@@ -42,10 +47,12 @@ git clone https://github.com/CQBoyBrand/Koa2-nuxt-MySQL.git
 
 // admin
         在.env,  .env.production中配置不同的环境
+        npm run build
+        上传 dist 文件夹
 
 // server
     
-        这个不用打包，直接上传服务器
+        // 这个不用打包，直接上传服务器
         node_modules下的文件就不要上传了，太大了，把其他文件上传服务器后运行   npm install 就好了
         
         注意自己修改server目录下的package.json中的dev代码：
