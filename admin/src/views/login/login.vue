@@ -11,7 +11,8 @@
       </el-form-item>
       <!--<el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>-->
       <el-form-item style="width:100%;">
-        <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="loading">登录</el-button>
+        <el-button type="primary" style="width:100%;" @click.native.prevent="handleLogin" :loading="loading">登录
+        </el-button>
       </el-form-item>
     </el-form>
   </div>
@@ -19,7 +20,8 @@
 </template>
 
 <script>
-  import md5 from 'md5'
+import md5 from 'md5'
+
 export default {
   name: 'login',
   data () {
@@ -46,23 +48,15 @@ export default {
         if (valid) {
           let accountInfo = {
             username: this.account.username,
-            password: md5(this.account.password),
+            password: md5(this.account.password)
           }
-          this.Ajax.login(accountInfo).then( res => {
-            if(res.code === 1){
-              this.$message({
-                message: res.message,
-                type: 'success'
-              })
-              localStorage.setItem('token',res.result.token)
-              localStorage.setItem('username',res.result.username)
-              this.$router.push({
-                name: 'home'
-              })
-            }else {
-              this.$message.error(res.message)
-            }
-          }).catch( err => {
+          this.Ajax.login(accountInfo).then(res => {
+            localStorage.setItem('token', res.token)
+            localStorage.setItem('username', res.username)
+            this.$router.push({
+              name: 'home'
+            })
+          }).catch(err => {
             console.log(err)
           })
           // this.$router.push({
@@ -70,7 +64,6 @@ export default {
           // })
         }
       })
-
     }
   },
   mounted () {
@@ -80,17 +73,18 @@ export default {
 </script>
 
 <style lang="scss">
-  .login{
+  .login {
     position: relative;
     height: 100%;
     background-image: url("../../assets/image/login-bg.jpg");
     background-repeat: no-repeat;
     background-size: cover;
+
     .login-container {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%,-50%);
+      transform: translate(-50%, -50%);
       -webkit-border-radius: 5px;
       border-radius: 5px;
       -moz-border-radius: 5px;
@@ -101,11 +95,13 @@ export default {
       border: 1px solid #eaeaea;
       background: #fff;
       box-shadow: 0 0 25px #cac6c6;
+
       .title {
         margin: 0px auto 40px auto;
         text-align: center;
         color: #505458;
       }
+
       .remember {
         margin: 0px 0px 35px 0px;
       }

@@ -6,19 +6,19 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    auth:{}
+    auth: {}
   },
   mutations: {
-    INIT_AUTH(state,params) {
+    INIT_AUTH (state, params) {
       state.auth = params
-    },
+    }
   },
   actions: {
-    async authInit({commit},params){
+    async authInit ({ commit }, params) {
       const res = await service.userInfo(params).catch(err => {
         console.log(err)
       })
-      commit("INIT_AUTH",res.result)
+      commit('INIT_AUTH', res)
     }
   }
 })

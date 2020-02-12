@@ -69,35 +69,35 @@ export default {
   name: 'Home',
   data () {
     return {
-      defaultActiveIndex: "0",
+      defaultActiveIndex: '0'
     }
   },
   computed: {
-    nickname(){
+    nickname () {
       return this.$store.state.auth.nickname
     }
   },
   methods: {
     // 获取用户信息
-    getUserInfo(){
-      this.$store.dispatch('authInit',{username: localStorage.getItem('username')})
+    getUserInfo () {
+      this.$store.dispatch('authInit', { username: localStorage.getItem('username') })
     },
-    handleSelect(index){
-      this.defaultActiveIndex = index;
+    handleSelect (index) {
+      this.defaultActiveIndex = index
     },
-    //折叠导航栏
+    // 折叠导航栏
     collapse: function () {
-      this.collapsed = !this.collapsed;
+      this.collapsed = !this.collapsed
     },
-    jumpTo(url){
-      this.defaultActiveIndex = url;
-      this.$router.push(url); //用go刷新
+    jumpTo (url) {
+      this.defaultActiveIndex = url
+      this.$router.push(url) // 用go刷新
     },
-    logout(){
+    logout () {
       this.$confirm('确认退出吗?', '提示', {
         confirmButtonClass: 'el-button--warning'
       }).then(() => {
-        //确认
+        // 确认
         localStorage.clear()
         this.$router.push({
           name: 'login'

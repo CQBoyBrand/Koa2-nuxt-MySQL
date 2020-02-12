@@ -19,7 +19,20 @@
         label="网站名字"/>
       <el-table-column
         prop="siteUrl"
-        label="URL地址"/>
+        label="URL地址">
+        <template slot-scope="scope">
+          <a :href="scope.row.siteUrl" target="_blank" style="color: #409EFF;">{{scope.row.siteUrl}}</a>
+        </template>
+      </el-table-column>
+      <el-table-column
+        prop="status"
+        width="100"
+        label="状态">
+        <template slot-scope="scope">
+          <span v-if="scope.row.status === 0" style="color: red;">未公开</span>
+          <span v-if="scope.row.status === 1">公开</span>
+        </template>
+      </el-table-column>
       <el-table-column
         label="操作"
         width="160">
@@ -72,165 +85,143 @@
 </template>
 
 <script>
-  export default {
-    name: 'friends',
-    data() {
-      return {
-        dialogFormVisible: false,
-        dialogTitle: '',
-        currentPage:1,
-        limit: 10,
-        total:0,
-        webSiteData: [
-          {
-            id: '1',
-            siteName: '网站名字',
-            siteUrl: '网站地址'
-          }
+export default {
+  name: 'friends',
+  data () {
+    return {
+      dialogFormVisible: false,
+      dialogTitle: '',
+      currentPage: 1,
+      limit: 10,
+      total: 0,
+      webSiteData: [],
+      friendsFrom: {
+        id: '',
+        siteName: '',
+        siteUrl: ''
+      },
+      friendsFromRules: {
+        siteName: [
+          { required: true, message: '请输入站点名称', trigger: 'blur' }
         ],
-        friendsFrom:{
-          id: '',
-          siteName: '',
-          siteUrl: ''
-        },
-        friendsFromRules:{
-          siteName: [
-            { required: true, message: '请输入站点名称', trigger: 'blur' }
-          ],
-          siteUrl: [
-            { required: true, message: '请输入站点地址', trigger: 'blur' }
-          ],
-        },
-        todo: ''
-      }
-    },
-    methods: {
-      handleSizeChange(val) {
-        this.limit = val
-        this.getFriendList()
+        siteUrl: [
+          { required: true, message: '请输入站点地址', trigger: 'blur' }
+        ]
       },
-      handleCurrentChange(val) {
-        this.currentPage = val
-        this.getFriendList()
-      },
-      // 获取友链列表
-      getFriendList(){
-        let params = {
-          currentPage: this.currentPage,
-          limit: this.limit
-        }
-        this.Ajax.getLink(params).then( res => {
-          if(res.code == 1){
-            this.webSiteData = res.result
-            if(res.result.length > 0){
-              this.total = res.result[0].total
-            }
-
-          }
-
-        }).catch( err => {
-          console.log(err)
-        })
-      },
-      initForm(){
-        this.friendsFrom = {
-          id: '',
-          siteName: '',
-          siteUrl: ''
-        }
-      },
-      // 新增友链
-      addCollection(){
-        this.initForm();
-        this.todo = 'add'
-        this.dialogTitle = '新增友链'
-        this.dialogFormVisible = true
-      },
-      // 编辑友链
-      editWebSite(param){
-        this.initForm();
-        this.todo = 'edit'
-        this.dialogTitle = '编辑友链'
-        this.dialogFormVisible = true
-        this.friendsFrom = param;
-      },
-      // 删除友链
-      delWebSite(val){
-        let st = -1;
-        if(val.status ==0 ){
-          st = 1
-        }else if(val.status == 1){
-          st = 0
-        }
-        let params = {
-          id: val.id,
-          status: st
-        }
-        this.$confirm('确认要删除该友链吗?', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
-          type: 'warning'
-        }).then(() => {
-          this.Ajax.updateLinkStatus(params).then( res => {
-            if(res.code == 1){
-              this.getFriendList()
-              this.$message({
-                type: 'success',
-                message: res.message
-              });
-            }else {
-              this.$message({
-                type: 'info',
-                message: res.message
-              });
-            }
-          })
-        }).catch(() => {
-          this.$message({
-            type: 'info',
-            message: '已取消删除'
-          });
-        });
-      },
-      submitData(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-
-            if(this.todo == 'add') {
-              this.Ajax.addLink(this.friendsFrom).then(res => {
-                if (res.code == 1) {
-                  this.dialogFormVisible = false
-                  this.initForm();
-                  this.getFriendList();
-                  this.$message.success(res.message)
-                }
-              }).catch(err => {
-                console.log(err)
-              })
-            }else {
-              this.Ajax.editLink(this.friendsFrom).then(res => {
-                if (res.code == 1) {
-                  this.dialogFormVisible = false
-                  this.initForm();
-                  this.getFriendList();
-                  this.$message.success(res.message)
-                }
-              }).catch(err => {
-                console.log(err)
-              })
-            }
-
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      }
-    },
-    mounted() {
-      this.getFriendList()
+      todo: ''
     }
+  },
+  methods: {
+    handleSizeChange (val) {
+      this.limit = val
+      this.getFriendList()
+    },
+    handleCurrentChange (val) {
+      this.currentPage = val
+      this.getFriendList()
+    },
+    // 获取友链列表
+    getFriendList () {
+      let params = {
+        currentPage: this.currentPage,
+        limit: this.limit
+      }
+      this.Ajax.getLink(params).then(res => {
+        this.webSiteData = res.data
+        if (res.data.length > 0) {
+          this.total = res.total
+        }
+      }).catch(err => {
+        console.log(err)
+      })
+    },
+    initForm () {
+      this.friendsFrom = {
+        id: '',
+        siteName: '',
+        siteUrl: ''
+      }
+    },
+    // 新增友链
+    addCollection () {
+      this.initForm()
+      this.todo = 'add'
+      this.dialogTitle = '新增友链'
+      this.dialogFormVisible = true
+    },
+    // 编辑友链
+    editWebSite (param) {
+      this.initForm()
+      this.todo = 'edit'
+      this.dialogTitle = '编辑友链'
+      this.dialogFormVisible = true
+      this.friendsFrom = param
+    },
+    // 删除友链
+    delWebSite (val) {
+      let st = -1
+      if (val.status === 0) {
+        st = 1
+      } else if (val.status === 1) {
+        st = 0
+      }
+      let params = {
+        id: val.id,
+        status: st
+      }
+      this.$confirm('确认要操作该友链吗?', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'warning'
+      }).then(() => {
+        this.Ajax.updateLinkStatus(params).then(res => {
+          this.getFriendList()
+          this.$message({
+            type: 'success',
+            message: '操作成功'
+          })
+        })
+      }).catch(() => {
+        this.$message({
+          type: 'error',
+          message: '操作已取消'
+        })
+      })
+    },
+    submitData (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          if (this.todo === 'add') {
+            delete this.friendsFrom.id
+            this.Ajax.addLink(this.friendsFrom).then(res => {
+              this.dialogFormVisible = false
+              this.initForm()
+              this.getFriendList()
+              this.$message.success('新增友链成功')
+            }).catch(err => {
+              console.log(err)
+            })
+          } else {
+            this.Ajax.editLink(this.friendsFrom).then(res => {
+              this.dialogFormVisible = false
+              this.initForm()
+              this.getFriendList()
+              this.$message.success('编辑友链成功')
+            }).catch(err => {
+              console.log(err)
+            })
+          }
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    }
+  },
+  mounted () {
+    this.getFriendList()
   }
+}
 </script>
 
 <style scoped lang="">

@@ -73,173 +73,169 @@
 </template>
 
 <script>
-  import md5 from 'md5'
-  export default {
-    name: 'setting',
-    data() {
-      var validatePass = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请输入密码'));
-        } else {
-          if (this.authorForm.checkPass !== '') {
-            this.$refs.authorForm.validateField('checkPass');
-          }
-          callback();
+import md5 from 'md5'
+export default {
+  name: 'setting',
+  data () {
+    var validatePass = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请输入密码'))
+      } else {
+        if (this.authorForm.checkPass !== '') {
+          this.$refs.authorForm.validateField('checkPass')
         }
-      };
-      var validatePass2 = (rule, value, callback) => {
-        if (value === '') {
-          callback(new Error('请再次输入密码'));
-        } else if (value !== this.authorForm.password) {
-          callback(new Error('两次输入密码不一致!'));
-        } else {
-          callback();
-        }
-      };
-      return {
-        domain: "https://upload-z0.qiniup.com", // 七牛云的上传地址，根据自己所在地区选择，我这里是华东
-        qiniuaddr: "static.brandhuang.com",// 这是七牛云空间的外链默认域名，可换成自己的   p063wr224.bkt.clouddn.com
-        siteForm: {
-          sitename: '',
-          subhead: '',
-          keywords: '',
-          description: '',
-          ICPNo: '',
-        },
-        // authorForm:{
-        //   id:'',
-        //   password: '',
-        //   checkPass: '',
-        //   nickname: '',
-        //   avatar: '',
-        //   signature: '',
-        //   oldpass: ''
-        // },
-        siteFormrules: {
+        callback()
+      }
+    }
+    var validatePass2 = (rule, value, callback) => {
+      if (value === '') {
+        callback(new Error('请再次输入密码'))
+      } else if (value !== this.authorForm.password) {
+        callback(new Error('两次输入密码不一致!'))
+      } else {
+        callback()
+      }
+    }
+    return {
+      domain: 'https://upload-z0.qiniup.com', // 七牛云的上传地址，根据自己所在地区选择，我这里是华东
+      qiniuaddr: 'static.brandhuang.com', // 这是七牛云空间的外链默认域名，可换成自己的   p063wr224.bkt.clouddn.com
+      siteForm: {
+        sitename: '',
+        subhead: '',
+        keywords: '',
+        description: '',
+        ICPNo: ''
+      },
+      siteFormrules: {
 
-        },
-        authorFormRule:{
-          avatar: [
-            { required: true, message: '请上传头像', trigger: 'blur' }
-          ],
-          nickname: [
-            { required: true, message: '请输入昵称', trigger: 'blur' }
-          ],
-          oldpass: [
-            { required: true, message: '请输入原密码', trigger: 'blur' }
-          ],
-          password: [
-            { required: true, validator: validatePass, trigger: 'blur' }
-          ],
-          checkPass: [
-            { required: true, validator: validatePass2, trigger: 'blur' }
-          ]
-        }
+      },
+      authorFormRule: {
+        // avatar: [
+        //   { required: true, message: '请上传头像', trigger: 'blur' }
+        // ],
+        nickname: [
+          { required: true, message: '请输入昵称', trigger: 'blur' }
+        ],
+        oldpass: [
+          { required: true, message: '请输入原密码', trigger: 'blur' }
+        ],
+        password: [
+          { required: true, validator: validatePass, trigger: 'blur' }
+        ],
+        checkPass: [
+          { required: true, validator: validatePass2, trigger: 'blur' }
+        ]
       }
-    },
-    computed: {
-      authorForm(){
-        return this.$store.state.auth
-      }
-    },
-    watch: {
-      // authorForm(){
-      //   console.log('this.authData=',this.authData)
-      //   this.authorForm = this.authData
-      // }
-    },
-    methods: {
-      /**
+    }
+  },
+  computed: {
+    authorForm () {
+      return this.$store.state.auth
+    }
+  },
+  watch: {
+    // authorForm(){
+    //   console.log('this.authData=',this.authData)
+    //   this.authorForm = this.authData
+    // }
+  },
+  methods: {
+    /**
        * Author: brand
        * Creation Time: 2019-03-10 16:11
        * Description: 保存站点信息
        */
-      submitsiteForm(formName){
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            alert('submit!');
-          } else {
-            console.log('error submit!!');
-            return false;
-          }
-        });
-      },
-      /**
+    submitsiteForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          alert('submit!')
+        } else {
+          console.log('error submit!!')
+          return false
+        }
+      })
+    },
+    /**
        * Author: brand
        * Creation Time: 2019-03-10 16:11
        * Description: 保存站长信息
        */
-      submitAuthorForm(formName) {
-        this.$refs[formName].validate((valid) => {
-          if (valid) {
-            let postData = {
-              id:this.authorForm.id,
-              password: md5(this.authorForm.password),
-              nickname: this.authorForm.nickname,
-              username: this.authorForm.username,
-              avatar: this.authorForm.avatar,
-              signature: this.authorForm.signature,
-              oldpass: md5(this.authorForm.oldpass)
-            }
-            this.Ajax.updateUserInfo(postData).then( res => {
-              if(res.code == 1){
-                this.$message({
-                  message: res.message,
-                  type: 'success'
-                })
-                this.$store.dispatch('authInit',{username: localStorage.getItem('username')})
-              }
-            }).catch( err => {
-              console.log('err=',err)
-            })
-          } else {
-            console.log('error submit!!');
-            return false;
+    submitAuthorForm (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          let postData = {
+            id: this.authorForm.id,
+            password: md5(this.authorForm.oldpass),
+            nickname: this.authorForm.nickname,
+            username: this.authorForm.username,
+            avatar: this.authorForm.avatar,
+            signature: this.authorForm.signature,
+            newpass: md5(this.authorForm.password)
           }
-        });
-      },
-      //  图片上传七牛云
-      uploadImg(req) {
-        const config = {
-          headers: {'Content-Type': 'multipart/form-data'}
-        }
-        let filetype = ''
-        if (req.file.type === 'image/png') {
-          filetype = 'png'
+          this.Ajax.updateUserInfo(postData).then(res => {
+            if (res.code === 200) {
+              this.$message({
+                message: res.message,
+                type: 'success'
+              })
+              this.$store.dispatch('authInit', { username: localStorage.getItem('username') })
+            } else {
+              this.$message({
+                message: res.message,
+                type: 'error'
+              })
+            }
+          }).catch(err => {
+            console.log('err=', err)
+          })
         } else {
-          filetype = 'jpg'
+          console.log('error submit!!')
+          return false
         }
-        // 重命名要上传的文件
-        const keyname = this.$store.state.auth.username + '-' + new Date().getTime() + Math.floor(Math.random() * 100) + '.' + filetype
-        // this.$get('/uploadTolen').then(res => {
-        //   const formdata = new FormData()
-        //   formdata.append('file', req.file)
-        //   formdata.append('token', res.data.data)
-        //   formdata.append('key', keyname)
-        //   // 获取到凭证之后再将文件上传到七牛云空间
-        //   this.$post(this.domain, formdata, config).then(result => {
-        //     this.artForm.thumbnail = 'http://' + this.qiniuaddr + '/' + result.data.key
-        //   })
-        // }).catch(err => {
-        //   console.log(err)
-        // })
-      },
-      // 图片上传前
-      beforeUpload(file) {
-        const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
-        const isLt2M = file.size / 1024 / 1024 < 2
-        if (!isJPG) {
-          this.$message.error('上传图片只能是 JPG 格式!')
-        }
-        if (!isLt2M) {
-          this.$message.error('上传图片大小不能超过 2MB!')
-        }
-        return isJPG && isLt2M
-      },
+      })
     },
-    mounted() {
+    //  图片上传七牛云
+    uploadImg (req) {
+      const config = {
+        headers: { 'Content-Type': 'multipart/form-data' }
+      }
+      let filetype = ''
+      if (req.file.type === 'image/png') {
+        filetype = 'png'
+      } else {
+        filetype = 'jpg'
+      }
+      // 重命名要上传的文件
+      const keyname = this.$store.state.auth.username + '-' + new Date().getTime() + Math.floor(Math.random() * 100) + '.' + filetype
+      // this.$get('/uploadTolen').then(res => {
+      //   const formdata = new FormData()
+      //   formdata.append('file', req.file)
+      //   formdata.append('token', res.data.data)
+      //   formdata.append('key', keyname)
+      //   // 获取到凭证之后再将文件上传到七牛云空间
+      //   this.$post(this.domain, formdata, config).then(result => {
+      //     this.artForm.thumbnail = 'http://' + this.qiniuaddr + '/' + result.data.key
+      //   })
+      // }).catch(err => {
+      //   console.log(err)
+      // })
+    },
+    // 图片上传前
+    beforeUpload (file) {
+      const isJPG = file.type === 'image/jpeg' || file.type === 'image/png'
+      const isLt2M = file.size / 1024 / 1024 < 2
+      if (!isJPG) {
+        this.$message.error('上传图片只能是 JPG 格式!')
+      }
+      if (!isLt2M) {
+        this.$message.error('上传图片大小不能超过 2MB!')
+      }
+      return isJPG && isLt2M
     }
+  },
+  mounted () {
   }
+}
 </script>
 
 <style lang="scss">

@@ -10,12 +10,15 @@ import mavonEditor from 'mavon-editor'
 import 'mavon-editor/dist/css/index.css'
 import Ajax from './api/index'
 
+import * as utils from './utils/utils.ts'
+
 // use
 Vue.use(mavonEditor)
 
 Vue.config.productionTip = false
 Vue.use(ElementUI)
 Vue.prototype.Ajax = Ajax
+Vue.prototype.utils = utils
 new Vue({
   router,
   store,

@@ -14,6 +14,10 @@
 - [ ] **admin**：计划用 React 重构（先等 server 端重构完）
 - [ ] **server**：计划近期用 `nest.js` 进行重构（纯粹是想学习用用 `TypeScript`）
 
+##### 2020 年 2 月 12 日
+
+admin 端接口出了文章相关的，基本调整完
+
 ##### 2020 年 1 月 5 日
  开始着手折腾～～
 
@@ -55,19 +59,16 @@
         // 这个不用打包，直接上传服务器
         node_modules下的文件就不要上传了，太大了，把其他文件上传服务器后运行   npm install 就好了
         
-        注意自己修改server目录下的package.json中的dev代码：
+        注意自己复制 .env.example 粘贴为 .env 并修改其中内容
         
-        "scripts": {
-            "dev": "nodemon index --DB_NAME=你的数据库名 --DB_USERNAME=你访问数据库的用户(如root) --DB_PASSWORD=访问数据库的密码 --DB_PORT=数据库端口
-            (一般是3306) 
-            --DB_HOST=localhost --qn_accessKey=上传图片到七牛云  --auth_key=上传图片到七牛云 --pwd_salt=你自定义的加密的加盐 
-            --auth_default_username=默认后台登录名(目前没什么用) --auth_default_password=默认后台登录密码(目前没什么用) --baidu_site=www.brandhuang
-            .com 
-            --baidu_token=百度推送相关 --qn_secretKey=上传图片到七牛云 --qn_bucket=上传图片到七牛云 --EMAIL_account=评论回复邮箱 
-            --EMAIL_password=邮箱密码",
-            "test": "echo \"Error: no test specified\" && exit 1"
-          },
-          
+        在 server 端的根目录下
+        运行：
+        nest start -w backend 启动 admin 端的接口服务
+
+        运行：
+        nest start -w frontend 启动 web 端的接口服务
+            
+       
 // blog.sql
 
         本项目的数据库结构文件。数据库用的mysql
