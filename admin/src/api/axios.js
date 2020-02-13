@@ -40,6 +40,7 @@ ax.interceptors.response.use(
         message: res.data.message,
         type: 'error'
       })
+      return 1
     }
   },
   err => {

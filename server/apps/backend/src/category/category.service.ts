@@ -27,6 +27,12 @@ export class CategoryService {
             .getMany()
         return  categoryList
     }
+
+    async getAllCategory(params): Promise<CategoryInterface[]> {
+        const allCategory = await this.categoryRepository.createQueryBuilder('category')
+            .getMany()
+        return  allCategory
+    }
     async getCategoryCount():Promise<number> {
         const categoryCount = await this.categoryRepository.createQueryBuilder().getCount()
 

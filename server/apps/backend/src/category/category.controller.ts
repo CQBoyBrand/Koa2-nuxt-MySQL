@@ -41,6 +41,19 @@ export class CategoryController {
         return result
     }
 
+
+    @Post('getAllCategory')
+    @ApiOperation({
+        summary: '获取所有分类'
+    })
+    @HttpCode(200)
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    async getAllCategory(@Body() params): Promise<any> {
+        const allCategory = await this.categoryService.getAllCategory(params)
+        return allCategory
+    }
+
     @Post('editCategory')
     @ApiOperation({
         summary: '编辑分类'

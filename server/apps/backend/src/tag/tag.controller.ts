@@ -42,6 +42,19 @@ export class TagController {
         return result
     }
 
+    @Post('getAllTag')
+    @ApiOperation({
+        summary: '获取所有标签'
+    })
+    @HttpCode(200)
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    async getAllTag(@Body() params): Promise<any> {
+        const allTagList = await this.tagService.getAllTag(params)
+
+        return allTagList
+    }
+
     @Post('editTag')
     @ApiOperation({
         summary: '编辑标签'

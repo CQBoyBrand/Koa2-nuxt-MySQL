@@ -7,6 +7,8 @@ import { CategoryService } from './category/category.service';
 import { CategoryModule } from './category/category.module';
 import { TagController } from './tag/tag.controller';
 import { TagModule } from './tag/tag.module';
+import { ArticleService } from './article/article.service';
+import { ArticleModule } from './article/article.module';
 
 @Module({
   imports: [
@@ -15,7 +17,8 @@ import { TagModule } from './tag/tag.module';
       UsersModule,
       LinkModule,
       CategoryModule,
-      TagModule
+      TagModule,
+      ArticleModule
   ],
   controllers: [],
   providers: [],

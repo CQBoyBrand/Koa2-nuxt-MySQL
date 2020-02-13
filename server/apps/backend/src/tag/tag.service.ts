@@ -19,6 +19,12 @@ export class TagService {
         return  addTag
     }
 
+    async getAllTag(params): Promise<TagInterface[]> {
+        const tagAll = await this.tagRepository.createQueryBuilder('tag')
+            .getMany()
+        return  tagAll
+    }
+
     async getTagList(params): Promise<TagInterface[]> {
         const tagList = await this.tagRepository.createQueryBuilder('tag')
             .skip( (params.currentPage - 1) * params.limit)

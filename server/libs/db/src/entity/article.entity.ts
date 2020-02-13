@@ -60,29 +60,39 @@ export class Article {
     @Column({
         type: 'bigint',
         comment: '文章发布时间',
-        nullable: false
+        nullable: false,
     })
-    cdate: string
+    cdate: number
+
+    @Column({
+        type: 'bigint',
+        comment: '文章修改时间',
+        nullable: false,
+    })
+    editdate: number
 
     @Column({
         type: 'int',
         comment: '文章浏览量',
-        nullable: false
+        nullable: false,
+        default: 0
     })
-    pv: string
+    pv: number
 
     @Column({
         type: 'int',
         comment: '文章留言数',
-        nullable: false
+        nullable: false,
+        default: 0
     })
-    discuss: string
+    discuss: number
 
     @Column({
         type: 'int',
         comment: '文章状态：1-公开；0-未公开',
-        nullable: false
+        nullable: false,
+        default: 0
     })
-    status: string
+    status: number
     
 }
