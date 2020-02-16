@@ -9,6 +9,8 @@ import { TagController } from './tag/tag.controller';
 import { TagModule } from './tag/tag.module';
 import { ArticleService } from './article/article.service';
 import { ArticleModule } from './article/article.module';
+import { QiniuController } from './qiniu/qiniu.controller';
+import { QiniuModule } from './qiniu/qiniu.module';
 
 @Module({
   imports: [
@@ -18,9 +20,10 @@ import { ArticleModule } from './article/article.module';
       LinkModule,
       CategoryModule,
       TagModule,
-      ArticleModule
+      ArticleModule,
+      QiniuModule
   ],
-  controllers: [],
+  controllers: [QiniuController],
   providers: [],
 })
 export class AppModule {}

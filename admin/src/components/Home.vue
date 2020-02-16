@@ -50,8 +50,8 @@
 
         <!--右侧内容区-->
         <section class="content-container">
-          <div class="grid-content bg-purple-light">
-            <el-col :span="24" class="content-wrapper">
+          <div class="grid-content bg-purple-light" style="height: 100%;">
+            <el-col :span="24" class="content-wrapper" style="height: 100%;">
               <transition name="fade" mode="out-in">
                 <router-view></router-view>
               </transition>

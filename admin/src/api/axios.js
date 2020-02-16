@@ -6,6 +6,7 @@
 import axios from 'axios'
 import router from '../router'
 import { Message } from 'element-ui'
+import el from "element-ui/src/locale/lang/el";
 
 const ax = axios.create({
   baseURL: process.env.VUE_APP_URL
@@ -34,13 +35,14 @@ ax.interceptors.response.use(
   res => {
     if (res.data.code === 200) {
       return res.data
-    } else {
+    } else if (res.data.code && res.data.code !== 200) {
       Message({
         showClose: true,
         message: res.data.message,
         type: 'error'
       })
-      return 1
+    } else {
+      return res
     }
   },
   err => {

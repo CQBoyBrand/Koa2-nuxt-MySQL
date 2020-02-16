@@ -56,6 +56,7 @@ export default {
             this.$router.push({
               name: 'home'
             })
+            this.$message.success('登录成功')
           }).catch(err => {
             console.log(err)
           })

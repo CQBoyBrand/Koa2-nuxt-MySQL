@@ -3,6 +3,8 @@ import {InjectRepository} from "@nestjs/typeorm";
 import {Article} from "@libs/db/entity/article.entity";
 import {Repository} from "typeorm";
 
+const request = require('request')
+
 @Injectable()
 export class ArticleService {
     constructor(
@@ -26,6 +28,14 @@ export class ArticleService {
         newArticle.discuss = 0
         newArticle.status = 0
         return await this.articleRepository.save(newArticle).then(res => {
+            // 百度 seo push
+            request.post({
+                url: `http://data.zz.baidu.com/urls?site=${process.env.BAIDU_PUSH_SITE}&token=${process.env.BAIDU_PUSH_TOKEN}`,
+                headers: { 'Content-Type': 'text/plain' },
+                body: `${process.env.BAIDU_PUSH_SITE}/article/${newArticle.id}`
+            }, (error, response, body) => {
+                console.log('推送结果：', body)
+            })
             return 'success'
         }).catch( err => {
             return 'fail'
@@ -33,7 +43,6 @@ export class ArticleService {
     }
 
     async editArticle(params): Promise<any>{
-        console.log('params=',params)
         const currentTime = new Date().getTime()
         return await this.articleRepository.update(params.id, {
             artTitle: params.artTitle,
@@ -44,10 +53,16 @@ export class ArticleService {
             thumbnail: params.thumbnail,
             editdate: currentTime,
         }).then(res => {
-            console.log('res==', res)
+            // 百度推送
+            request.post({
+                url: `http://data.zz.baidu.com/update?site=${process.env.BAIDU_PUSH_SITE}&token=${process.env.BAIDU_PUSH_TOKEN}`,
+                headers: { 'Content-Type': 'text/plain' },
+                body: `${process.env.BAIDU_PUSH_SITE}/article/${params.id}`
+            }, (error, response, body) => {
+                console.log('百度更新结果：', body);
+            })
             return 'success'
         }).catch( err => {
-            console.log('res==', err)
             return 'fail'
         })
     }
@@ -77,6 +92,23 @@ export class ArticleService {
         }).then( res => {
             const affectedRows = res.raw.affectedRows
             if(affectedRows > 0){
+                if (params.status == 0) {
+                    request.post({
+                        url: `http://data.zz.baidu.com/del?site=${process.env.BAIDU_PUSH_SITE}&token=${process.env.BAIDU_PUSH_TOKEN}`,
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: `${process.env.BAIDU_PUSH_SITE}/article/${params.id}`
+                    }, (error, response, body) => {
+                        console.log('百度删除结果：', body);
+                    })
+                } else if (params.status == 1) {
+                    request.post({
+                        url: `http://data.zz.baidu.com/urls?site=${process.env.BAIDU_PUSH_SITE}&token=${process.env.BAIDU_PUSH_TOKEN}`,
+                        headers: { 'Content-Type': 'text/plain' },
+                        body: `${process.env.BAIDU_PUSH_SITE}/article/${params.id}`
+                    }, (error, response, body) => {
+                        console.log('推送结果：', body)
+                    })
+                }
                 return 'success'
             } else {
                 return 'fail'

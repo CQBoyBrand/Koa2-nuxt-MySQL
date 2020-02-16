@@ -3,70 +3,69 @@
     <div class="current-title">
       文章管理
     </div>
-    <el-form ref="artForm" :rules="artFormRules" :model="artForm" label-width="100px">
-      <el-form-item label="文章标题" prop="artTitle">
-        <el-input v-model="artForm.artTitle"></el-input>
-      </el-form-item>
-      <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item label="文章摘要" prop="abstract">
-            <el-input type="textarea" v-model="artForm.abstract"></el-input>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="文章分类" prop="category">
-            <el-select v-model="artForm.category" filterable placeholder="请选择">
-              <el-option
-                v-for="item in categoryList"
-                :key="item.id"
-                :label="item.categoryname"
-                :value="item.categoryname">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-      <el-row :gutter="20">
-        <el-col :span="16">
-          <el-form-item label="添加缩略图" prop="thumbnail">
-            <el-input v-model="artForm.thumbnail" style="margin-bottom: 8px;"></el-input>
-            <el-upload
-              class="avatar-uploader"
-              :action="domain"
-              :show-file-list="false"
-              :http-request="uploadImg"
-              :before-upload="beforeUpload">
-              <img v-if="artForm.thumbnail" :src="artForm.thumbnail" class="avatar">
-              <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-            </el-upload>
-          </el-form-item>
-        </el-col>
-        <el-col :span="8">
-          <el-form-item label="文章标签" prop="tag">
-            <el-select
-              v-model="artForm.tag"
-              multiple
-              filterable
-              default-first-option
-              placeholder="请选择文章标签">
-              <el-option
-                v-for="item in tagList"
-                :key="item.id"
-                :label="item.tagname"
-                :value="item.tagname">
-              </el-option>
-            </el-select>
-          </el-form-item>
-        </el-col>
-      </el-row>
-
-      <el-form-item label="文章内容" prop="content">
-        <mavon-editor v-model="artForm.content" :ishljs = "true" ref="md" @imgAdd="$imgAdd" @save="save" @change="change" style="min-height: 600px"/>
-        <el-input type="hidden" v-model="artForm.content"></el-input>
-      </el-form-item>
-      <el-form-item>
-        <el-button class="editor-btn" type="primary" @click="submitData('artForm')">提交</el-button>
-      </el-form-item>
+    <el-form class="new-article-wrapper" ref="artForm" :rules="artFormRules" :model="artForm">
+      <div class="article-side-left">
+        <div style="color: #2c3e50; font-size: 14px;padding-left: 5px;"><span
+          style="color: red;padding-left: 8px;">*</span>正文:
+        </div>
+        <el-form-item class="article-content" prop="content">
+          <mavon-editor v-model="artForm.content" :ishljs="true" ref="md" @imgAdd="$imgAdd" @save="save"
+                        @change="change" style="height: calc(100% - 4px);"/>
+          <el-input type="hidden" v-model="artForm.content"></el-input>
+        </el-form-item>
+      </div>
+      <div class="article-side-right">
+        <el-form-item label="文章标题：" prop="artTitle">
+          <el-input placeholder="请输入文章标题" v-model="artForm.artTitle"></el-input>
+        </el-form-item>
+        <el-form-item label="文章摘要：" prop="abstract">
+          <el-input type="textarea"
+                    rows="5"
+                    placeholder="请输入文章摘要"
+                    resize="none"
+                    v-model="artForm.abstract"></el-input>
+        </el-form-item>
+        <el-form-item label="文章分类：" prop="category">
+          <el-select v-model="artForm.category" filterable placeholder="请选择">
+            <el-option
+              v-for="item in categoryList"
+              :key="item.id"
+              :label="item.categoryname"
+              :value="item.categoryname">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="文章标签：" prop="tag">
+          <el-select
+            v-model="artForm.tag"
+            multiple
+            filterable
+            default-first-option
+            placeholder="请选择文章标签">
+            <el-option
+              v-for="item in tagList"
+              :key="item.id"
+              :label="item.tagname"
+              :value="item.tagname">
+            </el-option>
+          </el-select>
+        </el-form-item>
+        <el-form-item label="添加缩略图：" prop="thumbnail">
+          <el-input v-model="artForm.thumbnail" placeholder="请输入缩略图地址" style="margin-bottom: 8px;"></el-input>
+          <el-upload
+            class="avatar-uploader"
+            :action="domain"
+            :show-file-list="false"
+            :http-request="uploadImg"
+            :before-upload="beforeUpload">
+            <img v-if="artForm.thumbnail" :src="artForm.thumbnail" class="avatar">
+            <i v-else class="el-icon-plus avatar-uploader-icon"></i>
+          </el-upload>
+        </el-form-item>
+        <el-form-item class="operation-btn">
+          <el-button class="editor-btn" type="primary" @click="submitData('artForm')">提交</el-button>
+        </el-form-item>
+      </div>
     </el-form>
   </div>
 </template>
@@ -105,21 +104,8 @@ export default {
           { required: true, message: '请选填写文章标签', trigger: 'blur' }
         ]
       },
-      categoryList: [
-        // {
-        //   label: '首页',
-        //   value: '1'
-        // },
-        // {
-        //   label: '碎言碎语',
-        //   value: '2'
-        // }
-      ],
-      tagList: [
-        // {id: '1', tagName: '标签'},
-        // {id: '3', tagName: '标签2'},
-        // {id: '4', tagName: '标签3'},
-      ],
+      categoryList: [],
+      tagList: [],
       content: '',
       html: '',
       configs: {}
@@ -145,7 +131,7 @@ export default {
       this.Ajax.getQNToken().then(res => {
         const formdata = new FormData()
         formdata.append('file', req.file)
-        formdata.append('token', res.result.token)
+        formdata.append('token', res)
         formdata.append('key', keyname)
         // 获取到凭证之后再将文件上传到七牛云空间
         this.Ajax.uploadToQN(this.domain, formdata).then(res => {
@@ -184,10 +170,11 @@ export default {
       this.Ajax.getQNToken().then(res => {
         const formdata = new FormData()
         formdata.append('file', $file)
-        formdata.append('token', res.result.token)
+        formdata.append('token', res)
         formdata.append('key', keyname)
         // 获取到凭证之后再将文件上传到七牛云空间
         this.Ajax.uploadToQN(this.domain, formdata).then(res => {
+          console.log('res==', res)
           let url = 'http://' + this.qiniuaddr + '/' + res.key
           this.$refs.md.$img2Url(pos, url)
         })
@@ -274,37 +261,74 @@ export default {
 </script>
 
 <style lang="scss">
-.art-manage{
-  padding: 20px;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  .el-upload--text {
-    width: 240px;
-    height: 100px;
-  }
-  .avatar-uploader .el-upload {
-    border: 1px dashed #d9d9d9;
-    border-radius: 6px;
-    cursor: pointer;
-    position: relative;
+  .art-manage {
+    /*padding: 20px;*/
+    background: #fff;
+    height: 100%;
     overflow: hidden;
+    /*border: 1px solid #ddd;*/
+    /*border-radius: 5px;*/
+    .el-upload--text {
+      width: 240px;
+      height: 100px;
+    }
+
+    .avatar-uploader .el-upload {
+      border: 1px dashed #d9d9d9;
+      border-radius: 6px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .avatar-uploader .el-upload:hover {
+      border-color: #409EFF;
+    }
+
+    .avatar-uploader-icon {
+      font-size: 28px;
+      color: #8c939d;
+      width: 240px;
+      height: 100px;
+      line-height: 100px;
+      text-align: center;
+    }
+
+    .avatar {
+      width: 240px;
+      height: 100px;
+      display: block;
+    }
+
+    .new-article-wrapper {
+      display: flex;
+      height: calc(100% - 40px);
+      overflow: hidden;
+
+      .article-side-left {
+        flex: 1;
+        overflow: hidden;
+        .article-content {
+          height: 100%;
+          padding: 14px;
+          box-sizing: border-box;
+
+          .el-form-item__content {
+            height: 100%;
+          }
+        }
+      }
+
+      .article-side-right {
+        width: 300px;
+        position: relative;
+
+        .operation-btn {
+          /*position: absolute;*/
+          /*bottom: 10px;*/
+          /*left: 20px;*/
+        }
+      }
+    }
   }
-  .avatar-uploader .el-upload:hover {
-    border-color: #409EFF;
-  }
-  .avatar-uploader-icon {
-    font-size: 28px;
-    color: #8c939d;
-    width: 240px;
-    height: 100px;
-    line-height: 100px;
-    text-align: center;
-  }
-  .avatar {
-    width: 240px;
-    height: 100px;
-    display: block;
-  }
-}
 </style>
