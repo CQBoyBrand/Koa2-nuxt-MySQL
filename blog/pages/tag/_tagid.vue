@@ -1,10 +1,10 @@
 <template>
   <article class="tagname">
     <section class="artList-by-type">
-      <p class="type-title">与<span># {{this.$route.params.tagname}}</span>标签相关的文章</p>
-      <p class="type-total">共找到<span>{{articleList.total}}</span>篇</p>
+      <p class="type-title">与<span># {{tagName}}</span>标签相关的文章</p>
+      <p class="type-total">共找到<span>{{articleList.total || 0}}</span>篇</p>
     </section>
-    <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
+    <list :articleList="articleList"></list>
   </article>
 </template>
 
@@ -13,33 +13,43 @@
   import sidebar from '@/components/sidebar'
   export default {
     watchQuery: true,
-    name: 'tagname',
+    name: 'tagid',
     components:{
       list,sidebar
     },
     head() {
       return {
-        title: this.$route.params.tagname,
+        title: this.$route.params.tagid,
       }
     },
     data() {
       return {
+
       }
     },
     async fetch ({ store ,query,params}) {
-      await store.dispatch('getArtListByTag',{currentPage: query.page,tagname:params.tagname});
+      await store.dispatch('getArtListByTag',{currentPage: query.page, tagid:params.tagid});
     },
     computed:{
       articleList(){
         return this.$store.state.article.artByTag
+      },
+      tagName(){
+        const tagList = this.$store.state.tag.list
+        let tagname = ''
+        tagList.map(item => {
+          if (item.id == this.$route.params.tagid) {
+            tagname = item.tagname
+          }
+        })
+        return tagname
       }
     },
     methods: {
-      getCurrentPage(data){
 
-      }
     },
     mounted() {
+
     }
   }
 </script>

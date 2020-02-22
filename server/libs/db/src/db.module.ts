@@ -8,6 +8,7 @@ import {Link} from "@libs/db/entity/link.entity";
 import {Tag} from "@libs/db/entity/tag.entity";
 import {Comment} from "@libs/db/entity/comment.entity";
 import {Category} from "@libs/db/entity/category.entity";
+import {Config} from "@libs/db/entity/config.entity";
 
 const entityArr = [
     User,
@@ -15,7 +16,8 @@ const entityArr = [
     Link,
     Tag,
     Comment,
-    Category
+    Category,
+    Config
 ]
 
 const entity = TypeOrmModule.forFeature(entityArr)
@@ -38,6 +40,7 @@ const entity = TypeOrmModule.forFeature(entityArr)
                     database: process.env.DATABASE_NAME,
                     entities: entityArr,
                     synchronize: true,
+                    charset: 'utf8mb4'
                 }
             }
         })

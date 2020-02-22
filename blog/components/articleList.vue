@@ -24,7 +24,7 @@
       style="text-align: center;margin-top: 15px;"
       v-if="articleList.total > 0"
       @current-change="getMoreArt"
-      :current-page="articleList.currentPage"
+      :current-page="Number(articleList.currentPage)"
       :page-size="articleList.limit"
       layout="prev, pager, next"
       :total="articleList.total">

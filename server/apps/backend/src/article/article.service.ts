@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import {InjectRepository} from "@nestjs/typeorm";
 import {Article} from "@libs/db/entity/article.entity";
 import {Repository} from "typeorm";
+import {CustomException} from "@common/common/common/http.decoration";
 
 const request = require('request')
 
@@ -63,7 +64,7 @@ export class ArticleService {
             })
             return 'success'
         }).catch( err => {
-            return 'fail'
+            throw new CustomException('操作失败')
         })
     }
 
@@ -111,7 +112,7 @@ export class ArticleService {
                 }
                 return 'success'
             } else {
-                return 'fail'
+                throw new CustomException('操作失败')
             }
         })
 

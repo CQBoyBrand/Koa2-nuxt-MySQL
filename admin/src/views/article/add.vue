@@ -174,7 +174,6 @@ export default {
         formdata.append('key', keyname)
         // 获取到凭证之后再将文件上传到七牛云空间
         this.Ajax.uploadToQN(this.domain, formdata).then(res => {
-          console.log('res==', res)
           let url = 'http://' + this.qiniuaddr + '/' + res.key
           this.$refs.md.$img2Url(pos, url)
         })

@@ -1,8 +1,8 @@
 <template>
   <article class="categoryname">
     <section class="artList-by-type">
-      <p class="type-title">归类在<span>{{this.$route.params.categorylist}}</span>下的文章</p>
-      <p class="type-total">共有<span>{{articleList.total}}</span>篇</p>
+      <p class="type-title">归类在<span>{{categoryName}}</span>下的文章</p>
+      <p class="type-total">共有<span>{{articleList.total || 0}}</span>篇</p>
     </section>
     <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
   </article>
@@ -13,7 +13,7 @@
   import sidebar from '@/components/sidebar'
   export default {
     watchQuery: true,
-    name: 'categorylist',
+    name: 'categoryid',
     components:{
       list,sidebar
     },
@@ -27,11 +27,21 @@
       }
     },
     async fetch ({ store ,query,params}) {
-      await store.dispatch('getArtByCategory',{currentPage: query.page,categoryname:params.categorylist});
+      await store.dispatch('getArtByCategory',{currentPage: query.page,categoryid:params.categoryid});
     },
     computed:{
       articleList(){
         return this.$store.state.article.artByCategory
+      },
+      categoryName(){
+        const categoryList = this.$store.state.category.list
+        let categoryname = ''
+        categoryList.map(item => {
+          if (item.id == this.$route.params.categoryid) {
+            categoryname = item.categoryname
+          }
+        })
+        return categoryname
       }
     },
     methods: {
@@ -40,7 +50,7 @@
       }
     },
     mounted() {
-      
+
     }
   }
 </script>

@@ -55,6 +55,25 @@ export class ArticleController {
         return result
     }
 
+    @Post('getArticleListByTag')
+    @ApiOperation({
+        summary: '根据标签获取文章列表'
+    })
+    @HttpCode(200)
+    @UseGuards(AuthGuard('jwt'))
+    @ApiBearerAuth()
+    async getArticleListByTag(@Body() params): Promise<any> {
+        const artList = await this.articleService.getArtList(params)
+        const artCount = await this.articleService.getArtCount()
+
+        let result = {
+            list: artList,
+            total: artCount,
+        }
+
+        return result
+    }
+
     @Post('getArticleDetail')
     @ApiOperation({
         summary: '获取文章列表'

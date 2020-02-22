@@ -7,12 +7,12 @@
         <nuxt-link to="/archives" tag="li">归档</nuxt-link>
         <nuxt-link to="/friends" tag="li">友链</nuxt-link>
         <nuxt-link to="/message" tag="li" v-if="false">留言</nuxt-link>
-        <nuxt-link to="/about" tag="li">关于我</nuxt-link>
+        <nuxt-link to="/about" tag="li">关于</nuxt-link>
         <li>
           <form autocomplete="off" @submit.prevent="searchHandle">
             <el-input
               type="search"
-              placeholder="输入文章标题查找文章"
+              placeholder="输入文章关键词"
               v-model="searchval">
               <el-button slot="append" @click="searchHandle" icon="el-icon-search"></el-button>
             </el-input>
@@ -31,12 +31,12 @@
           <nuxt-link to="/archives" tag="li" @click.native="menuToggle">归档</nuxt-link>
           <nuxt-link to="/friends" tag="li" @click.native="menuToggle">友链</nuxt-link>
           <nuxt-link to="/message" tag="li" @click.native="menuToggle" v-if="false">留言</nuxt-link>
-          <nuxt-link to="/about" tag="li" @click.native="menuToggle">关于我</nuxt-link>
+          <nuxt-link to="/about" tag="li" @click.native="menuToggle">关于</nuxt-link>
           <li>
             <form autocomplete="off" @submit.prevent="searchHandleMob" style="width: 96%;">
               <el-input
                 type="search"
-                placeholder="输入文章标题查找文章"
+                placeholder="输入文章关键词"
                 @focus="isFocus=true"
                 @blur="isFocus=false"
                 v-model="searchval">

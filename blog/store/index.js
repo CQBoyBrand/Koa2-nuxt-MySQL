@@ -9,9 +9,20 @@ export const actions = {
       store.dispatch('getFontTagList'),
       store.dispatch('getFontCategoryList'),
       store.dispatch('getlinkList'),
+      store.dispatch('getConfig'),
     ]
 
     return Promise.all(initAppData)
+  },
+
+  // 获取网站配置
+  async getConfig({commit, state}, params) {
+    const res = await service.getSiteConfig().catch(err => {
+      console.log(err)
+    })
+    if (res && res.code === 200) {
+      commit('config/GET_CONFIG_SUCCESS', res.data)
+    }
   },
   // 获取文章列表
   async getAllArtList({commit, state}, params) {
@@ -22,50 +33,50 @@ export const actions = {
     const res = await service.getArtAll(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('article/GET_ART_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('article/GET_ART_SUCCESS', res.data)
     }
   },
   // 按标签获取文章列表
   async getArtListByTag({commit, state}, params) {
     let postParam = {
-      tagname:params.tagname,
+      tagid:params.tagid,
       currentPage: params.currentPage || CURRENT_PAGE,
       limit: LIMIT
     }
     const res = await service.getArticleListByTag(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('article/GET_ART_BY_TAG_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('article/GET_ART_BY_TAG_SUCCESS', res.data)
     }
   },
   // 按标分类取文章列表
   async getArtByCategory({commit, state}, params) {
     let postParam = {
-      categoryname:params.categoryname,
+      categoryid:params.categoryid,
       currentPage: params.currentPage || CURRENT_PAGE,
       limit: LIMIT
     }
     const res = await service.getArtByCategory(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('article/GET_ART_BY_CATEGORY_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('article/GET_ART_BY_CATEGORY_SUCCESS', res.data)
     }
   },
   // 按标搜索取文章列表
   async getArtByKeyword({commit, state}, params) {
     let postParam = {
-      artTitle:params.keywords,
+      keyword:params.keywords,
       currentPage: params.currentPage || CURRENT_PAGE,
       limit: LIMIT
     }
     const res = await service.getArtByTitle(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('article/GET_ART_BY_KEYWORDS_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('article/GET_ART_BY_KEYWORDS_SUCCESS', res.data)
     }
   },
   // 获取文章详情
@@ -73,8 +84,8 @@ export const actions = {
     const res = await service.getArtDetail(params).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('article/GET_ART_DETAIL_SUCCESS', res.result)
+    if (res && res.code == 200) {
+      commit('article/GET_ART_DETAIL_SUCCESS', res.data)
     }
   },
   // 获取文章详情
@@ -82,8 +93,8 @@ export const actions = {
     const res = await service.getArticleHot().catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('article/GET_ART_HOT_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('article/GET_ART_HOT_SUCCESS', res.data)
     }
   },
   // 获取标签
@@ -91,8 +102,8 @@ export const actions = {
     const res = await service.getFontTagList().catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('tag/GET_TAG_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('tag/GET_TAG_SUCCESS', res.data)
     }
   },
   // 获取友链
@@ -100,8 +111,8 @@ export const actions = {
     const res = await service.getlinkList().catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('link/GET_LINK_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('link/GET_LINK_SUCCESS', res.data)
     }
   },
   // 根据标签获取文章
@@ -109,8 +120,8 @@ export const actions = {
     const res = await service.getFontCategoryList().catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('category/GET_CATEGORY_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('category/GET_CATEGORY_SUCCESS', res.data)
     }
   },
   // 文章归档
@@ -118,8 +129,8 @@ export const actions = {
     const res = await service.getArchive().catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('article/GET_ART_ARCHIVE_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('article/GET_ART_ARCHIVE_SUCCESS', res.data)
     }
   },
   // 获取评论
@@ -132,8 +143,8 @@ export const actions = {
     const res = await service.getComment(postParam).catch(err => {
       console.log(err)
     })
-    if (res && res.code == 1) {
-      commit('comment/GET_COMMENT_SUCCESS', res.result)
+    if (res && res.code === 200) {
+      commit('comment/GET_COMMENT_SUCCESS', res.data)
     }
   },
   // 添加评论

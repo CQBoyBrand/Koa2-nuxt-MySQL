@@ -31,7 +31,7 @@ export class Category {
     @Column({
         type: "int",
         comment: '分类状态, 1-可用，0-不可用',
-        nullable: true,
+        nullable: false,
         default: 0
     })
     status: number

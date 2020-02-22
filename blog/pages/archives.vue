@@ -6,10 +6,10 @@
     </section>
     <section class="time-list-wrap clearfix" v-if="artObj.total > 0">
       <div class="art-list">
-        <div v-for="(item,index) in returnDateArr(artObj.result)" :key="index">
+        <div v-for="(item,index) in returnDateArr(artObj.list)" :key="index">
           <a :id="`#${item}`" class="times"><el-divider content-position="left">YEAR-{{item}}</el-divider></a>
           <ul class="art-list-detail">
-            <li class="art-detail-item" v-for="(list,listIndex) in returnArtList(artObj.result,item)" :key="listIndex">
+            <li class="art-detail-item" v-for="(list,listIndex) in returnArtList(artObj.list,item)" :key="listIndex">
               <span class="date">{{list.cdate}}</span><nuxt-link :to="`/article/${list.id}`"
                                                                 :title="list.artTitle">{{list
               .artTitle}}</nuxt-link><span class="views"><svgicon class="" name="view"></svgicon>{{list.pv}}</span>

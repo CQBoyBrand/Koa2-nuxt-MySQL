@@ -68,7 +68,7 @@
                 label="邮箱(必填)："
                 :rules="[
       { required: true, message: '请输入邮箱地址', trigger: 'blur' },
-      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur', 'change'] }
+      { type: 'email', message: '请输入正确的邮箱地址', trigger: ['blur'] }
     ]"
               >
                 <el-input v-model="artComment.email"></el-input>
@@ -78,7 +78,7 @@
               <el-form-item
                 prop="webUrl"
                 :rules="[
-                  {required:false,validator: validateUrl, trigger: ['blur','change'] }
+                  {required:false,validator: validateUrl, trigger: ['blur'] }
                   ]"
                 label="网址(选填)：">
                 <el-input v-model="artComment.webUrl"></el-input>
@@ -93,8 +93,8 @@
           </el-form-item>
         </el-form>
       </div>
-      <div v-if="commentsList.result.length > 0" class="comment-list-wrap">
-        <div class="comment-list" v-for="(item,index) in commentsList.result" :key="index">
+      <div v-if="commentsList.data.length > 0" class="comment-list-wrap">
+        <div class="comment-list" v-for="(item,index) in commentsList.data" :key="index">
           <div class="clearfix">
 
             <a :href="item.from_uweb" target="_blank" class="clearfix comment-user"
@@ -145,17 +145,18 @@
 </template>
 
 <script>
-  import {mdRender }  from '@/utils/utils'
+  import {mdRender} from '@/utils/utils'
   import htmlparser from 'htmlparser2'
+
   export default {
-    props:{
-      commentsList:{
+    props: {
+      commentsList: {
         type: Object,
-        required:true,
+        required: true,
       },
-      commentId:{
+      commentId: {
         type: Object,
-        required:true,
+        required: true,
       }
     },
     name: "comment",
@@ -182,6 +183,7 @@
           nickname: '',
           content: '',
           webUrl: '',
+          articleURL: ''
         },
         artCommentHTML: '',
         validateUrl: validateUrl,
@@ -195,6 +197,7 @@
           touemail: '',
           touweb: '',
           touname: '',
+          articleURL: ''
         },
         emojiData: [
           ':stuck_out_tongue_winking_eye:',
@@ -221,6 +224,9 @@
           ':pill:',
           ':confused:',
           ':broken_heart:',
+          ':joy:',
+          ':pensive:',
+          ':sweat_smile:',
         ],
         showEmoji: false
       }
@@ -279,8 +285,9 @@
             if (!this.artComment.content || !this.artComment.content.replace(/\s/g, '')) return alert('内容就这样了？？！')
             this.committing = true
             if (this.commentType == 'comment') {
+              this.artComment.articleURL = window.location.href
               this.$store.dispatch('addComment', this.artComment).then(res => {
-                if (res.code == 1) {
+                if (res.code === 200) {
                   this.$message.success(res.message)
                   this.artComment.content = ''
                   this.$refs.commentEdit.innerHTML = ''
@@ -292,13 +299,17 @@
                   }, 500)
                 } else {
                   this.$message.error(res.message)
-                  this.committing = false
                 }
               })
             } else {
+              this.replyForm.artId = this.commentId.id
+              this.replyForm.email = this.artComment.email
+              this.replyForm.nickname = this.artComment.nickname
+              this.replyForm.webUrl = this.artComment.webUrl
               this.replyForm.content = this.artComment.content
+              this.replyForm.articleURL = window.location.href
               this.$store.dispatch('addReplyComment', this.replyForm).then(res => {
-                if (res.code == 1) {
+                if (res.code === 200) {
                   this.$message.success(res.message)
                   this.artComment.content = ''
                   this.$refs.commentEdit.innerHTML = ''
@@ -312,8 +323,9 @@
                   }, 500)
                 } else {
                   this.$message.error(res.message)
-                  this.committing = false
                 }
+
+
               })
             }
 
@@ -332,19 +344,13 @@
         let el = document.getElementById('tohere')
         el.scrollIntoView()
         this.$refs.commentEdit.focus()
-        this.replyForm = {
-          artId: this.commentId.id,
-          email: this.artComment.email,
-          nickname: this.artComment.nickname,
-          content: '',
-          webUrl: this.artComment.webUrl,
-          oldContent: item.content,
-          oldCdate: item.timestamp,
-          touemail: item.from_uemail,
-          touweb: item.from_uweb,
-          touname: item.from_uname,
-          touavatar: item.from_uavatar,
-        }
+        this.replyForm.content = ''
+        this.replyForm.oldContent = item.content
+        this.replyForm.oldCdate = item.timestamp
+        this.replyForm.touemail = item.from_uemail
+        this.replyForm.touweb = item.from_uweb
+        this.replyForm.touname = item.from_uname
+        this.replyForm.touavatar = item.from_uavatar
       },
       commentChange() {
         const html = this.$refs.commentEdit.innerHTML
@@ -427,11 +433,13 @@
 
       .comment_form {
         padding-top: 10px;
-        .el-input__inner{
+
+        .el-input__inner {
           background-color: #f6f8fa;
           color: #333;
         }
-        .comment-edit-container{
+
+        .comment-edit-container {
           border: 1px solid #eee;
           margin-top: 40px;
           overflow: hidden;
@@ -439,20 +447,24 @@
           border-radius: 6px;
           position: relative;
           background-color: #f6f8fa;
-          .commentEdit{
-            height: 160px;
+
+          .commentEdit {
+            height: 180px;
             line-height: 20px;
             width: 100%;
             overflow-y: scroll;
             outline: none;
-            &:empty:before{
+
+            &:empty:before {
               content: attr(placeholder);
             }
           }
-          .comment-tool-bar{
+
+          .comment-tool-bar {
             height: 40px;
             overflow: hidden;
-            li{
+
+            li {
               height: 40px;
               list-style: none;
               float: left;
@@ -460,7 +472,8 @@
 
             }
           }
-          .emoji-container{
+
+          .emoji-container {
             position: absolute;
             bottom: 40px;
             left: 0;
@@ -468,7 +481,10 @@
             border: 1px solid #eee;
             border-radius: 5px;
             width: 250px;
-            li{
+            height: 160px;
+            overflow-y: auto;
+
+            li {
               list-style: none;
               float: left;
               cursor: pointer;
@@ -494,10 +510,11 @@
         padding: 30px 0;
       }
 
-      .comment-list-wrap{
+      .comment-list-wrap {
         padding-top: 15px;
         border-top: 1px solid #eee;
       }
+
       .comment-list {
         border-bottom: 1px dashed #eee;
         padding-bottom: 10px;
@@ -540,7 +557,8 @@
           color: #333;
           line-height: 20px;
           padding: 8px 0;
-          &> div{
+
+          & > div {
             font-size: 13px;
           }
         }
@@ -552,11 +570,13 @@
         }
       }
     }
-    .replyContent-bg{
+
+    .replyContent-bg {
       background-color: #eee;
       padding: 10px;
       box-sizing: border-box;
-      .comment-user,.comment-time{
+
+      .comment-user, .comment-time {
         text-indent: 0;
       }
     }

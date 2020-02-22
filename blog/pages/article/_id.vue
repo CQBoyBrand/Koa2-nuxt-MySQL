@@ -2,7 +2,7 @@
   <div class="article_id clearfix">
     <div class="left-content" v-if="articleDetail.artTitle">
       <h2 class="article-title">{{articleDetail.artTitle}}</h2>
-      <p class="article-info"><span>发布于：{{articleDetail.cdate}}</span><span>{{articleDetail.pv}} 次浏览</span><span>{{articleDetail.discuss}} 条评论</span>
+      <p class="article-info"><span>发布于：{{articleDetail.cdate.split(" ")[0]}}</span><span>{{articleDetail.pv}} 次浏览</span><span>{{commentsList.total}} 条评论</span>
       </p>
       <div class="article-content markdown-body">
         <div v-html="markdownRender">
@@ -22,7 +22,7 @@
       </div>
 
       <!--评论-->
-      <comment :commentsList="commentsList" :commentId="{id:articleDetail.id}"></comment>
+      <comment v-if="true" :commentsList="commentsList" :commentId="{id:articleDetail.id}"></comment>
     </div>
     <div v-else class="left-content not-found">
       咦，你要找的东西好像不见了
@@ -33,7 +33,7 @@
 <script>
   import comment from '@/components/comment'
 
-  import {mdRender }  from '@/utils/utils'
+  import {mdRender, timestampToTime }  from '@/utils/utils'
 
   export default {
     watchQuery: ['page'],
@@ -47,6 +47,11 @@
         meta: [
           {hid: 'index', name: 'description', content: this.$store.state.article.detail.abstract}
         ]
+      }
+    },
+    data(){
+      return {
+        timestampToTime: timestampToTime
       }
     },
     async fetch({store, params, query}) {

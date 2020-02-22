@@ -14,14 +14,14 @@
       <div class="module-title"><svgicon class="" name="category"></svgicon>分类</div>
       <ul class="module-item-wrap category">
         <li class="category-item module-item" v-for="(item, index) in categoryList" :key="index"><nuxt-link
-          :to="`/category/${item.categoryname}`">{{item.categoryname}}</nuxt-link><span>共 {{item.total}} 篇文章</span></li>
+          :to="`/category/${item.id}`">{{item.categoryname}}</nuxt-link><span>共 {{item.total}} 篇文章</span></li>
       </ul>
     </section>
     <!--标签-->
     <section class="module-css">
       <div class="module-title"><svgicon class="" name="tag" style="width: 21px;margin-top: 2px;"></svgicon>标签</div>
       <div class="module-item-wrap tag">
-        <nuxt-link :to="`/tag/${item.tagname}`" v-for="(item, index) in tagList" :key="index"># {{item.tagname}}
+        <nuxt-link :to="`/tag/${item.id}`" v-for="(item, index) in tagList" :key="index"># {{item.tagname}}
           [{{item.total}}]</nuxt-link>
       </div>
     </section>
