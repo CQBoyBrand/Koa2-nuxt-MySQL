@@ -6,7 +6,12 @@ import {TransformInterceptor} from "@common/common/interface/transform.intercept
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule,{
-    cors: true
+    cors: {
+        "origin": ['http://www.brandhuang.com','https://www.brandhuang.com','http://admin.brandhuang.com','https://admin.brandhuang.com'],
+        "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+        "preflightContinue": false,
+        "optionsSuccessStatus": 204
+    }
   });
 
   app.useGlobalInterceptors(new TransformInterceptor())
@@ -17,6 +22,7 @@ async function bootstrap() {
         max: 100, // limit each IP to 100 requests per windowMs
       }),
   );
+  console.log('process==', process.env)
   await app.listen(process.env.ADMIN_PORT);
   console.log(`backend service is running at http://localhost:${process.env.ADMIN_PORT}`)
 }

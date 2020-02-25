@@ -27,13 +27,14 @@ export class ArticleService {
              group by A.id 
         `)
         let articleDetail = sqlQuery[0]
-        if(articleDetail.pv){
+        if(articleDetail.pv >= 0){
             const newPv = articleDetail.pv + 1
             articleDetail.pv = newPv
             return await this.articleRepo.update(articleDetail.id, {
                 pv: newPv
-            }).then( () => {
+            }).then( (res) => {
                 return articleDetail
+            }).catch( err => {
             })
         }
 

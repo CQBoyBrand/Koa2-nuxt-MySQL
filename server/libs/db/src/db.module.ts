@@ -1,5 +1,4 @@
 import {Global, Module} from '@nestjs/common';
-import {DbService} from './db.service';
 import {TypeOrmModule} from "@nestjs/typeorm";
 import {Article} from "@libs/db/entity/article.entity";
 import {User} from "@libs/db/entity/user.entity";
@@ -45,8 +44,8 @@ const entity = TypeOrmModule.forFeature(entityArr)
             }
         })
     ],
-    providers: [DbService],
-    exports: [DbService, entity],
+    providers: [],
+    exports: [entity],
 })
 export class DbModule {
 }
