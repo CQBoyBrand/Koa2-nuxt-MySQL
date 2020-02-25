@@ -12,7 +12,7 @@
 
 - [ ] **blog**：等 Vue3 出来后打算采用 `TypeScript` 重构（什么时候 Vue3 出来什么时候开始）
 - [ ] **admin**：计划用 React 重构（先等 server 端重构完）
-- [ ] **server**：计划近期用 `nest.js` 进行重构（纯粹是想学习用用 `TypeScript`）
+- [x] **server**：计划近期用 `nest.js` 进行重构（纯粹是想学习用用 `TypeScript`）
 #### 2020 年 2 月 25 日
     博客线上代码全部替换
     
