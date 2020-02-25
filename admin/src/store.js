@@ -18,7 +18,7 @@ export default new Vuex.Store({
       const res = await service.userInfo(params).catch(err => {
         console.log(err)
       })
-      commit('INIT_AUTH', res)
+      commit('INIT_AUTH', res.data)
     }
   }
 })

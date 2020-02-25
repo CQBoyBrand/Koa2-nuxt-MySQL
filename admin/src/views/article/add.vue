@@ -31,7 +31,7 @@
               v-for="item in categoryList"
               :key="item.id"
               :label="item.categoryname"
-              :value="item.categoryname">
+              :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -46,7 +46,7 @@
               v-for="item in tagList"
               :key="item.id"
               :label="item.tagname"
-              :value="item.tagname">
+              :value="item.id">
             </el-option>
           </el-select>
         </el-form-item>
@@ -85,7 +85,7 @@ export default {
         thumbnail: '',
         content: '',
         category: '',
-        tag: ''
+        tag: []
       },
       artFormRules: {
         artTitle: [
@@ -131,7 +131,7 @@ export default {
       this.Ajax.getQNToken().then(res => {
         const formdata = new FormData()
         formdata.append('file', req.file)
-        formdata.append('token', res)
+        formdata.append('token', res.data)
         formdata.append('key', keyname)
         // 获取到凭证之后再将文件上传到七牛云空间
         this.Ajax.uploadToQN(this.domain, formdata).then(res => {
@@ -170,7 +170,7 @@ export default {
       this.Ajax.getQNToken().then(res => {
         const formdata = new FormData()
         formdata.append('file', $file)
-        formdata.append('token', res)
+        formdata.append('token', res.data)
         formdata.append('key', keyname)
         // 获取到凭证之后再将文件上传到七牛云空间
         this.Ajax.uploadToQN(this.domain, formdata).then(res => {
@@ -191,6 +191,7 @@ export default {
     submitData (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          console.log('this.artForm=', this.artForm)
           this.artForm.tag = this.artForm.tag.join(',')
           if (this.$route.query.method === 'edit') {
             this.artForm.id = this.$route.query.id
@@ -222,16 +223,23 @@ export default {
     getArtDetail () {
       let id = this.$route.query.id
       this.Ajax.getArticleDetail({ id }).then(res => {
-        res.tag = res.tag.split(',')
-        this.artForm = res
+        if (res.code === 200) {
+          res.data.tag = res.data.tag.split(',')
+          this.artForm = res.data
+        }
       }).catch(err => {
-
+        console.log(err)
       })
     },
     // 获取标签
     getAllTaglist () {
       this.Ajax.getAllTag().then(res => {
-        this.tagList = res
+        if (res.code === 200) {
+          res.data.map((item) => {
+            item.id = item.id.toString()
+          })
+          this.tagList = res.data
+        }
       }).catch(err => {
         console.log(err)
       })
@@ -239,9 +247,14 @@ export default {
     // 获取所有分类
     getAllCategorylist () {
       this.Ajax.getAllCategory().then(res => {
-        this.categoryList = res
+        if (res.code === 200) {
+          res.data.map((item) => {
+            item.id = item.id.toString()
+          })
+          this.categoryList = res.data
+        }
       }).catch(err => {
-
+        console.log(err)
       })
     }
   },

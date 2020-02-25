@@ -51,12 +51,16 @@ export default {
             password: md5(this.account.password)
           }
           this.Ajax.login(accountInfo).then(res => {
-            localStorage.setItem('token', res.token)
-            localStorage.setItem('username', res.username)
-            this.$router.push({
-              name: 'home'
-            })
-            this.$message.success('登录成功')
+            if (res.code === 200) {
+              localStorage.setItem('token', res.data.token)
+              localStorage.setItem('username', res.data.username)
+              this.$router.push({
+                name: 'home'
+              })
+              this.$message.success('登录成功')
+            } else {
+              this.$message.error(res.message)
+            }
           }).catch(err => {
             console.log(err)
           })

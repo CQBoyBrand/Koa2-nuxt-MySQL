@@ -8,24 +8,23 @@
         <div class="current-title">
           站点设置：
         </div>
-        <el-form :model="siteForm" :rules="siteFormrules" ref="siteForm" label-width="100px" class="demo-ruleForm">
-          <el-form-item label="站点标题" prop="sitename">
-            <el-input v-model="siteForm.sitename"></el-input>
+        <el-form :model="siteForm" :rules="siteFormrules" ref="siteForm" label-width="120px" class="demo-ruleForm">
+          <el-form-item label="ICP备案号：" prop="icp">
+            <el-input v-model="siteForm.icp"></el-input>
           </el-form-item>
-          <el-form-item label="副标题" prop="subhead">
-            <el-input v-model="siteForm.subhead"></el-input>
+          <el-form-item label="公安备案号：" prop="psr">
+            <el-input v-model="siteForm.psr"></el-input>
           </el-form-item>
-          <el-form-item label="关键词" prop="keywords">
-            <el-input v-model="siteForm.keywords"></el-input>
-          </el-form-item>
-          <el-form-item label="站点描述" prop="description">
-            <el-input type="textarea" v-model="siteForm.description"></el-input>
-          </el-form-item>
-          <el-form-item label="ICP备案号" prop="ICPNo">
-            <el-input v-model="siteForm.ICPNo"></el-input>
+          <el-form-item label="全站评论：" prop="discussStatus">
+            <el-switch
+              v-model="siteForm.discussStatus"
+              active-text="开启"
+              inactive-text="关闭"
+              inactive-color="#ff4949">
+            </el-switch>
           </el-form-item>
           <el-form-item>
-            <el-button type="primary" @click="submitsiteForm('siteForm')">保存</el-button>
+            <el-button type="primary" @click="submitsiteForm('siteForm')"> {{configType === 'add' ? '保存' : '更新'}}</el-button>
           </el-form-item>
         </el-form>
       </div>
@@ -33,7 +32,8 @@
         <div class="current-title">
           用户设置：
         </div>
-        <el-form :model="authorForm" status-icon :rules="authorFormRule" ref="authorForm" label-width="100px" class="demo-ruleForm">
+        <el-form :model="authorForm" status-icon :rules="authorFormRule" ref="authorForm" label-width="100px"
+                 class="demo-ruleForm">
           <el-form-item label="头像" prop="avatar">
             <el-upload
               class="avatar-uploader"
@@ -45,7 +45,7 @@
               <i v-else class="el-icon-plus avatar-uploader-icon"></i>
             </el-upload>
           </el-form-item>
-          <el-form-item label="用户名" prop="username" >
+          <el-form-item label="用户名" prop="username">
             <el-input type="text" v-model="authorForm.username" autocomplete="off" disabled></el-input>
           </el-form-item>
           <el-form-item label="昵称" prop="nickname">
@@ -74,11 +74,12 @@
 
 <script>
 import md5 from 'md5'
+
 export default {
   name: 'setting',
   data () {
     var validatePass = (rule, value, callback) => {
-      if (value === '') {
+      if (!value) {
         callback(new Error('请输入密码'))
       } else {
         if (this.authorForm.checkPass !== '') {
@@ -88,7 +89,7 @@ export default {
       }
     }
     var validatePass2 = (rule, value, callback) => {
-      if (value === '') {
+      if (!value) {
         callback(new Error('请再次输入密码'))
       } else if (value !== this.authorForm.password) {
         callback(new Error('两次输入密码不一致!'))
@@ -100,19 +101,20 @@ export default {
       domain: 'https://upload-z0.qiniup.com', // 七牛云的上传地址，根据自己所在地区选择，我这里是华东
       qiniuaddr: 'static.brandhuang.com', // 这是七牛云空间的外链默认域名，可换成自己的   p063wr224.bkt.clouddn.com
       siteForm: {
-        sitename: '',
-        subhead: '',
-        keywords: '',
-        description: '',
-        ICPNo: ''
+        icp: '',
+        psr: '',
+        discussStatus: false
       },
+      configType: 'add',
       siteFormrules: {
-
+        icp: [
+          { required: true, message: '请输入ICP备案号', trigger: 'blur' }
+        ],
+        psr: [
+          { required: true, message: '请输入公安备案号', trigger: 'blur' }
+        ]
       },
       authorFormRule: {
-        // avatar: [
-        //   { required: true, message: '请上传头像', trigger: 'blur' }
-        // ],
         nickname: [
           { required: true, message: '请输入昵称', trigger: 'blur' }
         ],
@@ -140,6 +142,25 @@ export default {
     // }
   },
   methods: {
+    getConfig () {
+      this.Ajax.getConfig().then(res => {
+        if (res.code === 200) {
+          if (res.data) {
+            this.siteForm = {
+              id: res.data.id,
+              icp: res.data.icp,
+              psr: res.data.psr,
+              discussStatus: res.data.discussStatus === 1
+            }
+            if (res.data.id > 0) {
+              this.configType = 'edit'
+            } else {
+              this.configType = 'add'
+            }
+          }
+        }
+      })
+    },
     /**
        * Author: brand
        * Creation Time: 2019-03-10 16:11
@@ -148,7 +169,23 @@ export default {
     submitsiteForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          alert('submit!')
+          if (this.siteForm.discussStatus) {
+            this.siteForm.discussStatus = 1
+          } else {
+            this.siteForm.discussStatus = 0
+          }
+          if (this.configType === 'add') {
+            this.Ajax.addConfig(this.siteForm).then(res => {
+
+              this.$message.success('操作成功')
+              this.getConfig()
+            })
+          } else {
+            this.Ajax.editConfig(this.siteForm).then(res => {
+              this.$message.success('操作成功')
+              this.getConfig()
+            })
+          }
         } else {
           console.log('error submit!!')
           return false
@@ -163,6 +200,7 @@ export default {
     submitAuthorForm (formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
+          console.log(this.authorForm)
           let postData = {
             id: this.authorForm.id,
             password: md5(this.authorForm.oldpass),
@@ -207,18 +245,18 @@ export default {
       }
       // 重命名要上传的文件
       const keyname = this.$store.state.auth.username + '-' + new Date().getTime() + Math.floor(Math.random() * 100) + '.' + filetype
-      // this.$get('/uploadTolen').then(res => {
-      //   const formdata = new FormData()
-      //   formdata.append('file', req.file)
-      //   formdata.append('token', res.data.data)
-      //   formdata.append('key', keyname)
-      //   // 获取到凭证之后再将文件上传到七牛云空间
-      //   this.$post(this.domain, formdata, config).then(result => {
-      //     this.artForm.thumbnail = 'http://' + this.qiniuaddr + '/' + result.data.key
-      //   })
-      // }).catch(err => {
-      //   console.log(err)
-      // })
+      this.Ajax.getQNToken().then(res => {
+        const formdata = new FormData()
+        formdata.append('file', req.file)
+        formdata.append('token', res.data)
+        formdata.append('key', keyname)
+        // 获取到凭证之后再将文件上传到七牛云空间
+        this.Ajax.uploadToQN(this.domain, formdata, config).then(result => {
+          this.authorForm.avatar = 'http://' + this.qiniuaddr + '/' + result.key
+        })
+      }).catch(err => {
+        console.log(err)
+      })
     },
     // 图片上传前
     beforeUpload (file) {
@@ -234,46 +272,54 @@ export default {
     }
   },
   mounted () {
+    this.getConfig()
   }
 }
 </script>
 
 <style lang="scss">
-.setting{
-  .setting-container{
-    color: #444d56;
-    .site-setting, .user-setting{
-      width: 45%;
-    }
-    .site-setting{
-      float: left;
-    }
-    .user-setting{
-      float: right;
-      .avatar-uploader .el-upload {
-        border: 1px dashed #d9d9d9;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
+  .setting {
+    .setting-container {
+      color: #444d56;
+
+      .site-setting, .user-setting {
+        width: 45%;
       }
-      .avatar-uploader .el-upload:hover {
-        border-color: #409EFF;
+
+      .site-setting {
+        float: left;
       }
-      .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 300px;
-        height: 300px;
-        line-height: 300px;
-        text-align: center;
-      }
-      .avatar {
-        width: 300px;
-        height: 300px;
-        display: block;
+
+      .user-setting {
+        float: right;
+
+        .avatar-uploader .el-upload {
+          border: 1px dashed #d9d9d9;
+          border-radius: 6px;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .avatar-uploader .el-upload:hover {
+          border-color: #409EFF;
+        }
+
+        .avatar-uploader-icon {
+          font-size: 28px;
+          color: #8c939d;
+          width: 100px;
+          height: 100px;
+          line-height: 100px;
+          text-align: center;
+        }
+
+        .avatar {
+          width: 100px;
+          height: 100px;
+          display: block;
+        }
       }
     }
   }
-}
 </style>

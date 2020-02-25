@@ -120,11 +120,13 @@ export default {
         limit: this.limit
       }
       this.Ajax.getArticleList(params).then(res => {
-        if (res.data.length > 0) {
-          this.total = res.total
+        let result = res.data
+        if (res.code === 200) {
+          if (result.data.length > 0) {
+            this.total = result.total
+          }
+          this.artListData = result.data
         }
-
-        this.artListData = res.data
       }).catch(err => {
         console.log(err)
       })
@@ -168,21 +170,15 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Ajax.updateArtStatus(params).then(res => {
+          if (res.code === 200) {
             this.getArticle()
-            this.$message.success('文章状态修改成功')
+            this.$message.success(res.message)
+          } else {
+            this.$message.error(res.message)
+          }
         }).catch(err => {
           console.log(err)
         })
-        // this.$post('changeArticleStatus',params).then( res => {
-        //   if(res.data.code == 200){
-        //     this.getArticle()
-        //     this.$message.success(res.data.message)
-        //   }else {
-        //     this.$message.error(res.data.message)
-        //   }
-        // }).catch( err => {
-        //   console.log(err)
-        // })
       }).catch(() => {
         this.$message({
           type: 'info',

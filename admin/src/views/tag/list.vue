@@ -21,7 +21,13 @@
         prop="tagdesc"
         label="描述"/>
       <el-table-column
+        prop="artNum"
+        align="center"
+        width="180"
+        label="使用标签的文章数(篇)"/>
+      <el-table-column
         prop="cdate"
+        align="center"
         label="创建时间">
         <template slot-scope="scope">
           {{utils.timestampToTime(scope.row.cdate)}}
@@ -30,6 +36,7 @@
       <el-table-column
         prop="status"
         width="100"
+        align="center"
         label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status === 0" style="color: red;">已禁用</span>
@@ -130,9 +137,12 @@ export default {
         limit: this.limit
       }
       this.Ajax.getTag(params).then(res => {
-        this.tagsData = res.data
-        if (res.data.length > 0) {
-          this.total = res.total
+        let result = res.data
+        if (res.code === 200) {
+          this.tagsData = result.data
+          if (result.data.length > 0) {
+            this.total = result.total
+          }
         }
       }).catch(err => {
         console.log(err)
@@ -175,13 +185,21 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.Ajax.delTag(params).then(res => {
-          this.getTagList()
-          this.$message({
-            type: 'success',
-            message: '操作成功'
+        if (val.artNum === '0') {
+          this.Ajax.delTag(params).then(res => {
+            if (res.code === 200) {
+              this.getTagList()
+              this.$message.success(res.message)
+            } else {
+              this.$message.error(res.message)
+            }
           })
-        })
+        } else {
+          this.$message({
+            type: 'info',
+            message: '该标签已被使用，无法进行操作！'
+          })
+        }
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -195,19 +213,27 @@ export default {
         if (valid) {
           if (this.todo == 'add') {
             this.Ajax.addTag(this.tagsFrom).then(res => {
-              this.dialogFormVisible = false
-              this.initForm()
-              this.getTagList()
-              this.$message.success('标签添加成功')
+              if (res.code === 200) {
+                this.dialogFormVisible = false
+                this.initForm()
+                this.getTagList()
+                this.$message.success(res.message)
+              } else {
+                this.$message.error(res.message)
+              }
             }).catch(err => {
               console.log(err)
             })
           } else {
             this.Ajax.editTag(this.tagsFrom).then(res => {
-              this.dialogFormVisible = false
-              this.initForm()
-              this.getTagList()
-              this.$message.success('标签编辑成功')
+              if (res.code === 200) {
+                this.dialogFormVisible = false
+                this.initForm()
+                this.getTagList()
+                this.$message.success(res.message)
+              } else {
+                this.$message.error(res.message)
+              }
             }).catch(err => {
               console.log(err)
             })

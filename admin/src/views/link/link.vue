@@ -127,9 +127,13 @@ export default {
         limit: this.limit
       }
       this.Ajax.getLink(params).then(res => {
-        this.webSiteData = res.data
-        if (res.data.length > 0) {
-          this.total = res.total
+        let result = res.data
+        console.log('result==', result)
+        if (res.code === 200) {
+          this.webSiteData = result.data
+          if (result.data.length > 0) {
+            this.total = result.total
+          }
         }
       }).catch(err => {
         console.log(err)
@@ -175,11 +179,12 @@ export default {
         type: 'warning'
       }).then(() => {
         this.Ajax.updateLinkStatus(params).then(res => {
-          this.getFriendList()
-          this.$message({
-            type: 'success',
-            message: '操作成功'
-          })
+          if (res.code === 200) {
+            this.getFriendList()
+            this.$message.success(res.message)
+          } else {
+            this.$message.error(res.message)
+          }
         })
       }).catch(() => {
         this.$message({
@@ -194,19 +199,27 @@ export default {
           if (this.todo === 'add') {
             delete this.friendsFrom.id
             this.Ajax.addLink(this.friendsFrom).then(res => {
-              this.dialogFormVisible = false
-              this.initForm()
-              this.getFriendList()
-              this.$message.success('新增友链成功')
+              if (res.code === 200) {
+                this.dialogFormVisible = false
+                this.initForm()
+                this.getFriendList()
+                this.$message.success(res.message)
+              } else {
+                this.$message.error(res.message)
+              }
             }).catch(err => {
               console.log(err)
             })
           } else {
             this.Ajax.editLink(this.friendsFrom).then(res => {
-              this.dialogFormVisible = false
-              this.initForm()
-              this.getFriendList()
-              this.$message.success('编辑友链成功')
+             if (res.code === 200) {
+               this.dialogFormVisible = false
+               this.initForm()
+               this.getFriendList()
+               this.$message.success(res.message)
+             } else {
+               this.$message.error(res.message)
+             }
             }).catch(err => {
               console.log(err)
             })

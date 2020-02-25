@@ -11,6 +11,9 @@ import { ArticleService } from './article/article.service';
 import { ArticleModule } from './article/article.module';
 import { QiniuController } from './qiniu/qiniu.controller';
 import { QiniuModule } from './qiniu/qiniu.module';
+import { SiteConfigService } from './site-config/site-config.service';
+import { SiteConfigController } from './site-config/site-config.controller';
+import { SiteConfigModule } from './site-config/site-config.module';
 
 @Module({
   imports: [
@@ -21,9 +24,10 @@ import { QiniuModule } from './qiniu/qiniu.module';
       CategoryModule,
       TagModule,
       ArticleModule,
-      QiniuModule
+      QiniuModule,
+      SiteConfigModule
   ],
-  controllers: [QiniuController],
-  providers: [],
+  controllers: [QiniuController, SiteConfigController],
+  providers: [SiteConfigService],
 })
 export class AppModule {}

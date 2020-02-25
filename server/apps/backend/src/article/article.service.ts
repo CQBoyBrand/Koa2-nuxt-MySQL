@@ -37,9 +37,10 @@ export class ArticleService {
             }, (error, response, body) => {
                 console.log('推送结果：', body)
             })
-            return 'success'
+            return '操作成功'
         }).catch( err => {
-            return 'fail'
+            console.log('addArticle-err', err)
+            throw new CustomException('操作失败')
         })
     }
 
@@ -62,18 +63,32 @@ export class ArticleService {
             }, (error, response, body) => {
                 console.log('百度更新结果：', body);
             })
-            return 'success'
+            return '操作成功'
         }).catch( err => {
+            console.log('editArticle-err', err)
             throw new CustomException('操作失败')
         })
     }
 
     async getArtList(params): Promise<any>{
-        const artList = await this.articleRepository.createQueryBuilder('article')
-            .skip( (params.currentPage - 1) * params.limit)
-            .take(params.limit)
-            .orderBy("article.cdate", "DESC")
-            .getMany()
+        const artList = await this.articleRepository.query(`
+            select 
+            A.id, A.artTitle, A.abstract, 
+            (SELECT categoryname FROM category where FIND_IN_SET(A.category, id) ) as category, 
+            GROUP_CONCAT(T.tagname) as tag, 
+            A.thumbnail, A.pv, 
+            (SELECT COUNT(*) FROM comment where artId = A.id ) as discuss, 
+            A.content, 
+            A.cdate,  
+            A.editdate ,
+            A.status
+            from article as A
+            left join tag as T 
+            on FIND_IN_SET(T.id , A.tag)
+            group by A.id    
+            ORDER BY A.cdate desc 
+            limit ${(params.currentPage - 1) * params.limit}, ${params.limit};
+        `)
         return artList
     }
     async getArticleDetail(params): Promise<any>{
@@ -110,10 +125,13 @@ export class ArticleService {
                         console.log('推送结果：', body)
                     })
                 }
-                return 'success'
+                return '操作成功'
             } else {
                 throw new CustomException('操作失败')
             }
+        }).catch( err => {
+            console.log('delArticle-err', err)
+            throw new CustomException('操作失败')
         })
 
     }

@@ -6,6 +6,7 @@ import { TagModule } from './tag/tag.module';
 import { CategoryModule } from './category/category.module';
 import { CommentModule } from './comment/comment.module';
 import { LinkModule } from './link/link.module';
+import { SiteConfigModule } from './site-config/site-config.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { LinkModule } from './link/link.module';
     CategoryModule,
     CommentModule,
     LinkModule,
+    SiteConfigModule,
   ],
   controllers: [],
   providers: [],

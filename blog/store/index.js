@@ -20,6 +20,7 @@ export const actions = {
     const res = await service.getSiteConfig().catch(err => {
       console.log(err)
     })
+    console.log('res==', res)
     if (res && res.code === 200) {
       commit('config/GET_CONFIG_SUCCESS', res.data)
     }

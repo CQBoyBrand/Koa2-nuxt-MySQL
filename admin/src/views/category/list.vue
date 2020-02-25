@@ -21,7 +21,13 @@
         prop="categorydesc"
         label="描述"/>
       <el-table-column
+        prop="artNum"
+        align="center"
+        width="180"
+        label="使用分类的文章数(篇)"/>
+      <el-table-column
         prop="cdate"
+        align="center"
         label="创建时间">
         <template slot-scope="scope">
           {{utils.timestampToTime(scope.row.cdate)}}
@@ -30,6 +36,7 @@
       <el-table-column
         prop="status"
         width="100"
+        align="center"
         label="状态">
         <template slot-scope="scope">
           <span v-if="scope.row.status === 0" style="color: red;">已禁用</span>
@@ -130,9 +137,12 @@ export default {
         limit: this.limit
       }
       this.Ajax.getCategory(params).then(res => {
-        this.categoryData = res.data
-        if (res.data.length > 0) {
-          this.total = res.total
+        let result = res.data
+        if (res.code === 200) {
+          this.categoryData = result.data
+          if (result.data.length > 0) {
+            this.total = result.total
+          }
         }
       }).catch(err => {
         console.log(err)
@@ -175,13 +185,21 @@ export default {
         cancelButtonText: '取消',
         type: 'warning'
       }).then(() => {
-        this.Ajax.delCategory(params).then(res => {
-          this.getCategoryList()
-          this.$message({
-            type: 'success',
-            message: '操作成功'
+        if (val.artNum === '0') {
+          this.Ajax.delCategory(params).then(res => {
+            if (res.code === 200) {
+              this.getCategoryList()
+              this.$message.success(res.message)
+            } else {
+              this.$message.error(res.message)
+            }
           })
-        })
+        } else {
+          this.$message({
+            type: 'info',
+            message: '该分类正在使用中，无发进行操作！'
+          })
+        }
       }).catch(() => {
         this.$message({
           type: 'info',
@@ -196,19 +214,27 @@ export default {
           if (this.todo === 'add') {
             delete this.categoryFrom.id
             this.Ajax.addCategory(this.categoryFrom).then(res => {
-              this.dialogFormVisible = false
-              this.initForm()
-              this.getCategoryList()
-              this.$message.success('分类添加成功')
+              if (res.code === 200) {
+                this.dialogFormVisible = false
+                this.initForm()
+                this.getCategoryList()
+                this.$message.success(res.message)
+              } else {
+                this.$message.error(res.message)
+              }
             }).catch(err => {
               console.log(err)
             })
           } else {
             this.Ajax.editCategory(this.categoryFrom).then(res => {
-              this.dialogFormVisible = false
-              this.initForm()
-              this.getCategoryList()
-              this.$message.success('分类编辑成功')
+              if (res.code === 200) {
+                this.dialogFormVisible = false
+                this.initForm()
+                this.getCategoryList()
+                this.$message.success(res.message)
+              } else {
+                this.$message.error(res.message)
+              }
             }).catch(err => {
               console.log(err)
             })

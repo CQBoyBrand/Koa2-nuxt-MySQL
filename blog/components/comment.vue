@@ -1,5 +1,5 @@
 <template>
-  <div class="comment">
+  <div class="comment" v-if="siteConfig.discussStatus == 1">
     <div class="comment-container">
       <div class="comment-title" id="tohere">
         共<span>{{commentsList.total}}</span>条评论
@@ -233,6 +233,11 @@
     },
     created() {
 
+    },
+    computed:{
+      siteConfig(){
+        return this.$store.state.config.config
+      },
     },
     methods: {
 

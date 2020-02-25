@@ -33,17 +33,7 @@ ax.interceptors.request.use(
 // 拦截响应
 ax.interceptors.response.use(
   res => {
-    if (res.data.code === 200) {
-      return res.data
-    } else if (res.data.code && res.data.code !== 200) {
-      Message({
-        showClose: true,
-        message: res.data.message,
-        type: 'error'
-      })
-    } else {
-      return res
-    }
+    return res
   },
   err => {
     if (err.response.status === 401) {

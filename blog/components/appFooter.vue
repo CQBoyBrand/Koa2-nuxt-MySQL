@@ -22,11 +22,16 @@
         currentYear: new Date().getFullYear()
       }
     },
+    computed:{
+      siteConfig(){
+        return this.$store.state.config.config
+      },
+    },
     methods: {
-      
+
     },
     mounted() {
-      
+
     }
   }
 </script>

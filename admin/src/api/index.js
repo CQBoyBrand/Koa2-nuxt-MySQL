@@ -9,7 +9,7 @@ import * as qn from './modules/qn'
 import * as tag from './modules/tag'
 import * as category from './modules/category'
 import * as link from './modules/link'
-
+import * as config from './modules/config'
 
 export default {
   ...user,
@@ -18,4 +18,5 @@ export default {
   ...tag,
   ...category,
   ...link,
+  ...config
 }
