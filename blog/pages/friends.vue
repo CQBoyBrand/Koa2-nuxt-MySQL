@@ -26,6 +26,11 @@
         </li>
       </ul>
     </section>
+    <div style="text-align: center;border-bottom: 1px solid #eee;border-top: 1px solid #eee;padding: 20px 0;margin: 15px 0;">
+      <p style="color: #333;">来公众号找我</p>
+      <img width="130" height="130" src="@/assets/images/WXbrand.jpg" alt="">
+      <p style="font-size: 12px;">扫码关注，不迷路</p>
+    </div>
     <section>
       <!--评论-->
       <comment :commentsList="commentsList" :commentId="{id: 0}"></comment>

@@ -20,13 +20,19 @@
           <a href="https://creativecommons.org/licenses/by-nc/3.0/cn/deed.zh" target="_blank"> 自由转载-署名-非商用</a>
         </p>
       </div>
-
-      <!--评论-->
-      <comment v-if="true" :commentsList="commentsList" :commentId="{id:articleDetail.id}"></comment>
     </div>
     <div v-else class="left-content not-found">
       咦，你要找的东西好像不见了
     </div>
+    <div style="text-align: center;border-bottom: 1px solid #eee;border-top: 1px solid #eee;padding: 20px 0;margin: 15px 0;">
+      <p style="color: #333;">来公众号找我</p>
+      <img width="130" height="130" src="@/assets/images/WXbrand.jpg" alt="">
+      <p style="font-size: 12px;">扫码关注，不迷路</p>
+    </div>
+
+
+    <!--评论-->
+    <comment v-if="true" :commentsList="commentsList" :commentId="{id:articleDetail.id}"></comment>
   </div>
 </template>
 

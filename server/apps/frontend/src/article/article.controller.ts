@@ -55,7 +55,6 @@ export class ArticleController {
     @HttpCode(200)
     async getArticleDetail(@Body() params, @Req() req): Promise<any> {
         const artDetail = await this.articleService.getArticleDetail(params)
-        console.log('artDetail=', artDetail)
         return artDetail
     }
 

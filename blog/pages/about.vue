@@ -24,6 +24,11 @@
         <div class="contact-label">Github：</div><div class="contact-detail"><a href="https://github.com/CQBoyBrand" target="_blank">
         重庆崽儿Brand</a></div>
       </div>
+      <div style="text-align: center;padding: 20px 0;margin: 15px 0;">
+        <p style="color: #333;">来公众号找我</p>
+        <img width="130" height="130" src="@/assets/images/WXbrand.jpg" alt="">
+        <p style="font-size: 12px;">扫码关注，不迷路</p>
+      </div>
     </div>
     <div class="about-site"><el-divider>关于本站</el-divider></div>
     <div class="site-box">
