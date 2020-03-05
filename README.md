@@ -43,6 +43,24 @@
   npm run dev
   ```
  ### 打包
+
+ **部署 `Server` 端注意了！！！**
+
+ 建议在本地执行 `npm run build frontend` 和 `npm run build backend` 完后
+ 
+ (记得执行完一个就部署一个，因为 `dist` 文件夹会被覆盖，在本地运行的时候你会发现 `dist` 目录下可以同时存在 `frontend` 和 `backend` 两个文件夹，**但是** `build` 的时候不会！！)
+
+ 将 `dist` 目录下的 `frontend` 和 `backend` 文件夹放到服务器上去。
+
+ 然后启动（我用 `pm2`）:
+ ```js
+pm2 start npm --name "frontend" -- run frontend
+pm2 start npm --name "backend" -- run backend
+ ```
+ 
+  我 1 核 1G 的垃圾服务器在直接执行 `nest start` 的话，直接卡爆。。。
+
+
  ```bash
 //blog
         npm run build
@@ -52,6 +70,10 @@
         pakage.json
         nuxt.config.js
         最好在服务器这四个文件（夹）的同一级目录下新建一个static来方favicon.ico文件，有不然这个图片显示不出来
+
+        pm2启动：
+        pm2 start npm --name "blog" -- run start
+
 
 // admin
         在.env,  .env.production中配置不同的环境
@@ -79,6 +101,4 @@
         
         
         根据前面的配置，本地安装的有mysql，导入数据库文件后，应该就能把整个项目跑起来了
-        
- 
 ```
