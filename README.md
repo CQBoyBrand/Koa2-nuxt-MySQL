@@ -100,4 +100,4 @@ pm2 start npm --name "frontend" -- run frontend
 pm2 start npm --name "backend" -- run backend
  ```
  
-  我 1 核 1G 的垃圾服务器在直接执行 `nest start` 的话，直接卡爆。。。
+  我 1 核 1G 的垃圾服务器在服务器直接执行 `nest start frontend` ，直接卡爆。。。,高配置的应该没啥问题吧
