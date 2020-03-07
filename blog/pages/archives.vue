@@ -125,7 +125,7 @@
             .date {
               padding-right: 10px;
               display: inline-block;
-              width: 86px;
+              width: 88px;
             }
             .views{
               margin-left: auto;

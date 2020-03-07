@@ -69,6 +69,18 @@
         node_modules下的文件就不要上传了，太大了，把其他文件上传服务器后运行   npm install 就好了
         
         注意自己复制 .env.example 粘贴为 .env 并修改其中内容
+
+        修改 backend 和 frontend 下的 main.js，处理跨域问题
+
+        const app = await NestFactory.create(AppModule,{
+            // cors: {
+            //     "origin": ['http://www.brandhuang.com','https://www.brandhuang.com','http://admin.brandhuang.com','https://admin.brandhuang.com'],
+            //     "methods": "GET,HEAD,PUT,PATCH,POST,DELETE",
+            //     "preflightContinue": false,
+            //     "optionsSuccessStatus": 204
+            // }
+            cors: true
+        });
         
         在 server 端的根目录下（此启动方式用于本地开发，服务端部署时，启动方式请看最下面！）
         运行：
@@ -86,6 +98,11 @@
         根据前面的配置，本地安装的有mysql，导入数据库文件后，应该就能把整个项目跑起来了
 ```
 
+#### 初次使用本项目请注意
+由于数据库没有出事数据，要登陆后台需要先注册用户
+
+操作详情参考：[issues #8](https://github.com/CQBoyBrand/Koa2-nuxt-MySQL/issues/8)
+
  **部署 `Server` 端注意了！！！**
 
  建议在本地执行 `npm run build frontend` 和 `npm run build backend` 完后
@@ -101,3 +118,8 @@ pm2 start npm --name "backend" -- run backend
  ```
  
   我 1 核 1G 的垃圾服务器在服务器直接执行 `nest start frontend` ，直接卡爆。。。,高配置的应该没啥问题吧
+
+
+  有问题需可以来公众号找我，扫码或微信搜索「九零后重庆崽儿」
+
+  ![公众号](./brandQRcode.jpg)
