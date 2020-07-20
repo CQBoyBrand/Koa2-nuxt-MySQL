@@ -130,6 +130,6 @@ pm2 start npm --name "backend" -- run backend
   我 1 核 1G 的垃圾服务器在服务器直接执行 `nest start frontend` ，直接卡爆。。。,高配置的应该没啥问题吧
 
 
-  有问题需可以来公众号找我，扫码或微信搜索「九零后重庆崽儿」
+  有问题可以来公众号找我，扫码或微信搜索「九零后重庆崽儿」
 
   ![公众号](./brandQRcode.jpg)
