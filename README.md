@@ -138,6 +138,12 @@ pm2 start npm --name "frontend" -- run frontend
 pm2 start npm --name "backend" -- run backend
  ```
  
+ 项目比较详细、完整的部署请看我的文章：[http://www.brandhuang.com/article/1552997590733](http://www.brandhuang.com/article/1552997590733)
+ 
+  项目比较详细、完整的部署请看我的文章(备用地址一)：[https://juejin.im/post/6844903558895124488](https://juejin.im/post/6844903558895124488)
+  
+   项目比较详细、完整的部署请看我的文章(备用地址二)：[https://segmentfault.com/a/1190000013095046](https://segmentfault.com/a/1190000013095046)
+ 
   我 1 核 1G 的垃圾服务器在服务器直接执行 `nest start frontend` ，直接卡爆。。。,高配置的应该没啥问题吧
 
 
