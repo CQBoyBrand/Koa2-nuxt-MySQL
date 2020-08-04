@@ -47,7 +47,7 @@ export class UserGetDto {
     signature: string;
 }
 /**
- * 获取用户信息
+ * 更新用户信息
  */
 export class UserUpdateDto {
     @ApiProperty()

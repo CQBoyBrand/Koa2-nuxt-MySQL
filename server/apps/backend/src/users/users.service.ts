@@ -36,12 +36,16 @@ export class UsersService {
 
     async userInfoUpdate(params): Promise<any> {
         const pwd = md5(process.env.AUTH_PWD_SALT + params.newpass)
-        return await this.userRepository.update(params.id, {
+        let updateInfo = {
             nickname:params.nickname,
             signature: params.signature,
             avatar: params.avatar,
             password: pwd
-        }).then(() => {
+        }
+        if(!params.newpass) {
+            delete updateInfo.password
+        }
+        return await this.userRepository.update(params.id, updateInfo).then(() => {
             return '操作成功'
         }).catch( () => {
             throw new CustomException('操作失败')

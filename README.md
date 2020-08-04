@@ -48,10 +48,21 @@
  npm install
 
  ```
- ### 运行
-  ```bash
-  npm run dev
-  ```
+ ### 本地运行
+
+ `servre` 端需要先全局安装 `nestjs` 脚手架
+ 
+ ```md
+    npm install -g @nestjs/cli
+ ```
+
+然后
+
+```bash
+server端：
+    启动 backend 端服务：nest start -w backend
+    启动 frontend 端服务：nest start -w frontend
+```
  ### 打包
 
  ```bash
@@ -62,7 +73,7 @@
         server
         pakage.json
         nuxt.config.js
-        最好在服务器这四个文件（夹）的同一级目录下新建一个static来方favicon.ico文件，有不然这个图片显示不出来
+        最好在服务器这四个文件（夹）的同一级目录下新建一个static来方favicon.ico文件，要不然这个图片显示不出来
 
         pm2启动：
         pm2 start npm --name "blog" -- run start
@@ -122,7 +133,7 @@
  将 `dist` 目录下的 `frontend` 和 `backend` 文件夹放到服务器上的 `dist` 文件夹中。
 
  然后启动（我用 `pm2`）:
- ```js
+ ```bash
 pm2 start npm --name "frontend" -- run frontend
 pm2 start npm --name "backend" -- run backend
  ```
