@@ -37,6 +37,20 @@ export const actions = {
       commit('article/GET_ART_SUCCESS', res.data)
     }
   },
+  // 按导航栏获取文章列表
+  async getArtListByType({commit, state}, params) {
+    let postParam = {
+      artType:params.artType,
+      currentPage: params.currentPage || CURRENT_PAGE,
+      limit: LIMIT
+    }
+    const res = await service.getArtByType(postParam).catch(err => {
+      console.log(err)
+    })
+    if (res && res.code === 200) {
+      commit('article/GET_ART_BY_TYPE_SUCCESS', res.data)
+    }
+  },
   // 按标签获取文章列表
   async getArtListByTag({commit, state}, params) {
     let postParam = {
@@ -161,4 +175,9 @@ export const actions = {
     })
     return res
   },
+
+  async generateToc({commit, state}, data){
+    console.log(data)
+    // commit('article/SET_ART_TOC', data)
+  }
 }

@@ -1,5 +1,5 @@
 <template>
-  <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
+  <list :articleList="articleList" ></list>
 </template>
 
 <script>
@@ -22,7 +22,7 @@
       }
     },
     async fetch ({ store ,query}) {
-      await store.dispatch('getAllArtList',{currentPage: query.page});
+      await store.dispatch('getArtListByType',{currentPage: query.page, artType: 'code'});
     },
     computed: {
       articleList(){
@@ -30,12 +30,6 @@
       },
     },
     methods: {
-      getCurrentPage(data){
-        this.$store.dispatch('getAllArtList',{
-          currentPage: data.currentPage,
-          limit:1,
-        })
-      }
     },
     mounted() {
 

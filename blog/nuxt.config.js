@@ -23,7 +23,6 @@ module.exports = {
     ],
     link: [
       {rel: 'icon', type: 'image/x-icon', href: '/favicon.ico'},
-      // {rel: 'stylesheet', href: '//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/default.min.css'}
     ],
   },
 
@@ -42,8 +41,8 @@ module.exports = {
   css: [
     'element-ui/lib/theme-chalk/index.css',
     '@/assets/css/style.scss',
-    '@/assets/css/github-markdown.css',
-    '@/assets/css/darcula.min.css',
+    '@/assets/css/preview.scss',
+    '@/assets/css/monokai.css',
   ],
 
   /*

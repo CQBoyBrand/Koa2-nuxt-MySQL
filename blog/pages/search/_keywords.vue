@@ -4,7 +4,7 @@
       <p class="type-title">搜索<span>{{$route.query.keywords}}</span>相关的文章</p>
       <p class="type-total">共找到<span>{{articleList.total || 0}}</span>篇</p>
     </section>
-    <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
+    <list :articleList="articleList"></list>
   </article>
 </template>
 
@@ -35,9 +35,6 @@
       }
     },
     methods: {
-      getCurrentPage(data){
-        console.log('data=',data)
-      }
     },
     mounted() {
 

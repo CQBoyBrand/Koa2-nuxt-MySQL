@@ -19,7 +19,7 @@
     },
     head() {
       return {
-        title: this.$route.params.tagid,
+        title: this.tagName,
       }
     },
     data() {

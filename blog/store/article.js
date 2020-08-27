@@ -6,9 +6,10 @@ export const state = () => ({
   hot:[],
   artByTag:{},
   artByCategory:{},
+  artByType:{},
   artByKeywords:{},
-  archive:{}
-
+  archive:{},
+  artToc: []
 })
 
 export const mutations = {
@@ -23,6 +24,10 @@ export const mutations = {
   // 获取文章详情
   GET_ART_HOT_SUCCESS(state, data) {
     state.hot = data
+  },
+  // 根据导航栏获取文章
+  GET_ART_BY_TYPE_SUCCESS(state, data) {
+    state.list = data
   },
   // 根据标签获取文章
   GET_ART_BY_TAG_SUCCESS(state, data) {
@@ -39,5 +44,9 @@ export const mutations = {
   // 根据搜索获取文章
   GET_ART_ARCHIVE_SUCCESS(state, data) {
     state.archive = data
+  },
+  // 设置文章目录
+  SET_ART_TOC(state, data) {
+    state.artToc = data
   },
 }

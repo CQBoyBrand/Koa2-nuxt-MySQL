@@ -4,13 +4,14 @@
       <p class="type-title">归类在<span>{{categoryName}}</span>下的文章</p>
       <p class="type-total">共有<span>{{articleList.total || 0}}</span>篇</p>
     </section>
-    <list :articleList="articleList" @getCurrentPage="getCurrentPage"></list>
+    <list :articleList="articleList"></list>
   </article>
 </template>
 
 <script>
   import list from '../../components/articleList'
   import sidebar from '@/components/sidebar'
+  import {compile} from "../../.nuxt/utils";
   export default {
     watchQuery: true,
     name: 'categoryid',
@@ -19,7 +20,7 @@
     },
     head() {
       return {
-        title: this.$route.params.categorylist,
+        title: this.categoryName,
       }
     },
     data() {
@@ -41,13 +42,12 @@
             categoryname = item.categoryname
           }
         })
+        console.log('a')
         return categoryname
       }
     },
     methods: {
-      getCurrentPage(data){
 
-      }
     },
     mounted() {
 

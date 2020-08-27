@@ -4,104 +4,126 @@
  * CreateTime: 2020/2/11 18:36
  * Description:
  */
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export class Comment {
     @PrimaryGeneratedColumn({
-        type: "int",
-        comment: 'id'
+        type: 'int',
+        comment: 'id',
     })
-    id: number
+    id: number;
 
     @Column({
         type: 'bigint',
         comment: '文章id',
-        nullable: false
+        nullable: false,
     })
-    artId: number
+    artId: number;
+
+    @Column({
+        type: 'text',
+        comment: '评论的文章链接',
+        nullable: false,
+    })
+    artURL: string;
 
     @Column({
         type: 'text',
         comment: '评论内容',
-        nullable: false
+        nullable: false,
     })
-    content: any
+    content: any;
 
     @Column({
         type: 'text',
         comment: '评论者昵称',
-        nullable: false
+        nullable: false,
     })
-    from_uname: string
+    from_uname: string;
 
     @Column({
         type: 'text',
         comment: '评论者邮箱',
-        nullable: false
+        nullable: false,
     })
-    from_uemail: string
+    from_uemail: string;
 
     @Column({
         type: 'text',
         comment: '评论者头像',
-        nullable: false
+        nullable: false,
     })
-    from_uavatar: string
+    from_uavatar: string;
 
     @Column({
         type: 'text',
         comment: '评论者网址',
-        nullable: true
+        nullable: true,
     })
-    from_uweb: string
+    from_uweb: string;
 
     @Column({
         type: 'bigint',
         comment: '评论回复时间',
-        nullable: false
+        nullable: false,
     })
-    cdate: number
+    cdate: number;
 
     @Column({
         type: 'text',
         comment: '被回复者昵称',
-        nullable: true
+        nullable: true,
     })
-    to_uname: string
+    to_uname: string;
 
     @Column({
         type: 'text',
         comment: '被回复者头像',
-        nullable: true
+        nullable: true,
     })
-    to_uavatar: string
+    to_uavatar: string;
 
     @Column({
         type: 'text',
         comment: '被回复者邮箱',
-        nullable: true
+        nullable: true,
     })
-    to_uemail: string
+    to_uemail: string;
 
     @Column({
         type: 'text',
         comment: '被回复者网址',
-        nullable: true
+        nullable: true,
     })
-    to_uweb: string
+    to_uweb: string;
 
     @Column({
         type: 'text',
         comment: '被回复的内容',
-        nullable: true
+        nullable: true,
     })
-    oldContent: string
+    oldContent: string;
 
     @Column({
         type: 'bigint',
         comment: '被回复的内容的回复时间',
-        nullable: true
+        nullable: true,
     })
-    oldCdate: number
+    oldCdate: number;
+
+    @Column({
+        type: 'bigint',
+        comment: '被回复内容的id',
+        nullable: true,
+    })
+    oldId: number;
+
+    @Column({
+        type: 'int',
+        comment: '评论是否审核过 1-通过；0-不通过',
+        nullable: false,
+        default: 0,
+    })
+    isChecked: number;
 }

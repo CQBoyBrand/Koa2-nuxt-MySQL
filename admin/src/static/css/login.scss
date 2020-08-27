@@ -1,0 +1,11 @@
+.login-div{
+  width: 400px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+
+  .ant-card-head-title{
+    text-align: center;
+  }
+}

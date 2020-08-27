@@ -1,11 +1,12 @@
 <template>
-  <div class="comment" v-if="siteConfig.discussStatus == 1">
+  <div class="comment" v-if="siteConfig.discussStatus === 1 && artDiscuss === 1">
     <div class="comment-container">
       <div class="comment-title" id="tohere">
         共<span>{{commentsList.total}}</span>条评论
       </div>
       <div class="comment_tips">
         <p style="font-size: 16px;color: #000;font-weight: bold;">提示：</p>
+        <p>评论会在审核通过后显示在下方</p>
         <p>昵称必填，用于展示在评论中</p>
         <p>邮箱必填，不会公开展示，方便及时收到回复</p>
         <p>网址选填，方便看到的人去访问,请完整填写,例如(http://www.brandhuang.com)</p>
@@ -106,7 +107,7 @@
             </div>
             <div class="comment-time">{{item.cdate}}</div>
           </div>
-          <div class="comment-content  markdown-body">
+          <div class="comment-content" id="r-md-preview">
             <div class="comment-list replyContent-bg" v-if="item.oldContent != null">
               <div class="clearfix">
                 <a :href="item.to_uweb" target="_blank" class="clearfix comment-user"
@@ -118,7 +119,7 @@
                 </div>
                 <div class="comment-time">{{item.oldCdate}}</div>
               </div>
-              <div class="comment-content markdown-body">
+              <div class="comment-content">
                 <div v-html="commentsRender(item.oldContent)"></div>
               </div>
             </div>
@@ -142,6 +143,9 @@
       </div>
     </div>
   </div>
+  <div v-else class="cant-comment">
+    站长暂未开启评论
+  </div>
 </template>
 
 <script>
@@ -156,6 +160,10 @@
       },
       commentId: {
         type: Object,
+        required: true,
+      },
+      artDiscuss: {
+        type: Number,
         required: true,
       }
     },
@@ -197,7 +205,8 @@
           touemail: '',
           touweb: '',
           touname: '',
-          articleURL: ''
+          articleURL: '',
+          oldId: ''
         },
         emojiData: [
           ':stuck_out_tongue_winking_eye:',
@@ -356,6 +365,7 @@
         this.replyForm.touweb = item.from_uweb
         this.replyForm.touname = item.from_uname
         this.replyForm.touavatar = item.from_uavatar
+        this.replyForm.oldId = item.id
       },
       commentChange() {
         const html = this.$refs.commentEdit.innerHTML
@@ -411,6 +421,12 @@
 </script>
 
 <style lang="scss">
+.cant-comment{
+  text-align: center;
+  padding: 20px;
+  font-size: 13px;
+  color: #666;
+}
   .comment {
     .comment-container {
       .comment-title {
@@ -557,11 +573,12 @@
         }
 
         .comment-content {
-          text-indent: 2em;
+          //text-indent: 2em;
           font-size: 0px;
           color: #333;
           line-height: 20px;
           padding: 8px 0;
+          word-break: break-all;
 
           & > div {
             font-size: 13px;

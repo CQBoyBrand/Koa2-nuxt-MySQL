@@ -4,7 +4,7 @@
       <h2 class="article-title">{{articleDetail.artTitle}}</h2>
       <p class="article-info"><span>发布于：{{articleDetail.cdate.split(" ")[0]}}</span><span>{{articleDetail.pv}} 次浏览</span><span>{{commentsList.total}} 条评论</span>
       </p>
-      <div class="article-content markdown-body">
+      <div class="article-content" id="r-md-preview">
         <div v-html="markdownRender">
 
         </div>
@@ -24,22 +24,48 @@
     <div v-else class="left-content not-found">
       咦，你要找的东西好像不见了
     </div>
-    <div style="text-align: center;border-bottom: 1px solid #eee;border-top: 1px solid #eee;padding: 20px 0;margin: 15px 0;">
-      <p style="color: #333;">来公众号找我</p>
-      <img width="130" height="130" src="@/assets/images/WXbrand.jpg" alt="">
-      <p style="font-size: 12px;">扫码关注，不迷路</p>
-    </div>
 
 
     <!--评论-->
-    <comment v-if="true" :commentsList="commentsList" :commentId="{id:articleDetail.id}"></comment>
+    <comment :artDiscuss="articleDetail.artDiscuss" :commentsList="commentsList" :commentId="{id:articleDetail.id}"></comment>
   </div>
 </template>
 
 <script>
   import comment from '@/components/comment'
+  import Viewer from 'viewerjs';
+  import 'viewerjs/dist/viewer.css';
+  import marked from "marked";
+  import emoji from 'node-emoji'
+  import hljs from 'highlight.js'
+  const renderer = new marked.Renderer();
+  let tocs = [];
 
-  import {mdRender, timestampToTime }  from '@/utils/utils'
+  // renderer.heading = function(text, level, raw) {
+  //   let anchor = this.options.headerPrefix + raw.toLowerCase().replace(/[^\w\\u4e00-\\u9fa5]]+/g, '-');
+  //   tocs.push({
+  //     anchor: anchor,
+  //     level: level,
+  //     text: text
+  //   });
+  //   console.log(1)
+  //   return `<h${level} id="${anchor}">${text} </h${level}>`
+  // };
+  marked.setOptions({
+    renderer: renderer,
+    gfm: true,
+    // tables: true,
+    breaks: true,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+    highlight(code, lang, callback) {
+      return hljs.highlightAuto(code).value;
+    }
+  });
+
+  import {timestampToTime }  from '@/utils/utils'
 
   export default {
     watchQuery: ['page'],
@@ -64,7 +90,12 @@
       await store.dispatch('getArtDetail', {id: params.id});
       await store.dispatch('getComment', {id: params.id, currentPage: query.page});
     },
-
+    mounted() {
+      const gallery = new Viewer(document.getElementById('r-md-preview'),{
+        // movable: false,
+        zIndex: 9999
+      });
+    },
     computed: {
       articleDetail() {
         return this.$store.state.article.detail
@@ -77,7 +108,6 @@
         if(tag){
           return tag.split(',')
         }
-
       },
       markdownRender() {
         let mdStr = this.$store.state.article.detail.content
@@ -85,7 +115,10 @@
         if (this.$store.state.article.detail) {
           markd = mdStr || ''
         }
-        return mdRender(markd)
+        // console.log(23)
+        // this.$store.commit('article/SET_ART_TOC', tocs)
+        const replacer = (match) => emoji.emojify(match)
+        return marked(markd.replace(/(:.*:)/g, replacer)).replace(/<a/g, '<a target="_blank"')
       },
     },
   }
@@ -118,10 +151,14 @@
     }
 
     .article-content {
-      font-size: 14px;
-      line-height: 34px;
-      pre{
-        max-height: 400px;
+      img{
+        border-radius: 8px;
+      }
+    }
+    #r-md-preview{
+      @media screen and (max-width: 920px) {
+        padding-left: 0;
+        padding-right: 0;
       }
     }
 

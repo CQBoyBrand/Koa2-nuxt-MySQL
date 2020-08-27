@@ -1,0 +1,18 @@
+.comment-info{
+  .comment-user{
+    display: flex;
+
+    .nickname{
+      color: #0269c8;
+      padding: 0 8px;
+      a{
+        color: #1890ff;
+        text-underline: #1890ff;
+      }
+    }
+  }
+  .comment-content{
+    text-indent: 2em;
+    padding-top: 8px;
+  }
+}

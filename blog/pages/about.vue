@@ -7,28 +7,14 @@
         <h5>重庆崽儿Brand</h5>
       </div>
       <ul class="about-me-right">
+        <li>前端开发经验：2016年大学本科毕业～今日</li>
         <li>90后瘦宅，喜欢美剧、爬山、徒步、篮球、乒乓球、羽毛球等球类</li>
-        <li>工作主要使用的是Vue.js，平时自己偶尔折腾下Node.js</li>
+        <li>工作主要使用的是Vue.js、React.js，平时自己偶尔折腾下Node.js</li>
         <li>轻微强迫症，对代码有一点点洁癖</li>
         <li>喜欢看足球，C罗粉</li>
-        <li>在学拍照，但是还没有认真去拍过。。。</li>
+        <li>在学拍照，但是还没有认真去拍过</li>
         <li>未完待续</li>
       </ul>
-    </div>
-    <div class="contact-me"><el-divider>联系我</el-divider></div>
-    <div class="contact-box">
-      <div class="contact-method clearfix">
-        <div class="contact-label">邮箱：</div><div class="contact-detail"><a href="mailto:brandhuang@qq.com">brandhuang@qq.com</a></div>
-      </div>
-      <div class="contact-method clearfix">
-        <div class="contact-label">Github：</div><div class="contact-detail"><a href="https://github.com/CQBoyBrand" target="_blank">
-        重庆崽儿Brand</a></div>
-      </div>
-      <div style="text-align: center;padding: 20px 0;margin: 15px 0;">
-        <p style="color: #333;">来公众号找我</p>
-        <img width="130" height="130" src="@/assets/images/WXbrand.jpg" alt="">
-        <p style="font-size: 12px;">扫码关注，不迷路</p>
-      </div>
     </div>
     <div class="about-site"><el-divider>关于本站</el-divider></div>
     <div class="site-box">
@@ -39,7 +25,7 @@
           博客界面有些丑，但是暂时不打算改了，等 Vue3 出来了再弄弄。如果你有一些简约看着又不错的博客界面，可以给我留言或者邮件，我参考参考。
         </div>
         <div style="text-align: center;">
-          <img src="http://static.brandhuang.com/Hi-brand-dongtu.gif" alt="">
+          <img src="http://static.brandhuang.com/Hi-brand-dongtu.gif" alt="hi-brand">
         </div>
       </div>
       <div>
@@ -47,10 +33,10 @@
       </div>
       <div class="site-tech">
         <div>前端：Nuxt.js</div>
-        <div>后端：Vue.js + ElementUI</div>
-        <div>服务端：Koa2</div>
+        <div>后端：React.js + Antd</div>
+        <div>服务端：Nest.js</div>
         <div>数据库：Mysql</div>
-        <div>本站源码：<a href="https://github.com/CQBoyBrand/Koa2-nuxt-MySQL" target="_blank">Koa2-nuxt-MySQL</a></div>
+        <div>本站源码：<a href="https://github.com/CQBoyBrand/Koa2-nuxt-MySQL" target="_blank">Blog System</a></div>
       </div>
     </div>
   </div>
@@ -101,11 +87,13 @@
       margin: 0 auto;
       padding: 15px;
       .about-me-left{
+        padding-bottom: 10px;
         img{
           display: block;
           width: 80px;
           height: 80px;
           margin: 0 auto;
+          border-radius: 50%;
         }
         h5{
           padding: 8px 0 0;
@@ -115,26 +103,7 @@
         font-size: 13px;
         li{
           list-style: none;
-        }
-      }
-    }
-    .contact-box{
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 15px;
-      font-size: 13px;
-      .contact-method{
-        line-height: 30px;
-        .contact-label{
-          float: left;
-          width: 80px;
-        }
-        .contact-detail{
-          float: left;
-          a{
-            color: #409EFF;
-            cursor: pointer;
-          }
+          line-height: 20px;
         }
       }
     }

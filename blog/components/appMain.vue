@@ -54,6 +54,7 @@
     flex: 1;
     overflow: hidden;
     margin: 15px 0;
+    border-radius: 6px;
     @media screen and (max-width: 920px) {
       width: 100%;
       min-width: 320px;

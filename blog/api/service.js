@@ -37,6 +37,10 @@ export  function getArticleListByTag(params) {
 export  function getArtByCategory(params) {
   return post(articlePrefix + '/getArtByCategory',params).then( res => res.data)
 }
+// 按导航栏获取文章
+export  function getArtByType(params) {
+  return post(articlePrefix + '/getArtByType',params).then( res => res.data)
+}
 
 // 按搜索获取文章
 export  function getArtByTitle(params) {

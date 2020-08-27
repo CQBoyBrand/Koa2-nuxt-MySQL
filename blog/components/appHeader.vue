@@ -3,11 +3,11 @@
     <nav class="nav_wrap clearfix" v-if="!isMobile">
       <h2 class="logo"><a href="/" title="重庆崽儿Brand">重庆崽儿Brand</a></h2>
       <ul class="nav_box transition-box" v-show="isShow">
-        <nuxt-link to="/" tag="li">首页</nuxt-link>
+        <nuxt-link to="/" tag="li">代码</nuxt-link>
+        <nuxt-link to="/life" tag="li">生活</nuxt-link>
         <nuxt-link to="/archives" tag="li">归档</nuxt-link>
         <nuxt-link to="/friends" tag="li">友链</nuxt-link>
-        <nuxt-link to="/message" tag="li" v-if="false">留言</nuxt-link>
-        <nuxt-link to="/about" tag="li">关于</nuxt-link>
+        <nuxt-link to="/about" tag="li">关于我</nuxt-link>
         <li>
           <form autocomplete="off" @submit.prevent="searchHandle">
             <el-input
@@ -27,11 +27,11 @@
       </div>
       <el-collapse-transition>
         <ul class="nav_box transition-box" v-show="isShow">
-          <nuxt-link to="/" tag="li" @click.native="menuToggle">首页</nuxt-link>
+          <nuxt-link to="/" tag="li" @click.native="menuToggle">代码</nuxt-link>
+          <nuxt-link to="/life" tag="li" @click.native="menuToggle">生活</nuxt-link>
           <nuxt-link to="/archives" tag="li" @click.native="menuToggle">归档</nuxt-link>
           <nuxt-link to="/friends" tag="li" @click.native="menuToggle">友链</nuxt-link>
-          <nuxt-link to="/message" tag="li" @click.native="menuToggle" v-if="false">留言</nuxt-link>
-          <nuxt-link to="/about" tag="li" @click.native="menuToggle">关于</nuxt-link>
+          <nuxt-link to="/about" tag="li" @click.native="menuToggle">关于我</nuxt-link>
           <li>
             <form autocomplete="off" @submit.prevent="searchHandleMob" style="width: 96%;">
               <el-input

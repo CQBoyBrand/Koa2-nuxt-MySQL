@@ -4,66 +4,41 @@
  * CreateTime: 2020/2/21 22:33
  * Description:
  */
-import {timestampToTime} from "@common/common/common/utils.common";
-const nodemailer = require('nodemailer');//发送邮件
+import {timestampToTime} from '@common/common/common/utils.common';
+const nodemailer = require('nodemailer'); // 发送邮件
 
-let toc = require('markdown-it-toc')
-// 表情
-let emoji = require('markdown-it-emoji');
-// 下标
-let sub = require('markdown-it-sub')
-// 上标
-let sup = require('markdown-it-sup')
-// <dl/>
-let deflist = require('markdown-it-deflist')
-// <abbr/>
-let abbr = require('markdown-it-abbr')
-// footnote
-let footnote = require('markdown-it-footnote')
-// insert 带有下划线 样式 ++ ++
-let insert = require('markdown-it-ins')
-// mark
-let mark = require('markdown-it-mark')
-// taskLists
-let taskLists = require('markdown-it-task-lists')
-let miip = require('markdown-it-images-preview');
-let markdown_config = {
-    html: true,        // Enable HTML tags in source
-    xhtmlOut: true,        // Use '/' to close single tags (<br />).
-    breaks: true,        // Convert '\n' in paragraphs into <br>
-    langPrefix: 'language-',  // CSS language prefix for fenced blocks. Can be
-    linkify: false,        // 自动识别url
-    typographer: true,
-    quotes: '“”‘’',
-}
+const hljs = require('highlight.js');
 
-let md = require('markdown-it')(markdown_config)
-    .use(emoji)
-    .use(taskLists)
-    .use(sup)
-    .use(sub)
-    .use(deflist)
-    .use(abbr)
-    .use(footnote)
-    .use(insert)
-    .use(mark)
-    .use(miip)
-    .use(toc)
+const marked = require('marked');
+const renderer = new marked.Renderer();
+marked.setOptions({
+    renderer,
+    gfm: true,
+    // tables: true,
+    breaks: true,
+    pedantic: false,
+    sanitize: false,
+    smartLists: true,
+    smartypants: false,
+    highlight(code, lang, callback) {
+        return hljs.highlightAuto(code).value;
+    },
+});
 
 let renderComent ;
 let times ;
 let transporter;
 function emailInit(params) {
-    renderComent = md.render(params.content)
-    times = timestampToTime(params.cdate)
+    renderComent = marked(params.content);
+    times = timestampToTime(params.cdate);
     transporter = nodemailer.createTransport({
         host: 'smtp.qq.com',
         secure: true,
-        port:'465',
+        port: '465',
         auth: {
             user: process.env.EMAIL_ACCOUNT,
-            pass: process.env.EMAIL_PWD //授权码,通过QQ获取
-        }
+            pass: process.env.EMAIL_PWD, // 授权码,通过QQ获取
+        },
     });
 }
 /**
@@ -71,9 +46,9 @@ function emailInit(params) {
  * @param params
  */
 export function sendToAuthor(params) {
-    emailInit(params)
-    console.log(process.env.EMAIL_AUTHOR)
-    var mailOptionsToAuthor = {
+    emailInit(params);
+    console.log(process.env.EMAIL_AUTHOR);
+    const mailOptionsToAuthor = {
         from: `重庆崽儿Brand <${process.env.EMAIL_ACCOUNT}>`, // 发送者
         to: `${process.env.EMAIL_AUTHOR}`, // 接受者,可以同时发送多个,以逗号隔开
         subject: params.subject, // 标题
@@ -111,13 +86,12 @@ export function sendToAuthor(params) {
                                   <div style="padding: 10px 0 0 0;color: #999;font-size: 12px;">(此邮件由系统自动发送，请勿直接回复！)</div>
                               </div>
                           </div>
-                      </div>`
+                      </div>`,
     };
-    console.log('mailOptionsToAuthor==', mailOptionsToAuthor)
-    transporter.sendMail(mailOptionsToAuthor, function (err, info) {
+    transporter.sendMail(mailOptionsToAuthor, function(err, info) {
         if (err) {
-            console.log('发送邮件给作者出错了')
-            console.log(err)
+            console.log('发送邮件给作者出错了');
+            console.log(err);
             return;
         }
         console.log('发送邮件给作者成功');
@@ -129,8 +103,8 @@ export function sendToAuthor(params) {
  * @param params
  */
 export function sendToObserver(params) {
-    emailInit(params)
-    var mailOptionsToCommentor = {
+    emailInit(params);
+    const mailOptionsToCommentor = {
         from: '重庆崽儿Brand<hellobugworld@qq.com>', // 发送者
         to: `${params.touemail}`, // 接受者,可以同时发送多个,以逗号隔开
         subject: params.subject, // 标题
@@ -171,14 +145,13 @@ export function sendToObserver(params) {
                                   <div style="padding: 10px 0 0 0;color: #999;font-size: 12px;">(此邮件由系统自动发送，请勿直接回复！)</div>
                               </div>
                           </div>
-                      
-                      </div>`
+
+                      </div>`,
     };
-    console.log('mailOptionsToCommentor==', mailOptionsToCommentor)
-    transporter.sendMail(mailOptionsToCommentor, function (err, info) {
+    transporter.sendMail(mailOptionsToCommentor, function(err, info) {
         if (err) {
-            console.log('发送邮件给评论的人出错了')
-            console.log(err)
+            console.log('发送邮件给评论的人出错了');
+            console.log(err);
             return;
         }
         console.log('发送邮件给评论的人成功');

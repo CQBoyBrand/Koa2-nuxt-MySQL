@@ -1,0 +1,92 @@
+.expand-div{
+  padding: 0 30px;
+
+  .expand-content-wrap{
+    display: flex;
+
+    .expand-label{
+      width: 100px;
+    }
+
+    .expand-content{
+      flex: 1;
+    }
+  }
+
+  .expand-content-wrap + .expand-content-wrap {
+    margin-top: 10px;
+  }
+}
+
+.article-p-container{
+  display: flex;
+  height: 100%;
+  .ant-form-item{
+    display: flex;
+    align-items: center;
+  }
+  .ant-form-item-control{
+    overflow: auto;
+    width: 100%;
+  }
+  .thumbnail-item,
+  .abstract-item{
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  .article-p-left{
+    flex: 1;
+    overflow: auto;
+    padding: 15px;
+    background-color: #fff;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+
+    .mdContent{
+      .ant-form-item-control-input{
+        display: none;
+      }
+    }
+  }
+  .article-p-right{
+    width: 300px;
+    background-color: #fff;
+    margin-left: 5px;
+    padding: 15px;
+    .ant-upload{
+      width: 100%;
+    }
+
+    .upload-wrap{
+      display: block;
+      width: 100%;
+      border: 1px dashed #eee;
+      .ant-upload.ant-upload-select{
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+    }
+    .upload-img-div{
+      width: 100%;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      img{
+        max-width: 100%;
+        max-height: 100%;
+      }
+    }
+    .anticon-plus{
+      width: 100%;
+      height: 100px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+  }
+}

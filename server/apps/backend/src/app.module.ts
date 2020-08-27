@@ -14,6 +14,7 @@ import { QiniuModule } from './qiniu/qiniu.module';
 import { SiteConfigService } from './site-config/site-config.service';
 import { SiteConfigController } from './site-config/site-config.controller';
 import { SiteConfigModule } from './site-config/site-config.module';
+import {CommentModule} from './comment/comment.module';
 
 @Module({
   imports: [
@@ -25,7 +26,8 @@ import { SiteConfigModule } from './site-config/site-config.module';
       TagModule,
       ArticleModule,
       QiniuModule,
-      SiteConfigModule
+      SiteConfigModule,
+      CommentModule
   ],
   controllers: [QiniuController, SiteConfigController],
   providers: [SiteConfigService],
