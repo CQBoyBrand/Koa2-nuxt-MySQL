@@ -5,8 +5,8 @@ module.exports = {
   ** Headers of the page
   */
   head: {
-    title: '欢迎访问我的个人主页 - 重庆崽儿Brand',
-    titleTemplate: '%s - 重庆崽儿brand的个人主页',
+    title: '欢迎访问我的主页 - 重庆崽儿Brand博客',
+    titleTemplate: '%s - 重庆崽儿brand博客',
     meta: [
       {charset: 'utf-8'},
       {
@@ -16,7 +16,7 @@ module.exports = {
       },
       {name: 'viewport', content: 'width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no'},
       {hid: 'description', name: 'description', content: '重庆崽儿brand的个人博客，重庆崽儿brand的生活记录，重庆崽儿brand的前端学习'},
-      {hid: 'keywords', name: 'keywords', content: '重庆崽儿brand，vue，nuxt，blog，首页，JavaScript，js，css，html，web前端，前端开发'},
+      {hid: 'keywords', name: 'keywords', content: '重庆崽儿brand，vue，nuxt，blog，首页，JavaScript，js，css，html，web前端，前端开发，个人博客'},
       {hid: 'author', name: 'author', content: '重庆崽儿brand'},
       {hid: 'renderer', name: 'renderer', content: 'webkit|ie-comp|ie-stand'},
       {hid: 'http-equiv', 'http-equiv': 'X-UA-Compatible', content: 'IE=edge,chrome=1'},

@@ -249,7 +249,6 @@ function MdEditor(props: any) {
     // 回退
     const undo = () => {
         let position = mdEditor.getCursor() // 获取当前光标位置 {line: 0,ch: 0}
-        console.log(position)
         mdEditor.undo()
         mdEditor.focus()
         mdEditor.setCursor(position)

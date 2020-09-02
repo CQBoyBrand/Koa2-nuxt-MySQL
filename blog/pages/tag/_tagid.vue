@@ -1,7 +1,7 @@
 <template>
   <article class="tagname">
     <section class="artList-by-type">
-      <p class="type-title">与<span># {{tagName}}</span>标签相关的文章</p>
+      <p class="type-title">与<span># {{tagName || this.$route.params.tagid}}</span>标签相关的文章</p>
       <p class="type-total">共找到<span>{{articleList.total || 0}}</span>篇</p>
     </section>
     <list :articleList="articleList"></list>

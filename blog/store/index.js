@@ -177,7 +177,6 @@ export const actions = {
   },
 
   async generateToc({commit, state}, data){
-    console.log(data)
     // commit('article/SET_ART_TOC', data)
   }
 }

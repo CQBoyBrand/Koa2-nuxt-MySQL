@@ -1,7 +1,7 @@
 <template>
   <article class="categoryname">
     <section class="artList-by-type">
-      <p class="type-title">归类在<span>{{categoryName}}</span>下的文章</p>
+      <p class="type-title">归类在<span>{{categoryName || this.$route.params.categoryid}}</span>下的文章</p>
       <p class="type-total">共有<span>{{articleList.total || 0}}</span>篇</p>
     </section>
     <list :articleList="articleList"></list>
@@ -42,7 +42,6 @@
             categoryname = item.categoryname
           }
         })
-        console.log('a')
         return categoryname
       }
     },
