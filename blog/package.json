@@ -29,7 +29,7 @@
     "viewerjs": "^1.6.1"
   },
   "devDependencies": {
-    "node-sass": "^4.11.0",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.18.9",
     "sass-loader": "^7.1.0",
     "vue-svgicon": "^3.2.4"
