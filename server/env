@@ -1,0 +1,26 @@
+# 数据库相关
+DATABASE_HOST=localhost
+DATABASE_PORT=3306
+DATABASE_NAME=testblog
+DATABASE_USER=root
+DATABASE_PASSWORD=Brand@2018
+
+# 密码加盐
+AUTH_PWD_SALT=my_pwd
+
+# 七牛云存储
+QN_SECRET_KEY=c8jh3Hr9swktn_mPcXkgeiqYBmLhdxeSgFiP64TF
+QN_ACCESS_KEY=lWgCwuFKHhi-QkjlCvv4GLKsNzu_rY_51w-uhvs2
+QN_BUCKET=cqboys
+
+# 邮件通知相关
+EMAIL_ACCOUNT=hellobugworld@qq.com
+EMAIL_PWD=fiitwxmbubgdbicg
+
+# 百度推送相关(SEO)
+BAIDU_PUSH_SITE=www.brandhuang.com
+BAIDU_PUSH_TOKEN=jlh2l6ZZasHgVV89
+
+# jwt-secret
+
+JWT_SECRET = 'Brand@password@solt_1992'
