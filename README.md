@@ -142,3 +142,5 @@ pm2 start npm --name "backend" -- run backend
   有问题可以来公众号找我，扫码或微信搜索「九零后重庆崽儿」
 
   ![公众号](./brandQRcode.jpg)
+  
+  ## 感谢你的支持
