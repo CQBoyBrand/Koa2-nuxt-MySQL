@@ -33,7 +33,7 @@
     "express-rate-limit": "^5.1.1",
     "highlight.js": "^10.1.2",
     "htmlparser2": "^4.0.0",
-    "marked": "^1.1.1",
+    "marked": "^2.0.0",
     "md5": "^2.2.1",
     "mysql": "^2.18.1",
     "nodemailer": "^6.4.2",
