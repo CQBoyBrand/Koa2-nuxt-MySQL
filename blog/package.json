@@ -18,19 +18,19 @@
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.3.6",
-    "cross-env": "^5.2.0",
+    "cross-env": "^7.0.3",
     "element-ui": "^2.10.1",
-    "highlight.js": "^10.1.2",
-    "htmlparser2": "^3.10.1",
+    "highlight.js": "^11.0.1",
+    "htmlparser2": "^6.1.0",
     "koa": "^2.6.2",
-    "marked": "^1.1.1",
+    "marked": "^2.1.2",
     "node-emoji": "^1.10.0",
     "nuxt": "^2.4.0",
     "viewerjs": "^1.6.1"
   },
   "devDependencies": {
     "node-sass": "^4.11.0",
-    "nodemon": "^1.18.9",
+    "nodemon": "^2.0.7",
     "sass-loader": "^7.1.0",
     "vue-svgicon": "^3.2.4"
   }

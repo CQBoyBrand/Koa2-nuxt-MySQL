@@ -17,7 +17,7 @@ export class ArticleService {
             (SELECT categoryname FROM category where status = 1 and FIND_IN_SET(A.category, id) ) as category,
             GROUP_CONCAT(T.tagname) as tag,
             A.thumbnail, A.pv,
-            (SELECT COUNT(*) FROM comment where artId = A.id ) as discuss,
+            (SELECT COUNT(*) FROM comment where artId = A.id and isChecked = 1 ) as discuss,
              A.content,
             FROM_UNIXTIME(A.cdate/1000,'%Y-%m-%d %H:%i') as cdate
             from article as A
@@ -56,7 +56,7 @@ export class ArticleService {
             GROUP_CONCAT(T.tagname) as tag,
              A.thumbnail,
              A.pv,
-            (SELECT COUNT(*) FROM comment where artId = A.id ) as discuss,
+            (SELECT COUNT(*) FROM comment where artId = A.id and isChecked = 1 ) as discuss,
              A.content,
             FROM_UNIXTIME(A.cdate/1000,'%Y-%m-%d') as cdate
             FROM article as A
@@ -131,7 +131,7 @@ export class ArticleService {
             GROUP_CONCAT(T.tagname) as tag,
             FROM_UNIXTIME(A.cdate/1000, '%Y-%m-%d %H:%i') as cdate,
             A.abstract, A.thumbnail,
-            (SELECT COUNT(*) FROM comment where artId = A.id ) as discuss,
+            (SELECT COUNT(*) FROM comment where artId = A.id and isChecked = 1 ) as discuss,
             A.pv
             from article as A
             left join tag as T
@@ -161,7 +161,7 @@ export class ArticleService {
             GROUP_CONCAT(T.tagname) as tag,
             FROM_UNIXTIME(A.cdate/1000, '%Y-%m-%d %H:%i') as cdate,
             A.abstract, A.thumbnail, A.pv,
-            (SELECT COUNT(*) FROM comment where artId = A.id ) as discuss
+            (SELECT COUNT(*) FROM comment where artId = A.id and isChecked = 1) as discuss
             from article as A
             left join tag as T
             on FIND_IN_SET(T.id, A.tag)
@@ -190,7 +190,7 @@ export class ArticleService {
             GROUP_CONCAT(T.tagname) as tag,
             FROM_UNIXTIME(A.cdate/1000, '%Y-%m-%d %H:%i') as cdate,
             A.abstract, A.thumbnail, A.pv,
-            (SELECT COUNT(*) FROM comment where artId = A.id ) as discuss
+            (SELECT COUNT(*) FROM comment where artId = A.id and isChecked = 1) as discuss
             from article as A
             left join tag as T
             on FIND_IN_SET(T.id, A.tag)
@@ -219,7 +219,7 @@ export class ArticleService {
             GROUP_CONCAT(T.tagname) as tag,
             FROM_UNIXTIME(A.cdate/1000, '%Y-%m-%d %H:%i') as cdate,
             A.abstract, A.thumbnail, A.pv,
-            (SELECT COUNT(*) FROM comment where artId = A.id ) as discuss
+            (SELECT COUNT(*) FROM comment where artId = A.id and isChecked = 1) as discuss
             from article as A
             left join tag as T
             on FIND_IN_SET(T.id, A.tag)
