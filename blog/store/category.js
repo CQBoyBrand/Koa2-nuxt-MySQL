@@ -9,6 +9,6 @@ export const state = () => ({
 export const mutations = {
   // 获取文章列表
   GET_CATEGORY_SUCCESS(state, data) {
-    state.list = data
+    state.list = data || []
   },
 }

@@ -62,9 +62,9 @@ server端：
         server
         pakage.json
         nuxt.config.js
-        最好在服务器这四个文件（夹）的同一级目录下新建一个static来方favicon.ico文件，要不然这个图片显示不出来
+        最好在服务器这四个文件(夹)的同一级目录下新建一个static来放favicon.ico文件,要不然这个图片显示不出来
 
-        pm2启动：
+        pm2启动:
         pm2 start npm --name "blog" -- run start
 
 
