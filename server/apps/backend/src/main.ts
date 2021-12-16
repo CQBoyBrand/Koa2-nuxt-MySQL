@@ -23,7 +23,6 @@ async function bootstrap() {
         max: 100, // limit each IP to 100 requests per windowMs
       }),
   );
-  console.log('process==', process.env);
   await app.listen(process.env.ADMIN_PORT);
   console.log(`backend service is running at http://localhost:${process.env.ADMIN_PORT}`);
 }
