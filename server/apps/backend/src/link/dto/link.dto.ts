@@ -4,7 +4,7 @@
  * CreateTime: 2020/2/10 21:03
  * Description:
  */
-import {ApiProperty} from "@nestjs/swagger";
+import {ApiProperty} from '@nestjs/swagger';
 
 export class LinkCreateDto {
     @ApiProperty()

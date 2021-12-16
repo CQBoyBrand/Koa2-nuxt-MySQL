@@ -8,7 +8,7 @@
 export interface CategoryInterface {
     id: number;
     categoryname: string;
-    categorydesc: string,
+    categorydesc: string;
     cdate: number;
 
 }

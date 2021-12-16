@@ -5,34 +5,34 @@
  * Description:
  */
 
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export class Config {
     @PrimaryGeneratedColumn({
         type: 'int',
     })
-    id: number
+    id: number;
 
     @Column({
         type: 'int',
         comment: '网站是否开启留言： 1-开启；0-关闭',
         default: 1,
-        nullable: false
+        nullable: false,
     })
-    discussStatus: number
+    discussStatus: number;
 
     @Column({
         type: 'text',
         comment: 'ICP备案号',
-        nullable: false
+        nullable: false,
     })
-    icp: string
+    icp: string;
 
     @Column({
         type: 'text',
         comment: '公安备案号：The public security for the record',
-        nullable: false
+        nullable: false,
     })
-    psr: string
+    psr: string;
 }

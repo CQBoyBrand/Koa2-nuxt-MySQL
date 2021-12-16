@@ -6,5 +6,5 @@
  */
 
 export interface CategoryInterface {
-    
+
 }

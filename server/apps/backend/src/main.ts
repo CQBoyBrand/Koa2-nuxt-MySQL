@@ -12,7 +12,7 @@ async function bootstrap() {
         preflightContinue: false,
         optionsSuccessStatus: 204,
     },
-      // cors: true,
+    //   cors: true,
   });
 
   app.useGlobalInterceptors(new TransformInterceptor());

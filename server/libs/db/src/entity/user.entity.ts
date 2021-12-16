@@ -4,57 +4,65 @@
  * CreateTime: 2020/2/7 11:42
  */
 
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export class User {
     @PrimaryGeneratedColumn({
-        type: "int",
-        comment: '用户 id'
+        type: 'int',
+        comment: '用户 id',
     })
-    id: number
+    id: number;
 
     @Column({
-        type: "text",
+        type: 'text',
         comment: '用户名',
-        nullable: false
+        nullable: false,
     })
-    username: string
+    username: string;
 
     @Column({
-        type: "text",
+        type: 'text',
         comment: '用户密码',
         select: false,
-        nullable: false
+        nullable: false,
     })
-    password: string
+    password: string;
 
     @Column({
-        type: "text",
+        type: 'text',
         comment: '用户昵称',
-        nullable: true
+        nullable: true,
     })
-    nickname: string
+    nickname: string;
 
     @Column({
-        type: "text",
+        type: 'text',
         comment: '用户头像',
         nullable: true,
     })
-    avatar: string
+    avatar: string;
 
     @Column({
-        type: "text",
+        type: 'text',
         comment: '用户签名',
-        nullable: true
+        nullable: true,
     })
-    signature: string
+    signature: string;
 
     @Column({
-        type: "bigint",
+        type: 'bigint',
         comment: '用户创建时间',
         nullable: false,
-        default: new Date().getTime()
+        default: new Date().getTime(),
     })
-    cdate: number
+    cdate: number;
+
+    @Column({
+        type: 'int',
+        comment: '用户权限',
+        nullable: false,
+        default: 1,
+    })
+    permissions: number;
 }

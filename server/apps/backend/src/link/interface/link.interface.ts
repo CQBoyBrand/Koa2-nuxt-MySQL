@@ -9,6 +9,6 @@ export interface LinkInterface {
     id: number;
     siteName: string;
     siteUrl: string;
-    status: number,
+    status: number;
     cdate: number;
 }

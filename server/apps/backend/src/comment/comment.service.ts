@@ -4,8 +4,8 @@ import {Comment} from '@libs/db/entity/comment.entity';
 import {Repository} from 'typeorm';
 import {CommentInterface} from '../comment/interface/comment.interface';
 import {CustomException} from '@common/common/common/http.decoration';
-import {sendToObserver} from "@common/common/common/sendEmail";
-import {FilterContent} from "@common/common/common/utils.common";
+import {sendToObserver} from '@common/common/common/sendEmail';
+import {FilterContent} from '@common/common/common/utils.common';
 
 @Injectable()
 export class CommentService {
@@ -41,12 +41,12 @@ export class CommentService {
         return commentsList;
     }
 
-    async getCommentById(id): Promise<any>{
+    async getCommentById(id): Promise<any> {
         const affectedData = await this.commentRepository.
         createQueryBuilder('comment').
-        where('comment.id= :id', {id: id}).getOne();
-        console.log(affectedData)
-        return affectedData
+        where('comment.id= :id', {id}).getOne();
+        console.log(affectedData);
+        return affectedData;
     }
     async updateComment(params): Promise<any> {
         return await this.commentRepository.update(params.id, {

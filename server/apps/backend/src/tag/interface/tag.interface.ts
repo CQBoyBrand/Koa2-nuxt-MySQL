@@ -8,7 +8,7 @@
 export interface TagInterface {
     id: number;
     tagname: string;
-    tagdesc: string,
+    tagdesc: string;
     status: number;
     cdate: number;
 

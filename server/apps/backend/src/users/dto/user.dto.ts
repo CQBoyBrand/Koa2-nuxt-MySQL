@@ -4,7 +4,7 @@
  * CreateTime: 2020/2/7 11:57
  */
 
-import {ApiProperty} from "@nestjs/swagger";
+import {ApiProperty} from '@nestjs/swagger';
 
 /**
  * 登录-用户
@@ -14,7 +14,7 @@ export class UserLoginDto {
     username: string;
 
     @ApiProperty()
-    password: string
+    password: string;
 }
 
 /**
@@ -25,10 +25,10 @@ export class UserRegisterDto {
     username: string;
 
     @ApiProperty()
-    password: string
+    password: string;
 
     @ApiProperty()
-    confirmPassword: string
+    confirmPassword: string;
 }
 
 /**
@@ -63,5 +63,3 @@ export class UserUpdateDto {
     @ApiProperty()
     signature: string;
 }
-
-

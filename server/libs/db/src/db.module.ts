@@ -1,13 +1,13 @@
 import {Global, Module} from '@nestjs/common';
-import {TypeOrmModule} from "@nestjs/typeorm";
-import {Article} from "@libs/db/entity/article.entity";
-import {User} from "@libs/db/entity/user.entity";
-import {ConfigModule} from "@nestjs/config";
-import {Link} from "@libs/db/entity/link.entity";
-import {Tag} from "@libs/db/entity/tag.entity";
-import {Comment} from "@libs/db/entity/comment.entity";
-import {Category} from "@libs/db/entity/category.entity";
-import {Config} from "@libs/db/entity/config.entity";
+import {TypeOrmModule} from '@nestjs/typeorm';
+import {Article} from '@libs/db/entity/article.entity';
+import {User} from '@libs/db/entity/user.entity';
+import {ConfigModule} from '@nestjs/config';
+import {Link} from '@libs/db/entity/link.entity';
+import {Tag} from '@libs/db/entity/tag.entity';
+import {Comment} from '@libs/db/entity/comment.entity';
+import {Category} from '@libs/db/entity/category.entity';
+import {Config} from '@libs/db/entity/config.entity';
 
 const entityArr = [
     User,
@@ -16,20 +16,20 @@ const entityArr = [
     Tag,
     Comment,
     Category,
-    Config
-]
+    Config,
+];
 
-const entity = TypeOrmModule.forFeature(entityArr)
+const entity = TypeOrmModule.forFeature(entityArr);
 
 @Global()
 @Module({
     imports: [
         entity,
         ConfigModule.forRoot({
-            isGlobal: true
+            isGlobal: true,
         }),
         TypeOrmModule.forRootAsync({
-            useFactory(){
+            useFactory() {
                 return {
                     type: 'mysql',
                     host: process.env.DATABASE_HOST,
@@ -39,10 +39,10 @@ const entity = TypeOrmModule.forFeature(entityArr)
                     database: process.env.DATABASE_NAME,
                     entities: entityArr,
                     synchronize: true,
-                    charset: 'utf8mb4'
-                }
-            }
-        })
+                    charset: 'utf8mb4',
+                };
+            },
+        }),
     ],
     providers: [],
     exports: [entity],

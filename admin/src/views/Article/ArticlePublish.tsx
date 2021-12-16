@@ -137,8 +137,12 @@ const ArticlePublish: FC = () => {
                     artDiscuss: Number(artDiscuss)
                 }
                 addArticle(params).then(res => {
-                    message.success('文章添加成功')
-                    history.push('/article/list')
+                    if (res.code === 200) {
+                        message.success('文章添加成功')
+                        history.push('/article/list')
+                    } else {
+                        message.error(res.message)
+                    }
                 }).catch(err => {
                     console.log(err)
                 })
@@ -156,8 +160,12 @@ const ArticlePublish: FC = () => {
                     artDiscuss: Number(artDiscuss)
                 }
                 editArticle(params).then(res => {
-                    message.success('文章修改成功')
-                    history.push('/article/list')
+                    if (res.code === 200) {
+                        message.success('文章修改成功')
+                        history.push('/article/list')
+                    } else {
+                        message.error(res.message)
+                    }
                 }).catch(err => {
                     console.log(err)
                 })

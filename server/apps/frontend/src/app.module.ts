@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
-import {DbModule} from "@libs/db/db.module";
-import {CommonModule} from "@common/common/common.module";
+import {DbModule} from '@libs/db/db.module';
+import {CommonModule} from '@common/common/common.module';
 import { ArticleModule } from './article/article.module';
 import { TagModule } from './tag/tag.module';
 import { CategoryModule } from './category/category.module';

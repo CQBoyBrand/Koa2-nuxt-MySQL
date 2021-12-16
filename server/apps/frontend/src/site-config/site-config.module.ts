@@ -4,6 +4,6 @@ import { SiteConfigService } from './site-config.service';
 
 @Module({
   controllers: [SiteConfigController],
-  providers: [SiteConfigService]
+  providers: [SiteConfigService],
 })
 export class SiteConfigModule {}

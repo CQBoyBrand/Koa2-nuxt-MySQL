@@ -1,74 +1,74 @@
 import { Injectable } from '@nestjs/common';
-import {InjectRepository} from "@nestjs/typeorm";
-import {Repository} from "typeorm";
-import {Tag} from "@libs/db/entity/tag.entity";
-import {TagInterface} from "./interface/tag.interface";
-import {CustomException} from "@common/common/common/http.decoration";
+import {InjectRepository} from '@nestjs/typeorm';
+import {Repository} from 'typeorm';
+import {Tag} from '@libs/db/entity/tag.entity';
+import {TagInterface} from './interface/tag.interface';
+import {CustomException} from '@common/common/common/http.decoration';
 
 @Injectable()
 export class TagService {
     constructor(
         @InjectRepository(Tag)
-        private readonly tagRepository: Repository<Tag>
+        private readonly tagRepository: Repository<Tag>,
     ) {}
 
     async addTag(params): Promise<any> {
-        const newTag = new Tag()
-        newTag.tagdesc = params.tagdesc
-        newTag.tagname = params.tagname
+        const newTag = new Tag();
+        newTag.tagdesc = params.tagdesc;
+        newTag.tagname = params.tagname;
         return await this.tagRepository.save(newTag).then(() => {
-            return '操作成功'
+            return '操作成功';
         }).catch( (err) => {
-            console.log('addTag-err=', err)
-            throw new CustomException('操作失败')
-        })
+            console.log('addTag-err=', err);
+            throw new CustomException('操作失败');
+        });
     }
 
     async getAllTag(params): Promise<TagInterface[]> {
         const tagAll = await this.tagRepository.createQueryBuilder('tag')
-            .getMany()
-        return  tagAll
+            .getMany();
+        return  tagAll;
     }
 
     async getTagList(params): Promise<TagInterface[]> {
         const tagList = await this.tagRepository.query(`
-            select T.id, 
-            T.tagname, 
-            T.tagdesc, 
+            select T.id,
+            T.tagname,
+            T.tagdesc,
             T.status,
-            ( SELECT COUNT(*) FROM article where FIND_IN_SET(T.id, tag) ) as artNum, 
-            T.cdate 
+            ( SELECT COUNT(*) FROM article where FIND_IN_SET(T.id, tag) ) as artNum,
+            T.cdate
             from tag as T
-            ORDER BY T.cdate desc 
+            ORDER BY T.cdate desc
             limit ${(params.currentPage - 1) * params.limit}, ${params.limit};
-        `)
-        return  tagList
+        `);
+        return  tagList;
     }
-    async getTagCount():Promise<number> {
-        const tagCount = await this.tagRepository.createQueryBuilder().getCount()
+    async getTagCount(): Promise<number> {
+        const tagCount = await this.tagRepository.createQueryBuilder().getCount();
 
-        return tagCount
+        return tagCount;
     }
 
-    async editTag(params): Promise<any>{
+    async editTag(params): Promise<any> {
         return await this.tagRepository.update(params.id, {
             tagname: params.tagname,
-            tagdesc: params.tagdesc
+            tagdesc: params.tagdesc,
         }).then(() => {
-            return '操作成功'
+            return '操作成功';
         }).catch( (err) => {
-            console.log('editTag-err=', err)
-            throw new CustomException('操作失败')
-        })
+            console.log('editTag-err=', err);
+            throw new CustomException('操作失败');
+        });
     }
-    async delTag(params): Promise<any>{
+    async delTag(params): Promise<any> {
         return await this.tagRepository.update(params.id, {
-            status: params.status
+            status: params.status,
         }).then(() => {
-            return '操作成功'
+            return '操作成功';
         }).catch( (err) => {
-            console.log('delTag-err=', err)
-            throw new CustomException('操作失败')
-        })
+            console.log('delTag-err=', err);
+            throw new CustomException('操作失败');
+        });
     }
 }

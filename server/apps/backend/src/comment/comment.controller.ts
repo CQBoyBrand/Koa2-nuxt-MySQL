@@ -36,6 +36,7 @@ export class CommentController {
     })
     @HttpCode(200)
     @UseGuards(AuthGuard('jwt'))
+    @UseGuards(AuthGuard('permissions'))
     @ApiBearerAuth()
     async editLink(@Body() params): Promise<CommentInterface> {
         const checkInfo = await this.linkService.updateComment(params);

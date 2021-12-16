@@ -3,6 +3,7 @@ import { CommonService } from './common.service';
 import { JwtModule } from '@nestjs/jwt';
 import {LocalStrategy} from '@common/common/strategy/local.strategy';
 import {JwtStrategy} from '@common/common/strategy/jwt.strategy';
+import {PermissionsStrategy} from '@common/common/strategy/permissions.strategy';
 
 @Global()
 @Module({
@@ -16,7 +17,7 @@ import {JwtStrategy} from '@common/common/strategy/jwt.strategy';
       },
     }),
   ],
-  providers: [CommonService, LocalStrategy, JwtStrategy],
+  providers: [CommonService, LocalStrategy, JwtStrategy, PermissionsStrategy],
   exports: [CommonService, JwtModule],
 })
 export class CommonModule {}

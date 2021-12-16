@@ -4,43 +4,43 @@
  * CreateTime: 2020/2/11 18:36
  * Description:
  */
-import {Column, Entity, PrimaryGeneratedColumn} from "typeorm";
+import {Column, Entity, PrimaryGeneratedColumn} from 'typeorm';
 
 @Entity()
 export class Tag {
     @PrimaryGeneratedColumn({
-        type: "int",
-        comment: 'id'
+        type: 'int',
+        comment: 'id',
     })
-    id: number
+    id: number;
 
     @Column({
         type: 'text',
         comment: '标签名称',
-        nullable: false
+        nullable: false,
     })
-    tagname: string
+    tagname: string;
 
     @Column({
         type: 'text',
         comment: '标签描述',
-        nullable: false
+        nullable: false,
     })
-    tagdesc: string
+    tagdesc: string;
 
     @Column({
-        type: "int",
+        type: 'int',
         comment: '标签状态, 1-可用，0-不可用',
         nullable: true,
-        default: 0
+        default: 0,
     })
-    status: number
+    status: number;
 
     @Column({
-        type: "bigint",
+        type: 'bigint',
         comment: '创建时间',
         nullable: false,
-        default: new Date().getTime()
+        default: new Date().getTime(),
     })
-    cdate: number
+    cdate: number;
 }
