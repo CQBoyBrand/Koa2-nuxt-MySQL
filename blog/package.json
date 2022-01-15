@@ -23,7 +23,7 @@
     "highlight.js": "^11.0.1",
     "htmlparser2": "^6.1.0",
     "koa": "^2.6.2",
-    "marked": "^2.1.2",
+    "marked": "^4.0.10",
     "node-emoji": "^1.10.0",
     "nuxt": "^2.4.0",
     "viewerjs": "^1.6.1"
