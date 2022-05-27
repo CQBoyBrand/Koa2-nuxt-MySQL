@@ -52,7 +52,7 @@
 </template>
 
 <script>
-  import htmlparser from 'htmlparser2'
+  import * as htmlparser from 'htmlparser2'
 
   export default {
     name: 'navBar',

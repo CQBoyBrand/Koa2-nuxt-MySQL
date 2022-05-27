@@ -1,16 +1,16 @@
 # Blog System
-### 前端体验地址：
+## 博客线上地址：
 [http://www.brandhuang.com](http://www.brandhuang.com)
 ### 分支介绍
 - **`v-ts` 分支(默认分支)**：目前一直在更新的版本，计划用 `TypeScript` 重构
 
-> 该分支前端使用 `Nuxt.js`，管理端使用 `Vue2.X.js`（后续会换成 `React.js`），服务端使用 `Nest.js`，数据库使用 `MySQL`
+> 该分支前端使用 `Nuxt.js`，管理端使用 ~~`Vue2.X.js`~~（已换成 `React.js`），服务端使用 `Nest.js`，数据库使用 `MySQL`
 
 - **`v-new` [分支](https://github.com/CQBoyBrand/Koa2-nuxt-MySQL/tree/v-new )**：后续应该不会在更新了，项目能完整跑起来，能正常使用（如有需要，可自行克隆修改～）
 
 > 该分支前端使用 `Nuxt.js`，管理端使用 `Vue2.X.js`，服务端使用 `Koa2`，数据库使用 `MySQL`
 
-### 项目目录介绍
+## 项目目录介绍
 1. **blog** ：该文件夹存放前端代码（即用户访问的页面代码）
 2. **admin** ：该文件夹存放管理后台代码（即博主用来管理博客内容的地方）
 3. **server** ： 该文件夹用来提供 API 服务（即为 blog 和 admin 提供接口，进行与数据库的交互）
@@ -23,18 +23,20 @@
 **世界不毁灭，折腾不停止！**
 > 本分支将继续折腾我的个人博客，计划如下
 
-- [ ] **blog**：等 Vue3 出来后打算采用 `TypeScript` 重构（什么时候 Vue3 出来什么时候开始）
-- [x] **admin**：计划用 React 重构
+- [ ] **blog**：打算采用 `TypeScript` 重构。
+- [x] **admin**：计划用 React 重构。
 - [x] **server**：计划近期用 `nest.js` 进行重构（纯粹是想学习用用 `TypeScript`）
 
 **后续主要按 Vue + React + nodejs 这样的技术栈来玩，博客功能应该暂时就这么多了，后面主要是优化代码，写的代码实在是太烂了。。**
 
- ### 使用：
- 分别进入相应文件夹下
+ ## 使用：
+ 分别在 `admin`、`blog`、 `server` 文件夹下执行依赖安装
  
  ### 安装依赖
  ```bash
  npm install
+ # 或者
+ yarn install
 
  ```
  ### 本地运行
@@ -45,38 +47,44 @@
     npm install -g @nestjs/cli
  ```
 
-然后
+然后在 `server` 文件夹执行如下代码
 
 ```bash
-server端：
-    启动 backend 端服务：nest start -w backend
-    启动 frontend 端服务：nest start -w frontend
+    启动 admin 端服务：nest start -w backend
+    启动 blog 端服务：nest start -w frontend
 ```
  ### 打包
 
  ```bash
 //blog
-        npm run build
-        // 打包部署需要上传以下文件
+        执行打包：npm run build
+
+        // 打包部署需要上传以下 4 个文件（夹）
         .nuxt
         server
         pakage.json
         nuxt.config.js
+
         最好在服务器这四个文件(夹)的同一级目录下新建一个static来放favicon.ico文件,要不然这个图片显示不出来
 
-        pm2启动:
+        上传好文件后，记得执行 npm install 安装依赖
+
+        pm2启动服务:
         pm2 start npm --name "blog" -- run start
 
 
 // admin
         在.env,  .env.production中配置不同的环境
-        npm run build
+
+        执行打包：npm run build
+
         上传 dist 文件夹
 
 // server
     
         // 这个不用打包，直接上传服务器
-        node_modules下的文件就不要上传了，太大了，把其他文件上传服务器后运行   npm install 就好了
+
+        node_modules下的文件就不要上传了，太大了，把其他文件上传服务器后运行  npm install 就好了
         
         注意自己复制 .env.example 粘贴为 .env 并修改其中内容
 
@@ -93,6 +101,7 @@ server端：
         });
         
         在 server 端的根目录下（此启动方式用于本地开发，服务端部署时，启动方式请看最下面！）
+
         运行：
         nest start -w backend 启动 admin 端的接口服务
 

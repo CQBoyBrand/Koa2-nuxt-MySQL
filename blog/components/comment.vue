@@ -150,7 +150,7 @@
 
 <script>
   import {mdRender} from '@/utils/utils'
-  import htmlparser from 'htmlparser2'
+  import * as htmlparser from 'htmlparser2'
 
   export default {
     props: {
