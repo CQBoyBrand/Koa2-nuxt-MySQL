@@ -1,4 +1,7 @@
 # Blog System
+
+> 截止 2022年8月12日，建议使用 node 版本：14，不要使用16版本，否则安装依赖会报错！
+
 ## 博客线上地址：
 [http://www.brandhuang.com](http://www.brandhuang.com)
 ### 分支介绍
