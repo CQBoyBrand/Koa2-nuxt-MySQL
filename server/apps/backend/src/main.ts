@@ -6,13 +6,13 @@ import {TransformInterceptor} from '@common/common/interface/transform.intercept
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    cors: {
-        origin: ['http://admin.brandhuang.com', 'https://admin.brandhuang.com'],
-        methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
-        preflightContinue: false,
-        optionsSuccessStatus: 204,
-    },
-    //   cors: true,
+    // cors: {
+    //     origin: ['http://admin.brandhuang.com', 'https://admin.brandhuang.com'],
+    //     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    //     preflightContinue: false,
+    //     optionsSuccessStatus: 204,
+    // },
+      cors: true,
   });
 
   app.useGlobalInterceptors(new TransformInterceptor());

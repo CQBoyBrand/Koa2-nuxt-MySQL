@@ -9,3 +9,12 @@
     text-align: center;
   }
 }
+.login-container {
+  background-image: url("../../static/images/background.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100vh;
+  width: 100%;
+  position: relative;
+  background-color: gray;
+}

@@ -14,7 +14,7 @@ function App() {
 
     return (
         <Router>
-            <Suspense fallback={<div>Loading...</div>}>
+            <Suspense fallback={<div style={{height: "100vh", width: "100vw", textAlign: "center", lineHeight: "100vh"}}>系统加载中...</div>}>
                 <Switch>
                     <Route path='/' exact render={() => <Redirect to='/index'/>}/>
                     <Route path='/login' component={Login}/>

@@ -48,38 +48,40 @@ const Login: FC = () => {
     }
 
     return (
-        <div className="login-div">
-            <Spin tip="Loading..." spinning={isLoading}>
-                <Card title='Brand`s Blog System'>
-                    <Space direction='vertical' size='large' style={{width: '100%'}}>
-                        <Input id='username'
-                               size='large'
-                               placeholder='Enter Your Username'
-                               prefix={<UserOutlined/>}
-                               onChange={(e) => {
-                                   setUsername(e.target.value)
-                               }}
-                        />
+        <div className="login-container">
+            <div className="login-div">
+                <Spin tip="Loading..." spinning={isLoading}>
+                    <Card title="Brand's Blog System">
+                        <Space direction='vertical' size='large' style={{width: '100%'}}>
+                            <Input id='username'
+                                   size='large'
+                                   placeholder='登录账号'
+                                   prefix={<UserOutlined/>}
+                                   onChange={(e) => {
+                                       setUsername(e.target.value)
+                                   }}
+                            />
 
-                        <Input.Password id='password'
-                                        size='large'
-                                        placeholder='Enter Your Password'
-                                        prefix={<KeyOutlined/>}
-                                        onChange={(e) => {
-                                            setPassword(e.target.value)
-                                        }}
-                        />
+                            <Input.Password id='password'
+                                            size='large'
+                                            placeholder='登录密码'
+                                            prefix={<KeyOutlined/>}
+                                            onChange={(e) => {
+                                                setPassword(e.target.value)
+                                            }}
+                            />
 
-                        <Button type='primary'
-                                size='large'
-                                block
-                                onClick={checkLogin}
-                        >
-                            Login In
-                        </Button>
-                    </Space>
-                </Card>
-            </Spin>
+                            <Button type='primary'
+                                    size='large'
+                                    block
+                                    onClick={checkLogin}
+                            >
+                                进入系统
+                            </Button>
+                        </Space>
+                    </Card>
+                </Spin>
+            </div>
         </div>
     )
 }
