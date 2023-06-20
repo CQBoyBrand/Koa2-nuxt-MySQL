@@ -26,8 +26,14 @@ module.exports = {
     ],
     script: [
       {
-        "data-ad-client": "ca-pub-3799223021946643",
-        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js",
+        "crossorigin": "anonymous",
+        src: "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3799223021946643",
+        async: true,
+      }
+    ],
+    script: [
+      {
+        src: "https://www.googletagmanager.com/gtag/js?id=AW-586413900",
         async: true,
       }
     ]
