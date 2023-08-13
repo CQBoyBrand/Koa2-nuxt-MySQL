@@ -20,7 +20,7 @@ export class CommentController {
     @ApiBearerAuth()
     async getCommentsList(@Body() params): Promise<any> {
         const commentList = await this.linkService.getCommentsList(params);
-        const commentCount = await this.linkService.getCommentsCount();
+        const commentCount = await this.linkService.getCommentsCount(params);
 
         const result = {
             list: commentList,

@@ -15,8 +15,12 @@ export class CommentService {
     ) {
     }
 
-    async getCommentsCount(): Promise<number> {
-        return await this.commentRepository.createQueryBuilder('comment').getCount();
+    async getCommentsCount(params?): Promise<number> {
+        if (params) {
+            return await this.commentRepository.createQueryBuilder('comment').where('comment.isChecked= :isChecked', {isChecked: params.type}).getCount();
+        } else {
+            return await this.commentRepository.createQueryBuilder('comment').getCount();
+        }
     }
 
     async getCommentsList(params): Promise<CommentInterface[]> {
@@ -35,9 +39,11 @@ export class CommentService {
             C.isChecked ,
             C.to_uavatar
             from comment as C
+            WHERE C.isChecked = ${params.type}
             ORDER BY C.cdate desc
             limit ${(params.currentPage - 1) * params.limit}, ${params.limit};
         `);
+        console.log("commentsList=", commentsList);
         return commentsList;
     }
 
