@@ -11,6 +11,7 @@
           <ul class="art-list-detail">
             <li class="art-detail-item" v-for="(list,listIndex) in returnArtList(artObj.list,item)" :key="listIndex">
               <span class="date">{{list.cdate}}</span><nuxt-link :to="`/article/${list.id}`"
+                                                                 target="_blank"
                                                                 :title="list.artTitle">{{list
               .artTitle}}</nuxt-link><span class="views"><svgicon class="" name="view"></svgicon>{{list.pv}}</span>
             </li>

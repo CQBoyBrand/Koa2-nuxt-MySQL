@@ -1,4 +1,4 @@
-import React, {FC, useCallback, useEffect, useMemo, useState} from "react";
+import React, {FC, useEffect, useMemo, useState} from "react";
 import {Button, message, Table, Modal, Tabs} from "antd";
 import {checkComment, getComment} from "../../api/modules/comment";
 import {timestampToTime} from "../../utils/utils";

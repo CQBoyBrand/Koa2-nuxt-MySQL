@@ -1,7 +1,7 @@
 <template>
   <article class="articleList">
     <section v-if="articleList.total > 0" class="article-item" v-for="(item, index ) in articleList.data" :key="index">
-      <nuxt-link :to="`/article/${item.id}`">
+      <nuxt-link :to="`/article/${item.id}`" target="_blank">
         <h3 class="article-title">{{item.artTitle}}</h3>
         <div class="article-info-container">
           <div class="article-thumbnail" v-if="!isMobile && item.thumbnail">

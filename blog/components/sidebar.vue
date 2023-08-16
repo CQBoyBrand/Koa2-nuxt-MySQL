@@ -24,7 +24,7 @@
       <ul class="module-item-wrap hot">
         <li class="hot-item module-item" v-for="(item, index) in hotArticleList" :key="index"><span>{{index +
           1}}</span><nuxt-link
-          :to="`/article/${item.id}`" :title="item.artTitle">{{item.artTitle}}</nuxt-link></li>
+          :to="`/article/${item.id}`" target="_blank" :title="item.artTitle">{{item.artTitle}}</nuxt-link></li>
       </ul>
     </section>
     <!--分类-->
@@ -32,7 +32,7 @@
       <div class="module-title"><svgicon class="" name="category"></svgicon>分类</div>
       <ul class="module-item-wrap category">
         <li class="category-item module-item" v-for="(item, index) in categoryList" :key="index"><nuxt-link
-          :to="`/category/${item.id}`">{{item.categoryname}}<span>共 {{item.total}} 篇文章</span></nuxt-link></li>
+          :to="`/category/${item.id}`" target="_blank">{{item.categoryname}}<span>共 {{item.total}} 篇文章</span></nuxt-link></li>
       </ul>
     </section>
     <!--标签-->

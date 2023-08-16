@@ -43,7 +43,6 @@ export class CommentService {
             ORDER BY C.cdate desc
             limit ${(params.currentPage - 1) * params.limit}, ${params.limit};
         `);
-        console.log("commentsList=", commentsList);
         return commentsList;
     }
 
